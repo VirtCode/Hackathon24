@@ -24,7 +24,6 @@ function MensaCard({ name, open, image }: MensaCardProps) {
         <IonCardSubtitle color={open ? "success" : "danger"}>
           {open ? "Open" : "Closed"}
         </IonCardSubtitle>
-        <IonCardContent></IonCardContent>
       </IonCardHeader>
     </IonCard>
   );

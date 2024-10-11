@@ -4,12 +4,13 @@ import {
   IonPage,
   IonTitle,
   IonToolbar,
+  IonItem,
 } from "@ionic/react";
 import {
+  AdvancedMarker,
   APIProvider,
-  ControlPosition,
   Map as GoogleMap,
-  Marker,
+  Pin,
 } from "@vis.gl/react-google-maps";
 import "./Map.css";
 
@@ -22,8 +23,22 @@ type MapProps = {
 };
 
 const Map: React.FC<MapProps> = ({ mensas }) => {
-  const renderMensaMarker = (mensa: Mensa) => {
-    return <Marker position={mensa.position} label={mensa.name} />;
+  const renderMensaMarker = (mensa: Mensa, idx: React.Key) => {
+    return (
+      <IonItem routerLink="/home" key={idx}>
+        <AdvancedMarker
+          position={mensa.position}
+          title={mensa.name}
+          onClick={() => console.log(mensa.name)}
+        >
+          <Pin
+            background={"#616F25"}
+            borderColor={"#88993c"}
+            glyphColor={"#737264"}
+          />
+        </AdvancedMarker>
+      </IonItem>
+    );
   };
   return (
     <IonPage>
@@ -37,8 +52,9 @@ const Map: React.FC<MapProps> = ({ mensas }) => {
           <GoogleMap
             defaultCenter={{ lat: DEFAULT_LAT, lng: DEFAULT_LONG }}
             defaultZoom={16}
+            mapId={"default"}
           >
-            {mensas.map((mensa) => renderMensaMarker(mensa))}
+            {mensas.map((mensa, idx) => renderMensaMarker(mensa, idx))}
           </GoogleMap>
         </APIProvider>
         <IonHeader collapse="condense">

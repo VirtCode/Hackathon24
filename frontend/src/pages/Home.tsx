@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import {
   IonContent,
   IonGrid,
@@ -8,10 +8,7 @@ import {
   IonToolbar,
   IonRow,
   IonCol,
-  IonModal,
-  IonButton,
 } from "@ionic/react";
-import { OverlayEventDetail } from "@ionic/core/components";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
@@ -22,37 +19,33 @@ import "./Home.css";
 import Header from "../components/Header";
 import MensaCard from "../components/MensaCard";
 import HostAction from "../components/HostAction";
+import HostModal from "../components/HostModal";
 
 type HomeProps = {
   mensas: Mensa[];
 };
 
 const Home: React.FC<HomeProps> = ({ mensas }) => {
-  const modal = useRef<HTMLIonModalElement>(null);
-  const input = useRef<HTMLIonInputElement>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [data, setData] = useState<{}>({});
 
-  const renderMensaCard = (mensa: Mensa) => {
+  const renderMensaCard = (mensa: Mensa, idx: React.Key) => {
     return (
-      <SwiperSlide>
+      <SwiperSlide key={idx}>
         <MensaCard name={mensa.name} open={mensa.open} image={mensa.image} />
       </SwiperSlide>
     );
-  };
-
-  const confirm = () => {
-    modal.current?.dismiss(input.current?.value, "confirm");
-  };
-
-  const onWillDismiss = (ev: CustomEvent<OverlayEventDetail>) => {
-    if (ev.detail.role === "confirm") setData({ message: "Nice" });
   };
 
   return (
     <IonPage>
       <Header pageTitle="Mensarr" />
       <IonContent fullscreen>
+        <IonHeader collapse="condense">
+          <IonToolbar>
+            <IonTitle size="large">Home</IonTitle>
+          </IonToolbar>
+        </IonHeader>
         <IonGrid className="home-grid">
           <IonRow class="ion-align-items-start">
             <Swiper
@@ -62,7 +55,7 @@ const Home: React.FC<HomeProps> = ({ mensas }) => {
               draggable={false}
               scrollbar={{ draggable: false }}
             >
-              {mensas.map((mensa) => renderMensaCard(mensa))}
+              {mensas.map((mensa, idx) => renderMensaCard(mensa, idx))}
             </Swiper>
           </IonRow>
           <IonRow class="ion-align-items-end">
@@ -75,21 +68,12 @@ const Home: React.FC<HomeProps> = ({ mensas }) => {
             </IonCol>
           </IonRow>
         </IonGrid>
-        <IonModal
-          ref={modal}
-          trigger="open-modal"
-          onWillDismiss={onWillDismiss}
-          isOpen={isModalOpen}
-        >
-          <IonHeader>
-            <IonButton onClick={() => setIsModalOpen(false)}>Close</IonButton>
-          </IonHeader>
-        </IonModal>
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large">Home</IonTitle>
-          </IonToolbar>
-        </IonHeader>
+        <HostModal
+          setData={setData}
+          isModalOpen={isModalOpen}
+          setIsModalOpen={setIsModalOpen}
+          mensas={mensas}
+        />
       </IonContent>
     </IonPage>
   );
