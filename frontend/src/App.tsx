@@ -68,6 +68,12 @@ const mensas: Mensa[] = [
     image: "uzh-zentrum.jpeg",
     open: true,
   },
+  {
+    name: "Clausiusbar",
+    position: { lat: 47.37720447727566, lng: 8.5470529791761 },
+    image: "clausiusbar.jpg",
+    open: false,
+  },
 ];
 
 const App: React.FC = () => (
