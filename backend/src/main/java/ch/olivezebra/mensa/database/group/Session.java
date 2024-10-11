@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import net.minidev.json.annotate.JsonIgnore;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -24,8 +25,12 @@ public class Session {
     private Date start;
     private Date end;
 
-    @OneToOne
+    @ManyToOne
     private Mensa mensa;
+
+    @JsonIgnore
+    @ManyToOne
+    private Group group;
 
     @ManyToMany
     @Setter(AccessLevel.PRIVATE)

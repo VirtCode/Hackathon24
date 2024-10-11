@@ -1,11 +1,10 @@
 package ch.olivezebra.mensa.database.table;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import net.minidev.json.annotate.JsonIgnore;
 
 import java.util.UUID;
 
@@ -23,4 +22,7 @@ public class Table {
     /** level id the table is on */
     private int level;
 
+    @JsonIgnore
+    @ManyToOne
+    private Mensa mensa;
 }

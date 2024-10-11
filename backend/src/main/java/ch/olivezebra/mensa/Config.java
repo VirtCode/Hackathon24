@@ -1,6 +1,6 @@
 package ch.olivezebra.mensa;
 
-import ch.olivezebra.mensa.oauth.interception.OAuthInterceptor;
+import ch.olivezebra.mensa.auth.OAuthInterceptor;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;

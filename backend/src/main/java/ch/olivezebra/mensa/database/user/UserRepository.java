@@ -1,4 +1,4 @@
-package ch.olivezebra.mensa.database;
+package ch.olivezebra.mensa.database.user;
 
 import org.springframework.data.repository.CrudRepository;
 
