@@ -28,6 +28,11 @@ dependencies {
     // SQL Dialect Connectors
     implementation 'org.mariadb.jdbc:mariadb-java-client'
 
+    // OpenAPI Libraries
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0'
+    implementation "com.github.therapi:therapi-runtime-javadoc:0.15.0"
+    annotationProcessor "com.github.therapi:therapi-runtime-javadoc-scribe:0.15.0"
+
     // Image metadata for thumbnails
     implementation 'com.drewnoakes:metadata-extractor:2.19.0'
 

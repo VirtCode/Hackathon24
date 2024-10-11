@@ -1,6 +1,7 @@
 package ch.olivezebra.mensa.requests;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,6 +36,7 @@ public class MainController {
         return new VersionPingResponse(BUILD_VERSION, BUILD_BRANCH, BUILD_COMMIT, new Date(BUILD_TIME), new Date(START_TIME));
     }
     @AllArgsConstructor
+    @Getter
     @SuppressWarnings("UnusedDeclaration")
     public static class VersionPingResponse {
         private String version;

@@ -5,7 +5,6 @@ import {
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
-import ExploreContainer from "../components/ExploreContainer";
 import "./Groups.css";
 
 const Groups: React.FC = () => {
@@ -22,7 +21,6 @@ const Groups: React.FC = () => {
             <IonTitle size="large">Groups</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <ExploreContainer name="Groups page" />
       </IonContent>
     </IonPage>
   );

@@ -49,16 +49,37 @@ import Settings from "./pages/Settings";
 
 setupIonicReact();
 
+const mensas: Mensa[] = [
+  {
+    name: "Polymensa",
+    position: { lat: 47.376661270004625, lng: 8.546335386948527 },
+    image: "polymensa.jpg",
+    open: true,
+  },
+  {
+    name: "Archimedes",
+    position: { lat: 47.377333693765095, lng: 8.55339563884709 },
+    image: "archimedes.jpg",
+    open: false,
+  },
+  {
+    name: "UZH Zentrum",
+    position: { lat: 47.373986372527774, lng: 8.548303462614687 },
+    image: "uzh-zentrum.jpeg",
+    open: true,
+  },
+];
+
 const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
       <IonTabs>
         <IonRouterOutlet>
           <Route exact path="/home">
-            <Home />
+            <Home mensas={mensas} />
           </Route>
           <Route exact path="/map">
-            <Map />
+            <Map mensas={mensas} />
           </Route>
           <Route path="/groups">
             <Groups />
