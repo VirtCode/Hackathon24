@@ -1,5 +1,6 @@
 package ch.olivezebra.mensa;
 
+import ch.olivezebra.mensa.oauth.interception.OAuthInterceptor;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -11,6 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
+import org.springframework.core.Ordered;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.ResourceHttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
@@ -54,15 +56,14 @@ public class Config implements WebMvcConfigurer {
         configurer.setUseTrailingSlashMatch(true);
     }
 
-    /* TODO: use interceaptor
     @Bean
-    public AuthInterceptor createAuthInterceptor() {
-        return new AuthInterceptor();
+    public OAuthInterceptor createAuthInterceptor() {
+        return new OAuthInterceptor();
     }
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         WebMvcConfigurer.super.addInterceptors(registry);
         registry.addInterceptor(createAuthInterceptor()).order(Ordered.LOWEST_PRECEDENCE);
     }
-    */
 }

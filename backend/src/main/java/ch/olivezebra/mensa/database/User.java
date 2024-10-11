@@ -18,4 +18,7 @@ public class User {
 
     /** real name from headers */
     private String name;
+
+    /** ethz email from headers */
+    private String email;
 }
