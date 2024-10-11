@@ -20,4 +20,7 @@ public class Table {
 
     private int x, y, width, height;
 
+    /** level id the table is on */
+    private int level;
+
 }
