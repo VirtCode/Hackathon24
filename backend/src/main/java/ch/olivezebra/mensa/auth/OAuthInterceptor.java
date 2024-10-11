@@ -1,8 +1,7 @@
-package ch.olivezebra.mensa.oauth.interception;
+package ch.olivezebra.mensa.auth;
 
-import ch.olivezebra.mensa.database.User;
-import ch.olivezebra.mensa.database.UserRepository;
-import jakarta.servlet.http.Cookie;
+import ch.olivezebra.mensa.database.user.User;
+import ch.olivezebra.mensa.database.user.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -11,9 +10,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.util.WebUtils;
-
-import java.util.Arrays;
 
 @Slf4j
 public class OAuthInterceptor implements HandlerInterceptor {

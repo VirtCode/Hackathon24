@@ -2,6 +2,7 @@ package ch.olivezebra.mensa.database.table;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,6 +13,7 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
+@EqualsAndHashCode(of = "id")
 public class Mensa {
 
     @Id

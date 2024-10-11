@@ -1,8 +1,9 @@
 package ch.olivezebra.mensa.database.group;
 
-import ch.olivezebra.mensa.database.User;
+import ch.olivezebra.mensa.database.user.User;
 import jakarta.persistence.*;
 import lombok.*;
+import net.minidev.json.annotate.JsonIgnore;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -26,5 +27,6 @@ public class Group {
 
     @OneToMany
     @Setter(AccessLevel.PRIVATE)
+    @JsonIgnore
     private Set<Session> sessions = new HashSet<>();
 }
