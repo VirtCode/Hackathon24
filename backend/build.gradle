@@ -1,0 +1,70 @@
+plugins {
+    id 'org.springframework.boot' version '3.3.1'
+    id 'io.spring.dependency-management' version '1.1.2'
+    id 'java'
+}
+
+group = 'ch.ksseetal'
+version = 'v2.X.X'
+sourceCompatibility = '21'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Spring Boot Dependencies
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
+    // jackson compatibility with hibernate lazy proxies
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-hibernate6'
+
+    // JWT Libraries
+    implementation 'org.pac4j:pac4j-oidc:5.7.5'
+
+    // SQL Dialect Connectors
+    implementation 'org.mariadb.jdbc:mariadb-java-client'
+
+    // Image metadata for thumbnails
+    implementation 'com.drewnoakes:metadata-extractor:2.19.0'
+
+    // Lombok
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    testCompileOnly 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
+}
+
+// generate version
+tasks.register('generateVersion') {
+    def dir = new File(project.getBuildDir(), "version");
+    def file = new File(dir, "version.properties")
+
+    group = "build"
+    outputs.dir(dir)
+    outputs.upToDateWhen { false }
+
+    doLast {
+        if (!file.exists()) file.createNewFile()
+        file.text = """
+
+# generated version file
+version.tag=${"git describe --tags --abbrev=0".execute().text.trim()}
+version.branch=${"git branch --show-current".execute().text.trim()}
+version.commit=${"git rev-parse HEAD".execute().text.trim()}
+version.time=${new Date().time}
+
+        """.trim()
+    }
+}
+
+sourceSets {
+    main {
+        resources {
+            srcDir(generateVersion)
+        }
+    }
+}
