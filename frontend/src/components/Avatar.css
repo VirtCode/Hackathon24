@@ -1,0 +1,18 @@
+.avatar {
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+ion-content::part(scroll) {
+    --padding-start: 0px;
+    --padding-end: 0px;
+    --padding-top: 0px;
+    --padding-bottom: 0px;
+}
+
+ion-popover {
+    --offset-y: 10px;
+}
+

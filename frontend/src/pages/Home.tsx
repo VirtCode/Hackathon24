@@ -12,7 +12,7 @@ import Header from "../components/Header";
 const Home: React.FC = () => {
   return (
     <IonPage>
-      <Header />
+      <Header pageTitle="Mensarr"/>
       <IonContent fullscreen>
         <IonHeader collapse="condense">
           <IonToolbar>
