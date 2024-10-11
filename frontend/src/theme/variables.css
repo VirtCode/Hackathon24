@@ -1,3 +1,28 @@
 /* For information on how to create your own theme, please see:
 http://ionicframework.com/docs/theming/ */
 
+:root {
+    --ion-color-primary: #616F25;
+    --ion-color-primary-rgb: 97, 111, 37;
+    --ion-color-primary-contrast: #ffffff;
+    --ion-color-primary-contrast-rgb: 255, 255, 255;
+    --ion-color-primary-shade: #50582b;
+    --ion-color-primary-tint: #88993c;
+
+    --ion-color-secondary: #737264;
+    --ion-color-secondary-rgb: 115, 114, 100;
+    --ion-color-secondary-contrast: #ffffff;
+    --ion-color-secondary-contrast-rgb: 255, 255, 255;
+    --ion-color-secondary-shade: #525248;
+    --ion-color-secondary-tint: #868577;
+
+    --ion-red: #B1102D;
+    --ion-green: #33AB2B;
+}
+
+:root ion-tab-button {
+    --color: var(--ion-color-secondary);
+    --color-selected: var(--ion-color-primary);
+    --color-focused: var(--ion-color-primary);
+}
+
