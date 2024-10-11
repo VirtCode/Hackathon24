@@ -27,8 +27,6 @@ public class SessionController {
     private final SessionRepository sessions;
     private final MensaRepository mensas;
 
-
-
     /**
      * Get all sessions for a group
      * @param group group to get for

@@ -6,16 +6,15 @@ import ch.olivezebra.mensa.database.group.GroupRepository;
 import ch.olivezebra.mensa.helpers.FieldHelper;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.*;
 
 /**
  * Handles all requests regarding group stuff
  */
-@RestController("/group")
+@RestController
+@RequestMapping("/group")
 @RequiredArgsConstructor
 public class GroupController {
 
@@ -34,20 +33,20 @@ public class GroupController {
      * Get a group by its id
      * @return group object
      */
-    @GetMapping("/{gid}")
-    public Group getGroupById(@RequestAttribute User user, @PathVariable UUID gid) {
-        return groups.requireAccessGroup(gid, user);
+    @GetMapping("/{id}")
+    public Group getGroupById(@RequestAttribute User user, @PathVariable UUID id) {
+        return groups.requireAccessGroup(id, user);
     }
 
     /**
      * Edit a group
-     * @param gid group to edit
+     * @param id group to edit
      * @param def new group metadata
      * @return edited group
      */
-    @PutMapping("/{gid}")
-    public Group editGroup(@RequestAttribute User user, @PathVariable UUID gid, @RequestBody GroupDefinition def) {
-        Group group = groups.requireAccessGroup(gid, user);
+    @PutMapping("/{id}")
+    public Group editGroup(@RequestAttribute User user, @PathVariable UUID id, @RequestBody GroupDefinition def) {
+        Group group = groups.requireAccessGroup(id, user);
 
         FieldHelper.editAll(def, group, "name");
         return groups.save(group);
@@ -55,11 +54,11 @@ public class GroupController {
 
     /**
      * Leave a group. When the logged-in user is the last member of the group, the group is deleted
-     * @param gid group to leave
+     * @param id group to leave
      */
-    @PostMapping("/{gid}/leave")
-    public void leaveGroup(@PathVariable UUID gid, @RequestAttribute User user) {
-        Group group = groups.requireAccessGroup(gid, user);
+    @PostMapping("/{id}/leave")
+    public void leaveGroup(@PathVariable UUID id, @RequestAttribute User user) {
+        Group group = groups.requireAccessGroup(id, user);
 
         // delete group if empty
         if (group.getMembers().size() == 1) groups.delete(group);
