@@ -45,6 +45,7 @@ import "@ionic/react/css/palettes/dark.system.css";
 /* Theme variables */
 import "./theme/variables.css";
 import Settings from "./pages/Settings";
+import GroupDetail from "./pages/GroupDetail";
 
 setupIonicReact();
 
@@ -91,6 +92,7 @@ const App: React.FC = () => (
           </Route>
           <Route exact={true} path="/settings" component={Settings}>
           </Route>
+          <Route path="/group/:id" component={GroupDetail} exact />
           <Route exact path="/">
             <Redirect to="/home" />
           </Route>
