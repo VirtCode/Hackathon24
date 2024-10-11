@@ -44,7 +44,6 @@ import "@ionic/react/css/palettes/dark.system.css";
 
 /* Theme variables */
 import "./theme/variables.css";
-import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
 
 setupIonicReact();
@@ -84,9 +83,12 @@ const App: React.FC = () => (
           <Route path="/groups">
             <Groups />
           </Route>
+          <Route exact={true} path="/settings" component={Settings}>
+          </Route>
           <Route exact path="/">
             <Redirect to="/home" />
           </Route>
+          
         </IonRouterOutlet>
         <IonTabBar slot="bottom">
           <IonTabButton tab="tab1" href="/home">
@@ -103,12 +105,6 @@ const App: React.FC = () => (
           </IonTabButton>
         </IonTabBar>
       </IonTabs>
-      <Route exact path="/profile">
-        <Profile />
-      </Route>
-      <Route exact path="/settings">
-        <Settings />
-      </Route>
     </IonReactRouter>
   </IonApp>
 );

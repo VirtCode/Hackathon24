@@ -1,5 +1,6 @@
 import React from 'react';
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/react';
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonButtons, IonBackButton } from '@ionic/react';
+import Avatar from '../components/Avatar';
 
 const Settings: React.FC = () => {
     return (
@@ -7,11 +8,13 @@ const Settings: React.FC = () => {
             <IonHeader>
                 <IonToolbar>
                     <IonTitle>Settings</IonTitle>
+                    <IonButtons slot="start">
+                        <IonBackButton defaultHref='/home'></IonBackButton>
+                    </IonButtons>
                 </IonToolbar>
             </IonHeader>
             <IonContent>
-                <h2>Welcome to the Settings Page</h2>
-                {/* Add your Settings content here */}
+            <Avatar src="https://www.gravatar.com/avatar/0?d=mp" alt="Avatar"/>
             </IonContent>
         </IonPage>
     );
