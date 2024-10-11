@@ -4,29 +4,19 @@ import {
   IonContent,
   IonItem,
   IonLabel,
-  IonList,
-  IonPopover,
   useIonPopover,
 } from "@ionic/react";
 import "./Avatar.css";
+import AvatarPopOver from "./AvatarPopOver";
 
 interface AvatarProps {
   src: string;
   alt?: string;
 }
-const Popover = () => (
-  <IonContent className="ion-padding">
-    <IonItem lines="none" href="#" detail={true} className="item">
-      <IonLabel>Profile</IonLabel>
-    </IonItem>
-    <IonItem lines="none" href="#" detail={true}>
-      <IonLabel>Settings</IonLabel>
-    </IonItem>
-  </IonContent>
-);
+
 
 const Avatar: React.FC<AvatarProps> = ({ src, alt }) => {
-  const [present, dismiss] = useIonPopover(Popover, {
+  const [present, dismiss] = useIonPopover(AvatarPopOver, {
     onDismiss: (data: any, role: string) => dismiss(data, role),
   });
 
@@ -43,6 +33,7 @@ const Avatar: React.FC<AvatarProps> = ({ src, alt }) => {
               console.log(`Popover dismissed with role: ${e.detail.role}`),
             side: "bottom",
             alignment: "start",
+            backdropDismiss: true,
           })
         }
       >

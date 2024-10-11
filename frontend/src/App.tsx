@@ -44,6 +44,8 @@ import "@ionic/react/css/palettes/dark.system.css";
 
 /* Theme variables */
 import "./theme/variables.css";
+import Profile from "./pages/Profile";
+import Settings from "./pages/Settings";
 
 setupIonicReact();
 
@@ -80,6 +82,12 @@ const App: React.FC = () => (
           </IonTabButton>
         </IonTabBar>
       </IonTabs>
+      <Route exact path="/profile">
+        <Profile />
+      </Route>
+      <Route exact path="/settings">
+        <Settings />
+      </Route>
     </IonReactRouter>
   </IonApp>
 );
