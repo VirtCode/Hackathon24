@@ -1,9 +1,9 @@
 package ch.olivezebra.mensa.database.group;
 
 import ch.olivezebra.mensa.database.user.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
-import net.minidev.json.annotate.JsonIgnore;
 
 import java.util.HashSet;
 import java.util.Set;
