@@ -35,16 +35,11 @@ interface HomeProps {
   setSessions: Dispatch<SetStateAction<Session[]>>;
 }
 
-const Home: React.FC<HomeProps> = ({
-  mensas,
-  groups,
-  sessions,
-  setSessions,
-}) => {
+const Home: React.FC<HomeProps> = ({ mensas, groups, setSessions }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isScannerOpen, setIsScannerOpen] = useState(false);
   const [isToastOpen, setIsToastOpen] = useState(false);
-  const [data, setData] = useState<{}>({});
+  const [activeSession, setActiveSession] = useState<Session>();
 
   const renderMensaCard = (mensa: Mensa, idx: React.Key) => {
     return (
@@ -61,7 +56,7 @@ const Home: React.FC<HomeProps> = ({
         <IonGrid className="home-grid">
           <IonRow>
             <IonText>
-              <h2>Wanna meet up?</h2>
+              <h2>Already Hungry?</h2>
             </IonText>
           </IonRow>
           <IonRow class="ion-align-items-start">
@@ -85,7 +80,7 @@ const Home: React.FC<HomeProps> = ({
           }}
         />
         <HostModal
-          setData={setData}
+          setActiveSession={setActiveSession}
           isModalOpen={isModalOpen}
           setIsModalOpen={setIsModalOpen}
           mensas={mensas}
