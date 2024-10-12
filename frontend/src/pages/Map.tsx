@@ -35,7 +35,7 @@ interface MapProps {
 
 const Map: React.FC<MapProps> = ({ mensas }) => {
   const router = useIonRouter();
-  
+
   const renderMensaMarker = (mensa: Mensa, idx: React.Key) => {
     const [markerRef, marker] = useAdvancedMarkerRef();
     const [infoWindowShown, setInfoWindowShown] = useState(false);
