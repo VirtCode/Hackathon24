@@ -6,8 +6,8 @@ import os
 
 class Map():
     def __init__(self, path) -> None:
-        self.size_x = 2048
-        self.size_y = 2048
+        self.size_x = 0
+        self.size_y = 0
 
         try:
             with open(path, 'r') as file:
@@ -16,10 +16,23 @@ class Map():
             with open('resources/styling.json', 'r') as stylefile:
                 self.style = json.load(stylefile)
 
-            self.inner_x = data['innerX']
-            self.inner_y = data['innerY']
-            self.inner_width = data['innerWidth']
-            self.inner_height = data['innerHeight']
+
+            for element in data['floor'][0]['objects']:
+                if self.size_x < element['x'] + element['width']:
+                    self.size_x = element['x'] + element['width']
+
+                if self.size_y < element['y'] + element['height']:
+                    self.size_y = element['y'] + element['height']
+
+            # we adjust the viewport dnymically
+            self.inner_x = 10
+            self.inner_y = 10
+            self.inner_width = self.size_x
+            self.inner_height = self.size_y
+
+            # padding
+            self.size_x += 20;
+            self.size_y += 20;
 
             self.container = svg.G(elements=[], class_ = ["container"]);
             self.svgMap = svg.SVG(viewBox=f'0 0 {self.size_x} {self.size_y}', elements=[self.container])
@@ -30,8 +43,8 @@ class Map():
                 if (element['type'] == 1): # RECT
                     self.container.elements.append(svg.Rect(
                         class_=element['class'],
-                        x=element['x'],
-                        y=element['y'],
+                        x=element['x'] + 10, # again, padding
+                        y=element['y'] + 10,
                         width=element['width'],
                         height=element['height'],
 

@@ -1,76 +1,80 @@
 {
-    "innerX": 70,
-    "innerY": 120,
-    "innerWidth": 1800,
-    "innerHeight": 500,
-    "floor": [
+  "floor": [
+    {
+      "objects": [
         {
-            "objects": [
-                {
-                    "type": 1,
-                    "class": "border",
-                    "x": 4,
-                    "y": 4,
-                    "width": 1900,
-                    "height": 700
-                },
-                {
-                    "type": 1,
-                    "class": "view",
-                    "x": 30,
-                    "y": 40,
-                    "width": 1000,
-                    "height": 50
-                },
-                {
-                    "type": 1,
-                    "class": "view",
-                    "x": 400,
-                    "y": 670,
-                    "width": 180,
-                    "height": 30
-                },
-                {
-                    "type": 1,
-                    "class": "view",
-                    "x": 550,
-                    "y": 640,
-                    "width": 130,
-                    "height": 60
-                },
-                {
-                    "type": 1,
-                    "class": "view",
-                    "x": 1400,
-                    "y": 200,
-                    "width": 105,
-                    "height": 275
-                },
-                {
-                    "type": 1,
-                    "class": "view",
-                    "x": 1470,
-                    "y": 150,
-                    "width": 35,
-                    "height": 80
-                },
-                {
-                    "type": 1,
-                    "class": "view",
-                    "x": 1600,
-                    "y": 120,
-                    "width": 110,
-                    "height": 580
-                },
-                {
-                    "type": 1,
-                    "class": "stairs",
-                    "x": 1130,
-                    "y": 475,
-                    "width": 320,
-                    "height": 120
-                }
-            ]
+          "type": 1,
+          "class": "border",
+          "x": 0,
+          "y": 0,
+          "width": 1900,
+          "height": 700
+        },
+        {
+          "type": 1,
+          "class": "view",
+          "x": 0,
+          "y": 0,
+          "width": 1000,
+          "height": 50
+        },
+        {
+          "type": 1,
+          "class": "view",
+          "x": 400,
+          "y": 670,
+          "width": 180,
+          "height": 30
+        },
+        {
+          "type": 1,
+          "class": "view",
+          "x": 1060,
+          "y": 250,
+          "width": 104,
+          "height": 50
+        },
+        {
+          "type": 1,
+          "class": "view",
+          "x": 1130,
+          "y": 250,
+          "width": 30,
+          "height": 150
+        },
+        {
+          "type": 1,
+          "class": "view",
+          "x": 1060,
+          "y": 350,
+          "width": 104,
+          "height": 50
+        },
+        {
+          "type": 1,
+          "class": "view",
+          "x": 550,
+          "y": 640,
+          "width": 130,
+          "height": 60
+        },
+        {
+          "type": 1,
+          "class": "border",
+          "x": 1160,
+          "y": 0,
+          "width": 4,
+          "height": 700
+        },
+        {
+          "type": 1,
+          "class": "stairs",
+          "x": 930,
+          "y": 475,
+          "width": 280,
+          "height": 120
         }
       ]
     }
+  ]
+}
