@@ -55,45 +55,6 @@ import { getCurrentUser, User } from "./api/user";
 
 setupIonicReact();
 
-const mensas: Mensa[] = [
-  {
-    id: "1",
-    name: "Polymensa",
-    lat: 47.376661270004625,
-    lng: 8.546335386948527,
-    image: "polymensa.jpg",
-    tables: [],
-    open: true,
-  },
-  {
-    id: "2",
-    name: "Archimedes",
-    lat: 47.377333693765095,
-    lng: 8.55339563884709,
-    image: "archimedes.jpg",
-    tables: [],
-    open: false,
-  },
-  {
-    id: "3",
-    name: "UZH Zentrum",
-    lat: 47.373986372527774,
-    lng: 8.548303462614687,
-    image: "uzh-zentrum.jpeg",
-    tables: [],
-    open: true,
-  },
-  {
-    id: "4",
-    name: "Clausiusbar",
-    lat: 47.37720447727566,
-    lng: 8.5470529791761,
-    image: "clausiusbar.jpg",
-    tables: [],
-    open: false,
-  },
-];
-
 const App: React.FC = () => {
   const [mensas, setMensas] = useState<Mensa[]>([]);
   const [groups, setGroups] = useState<Group[]>([]);
@@ -105,6 +66,8 @@ const App: React.FC = () => {
     getAllMensas(setMensas);
     getCurrentUser(setUser);
 
+
+    console.log(mensas);
 
     groups.forEach(async (group) => {
       const session = await getActiveSession(group.id);

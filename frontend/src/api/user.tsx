@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
-import { API_DEV } from "./env";
+import { API } from "./env";
 
 export interface User {
   id: string;
@@ -8,10 +8,11 @@ export interface User {
   email: string;
 }
 
-export function getCurrentUser(setUser: React.Dispatch<React.SetStateAction<User>>) {
-
+export function getCurrentUser(
+  setUser: React.Dispatch<React.SetStateAction<User | null>>
+) {
   axios
-    .get(`${API_DEV}/user/current`)
+    .get(`${API}/user/current`)
     .then((response) => {
       setUser(response.data);
     })

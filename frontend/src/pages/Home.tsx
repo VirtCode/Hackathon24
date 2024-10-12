@@ -10,6 +10,7 @@ import {
   IonLabel,
   IonText,
   IonList,
+  IonToast,
 } from "@ionic/react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -23,6 +24,7 @@ import Header from "../components/Header";
 import MensaCard from "../components/MensaCard";
 import HostAction from "../components/HostAction";
 import HostModal from "../components/HostModal";
+import ScannerModal from "../components/ScannerModal";
 
 interface HomeProps {
   mensas: Mensa[];
@@ -38,6 +40,8 @@ const Home: React.FC<HomeProps> = ({
   setSessions,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isScannerOpen, setIsScannerOpen] = useState(false);
+  const [isToastOpen, setIsToastOpen] = useState(false);
   const [data, setData] = useState<{}>({});
 
   const renderMensaCard = (mensa: Mensa, idx: React.Key) => {
@@ -77,8 +81,11 @@ const Home: React.FC<HomeProps> = ({
           </IonRow>
         </IonGrid>
         <HostAction
-          onClick={() => {
+          openModal={() => {
             setIsModalOpen(true);
+          }}
+          openScan={() => {
+            setIsScannerOpen(true);
           }}
         />
         <HostModal
@@ -88,6 +95,17 @@ const Home: React.FC<HomeProps> = ({
           mensas={mensas}
           groups={groups}
           setSessions={setSessions}
+          isToastOpen={isToastOpen}
+          setIsToastOpen={setIsToastOpen}
+        />
+        <ScannerModal
+          setIsScannerOpen={setIsScannerOpen}
+          isScannerOpen={isScannerOpen}
+        />
+        <IonToast
+          isOpen={isToastOpen}
+          duration={3000}
+          message={"Created Session!"}
         />
       </IonContent>
     </IonPage>

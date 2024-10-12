@@ -15,6 +15,7 @@ import {
 } from "@vis.gl/react-google-maps";
 import "./Map.css";
 import { Mensa } from "../api/group";
+import Header from "../components/Header";
 
 const API_KEY = "AIzaSyBKebKvbRFYo64Ernvats-FX4v445xlW7Y";
 const DEFAULT_LAT = 47.37643604499102;
@@ -30,8 +31,8 @@ const Map: React.FC<MapProps> = ({ mensas }) => {
       <IonItem routerLink={`/mensa/${mensa.id}`} key={idx}>
         <AdvancedMarker
           position={{
-            lat: mensa.lat | DEFAULT_LAT,
-            lng: mensa.lng | DEFAULT_LONG,
+            lat: mensa.lat,
+            lng: mensa.lng,
           }}
           title={mensa.name}
           onClick={() => console.log(mensa.name)}
@@ -47,11 +48,7 @@ const Map: React.FC<MapProps> = ({ mensas }) => {
   };
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle>Map</IonTitle>
-        </IonToolbar>
-      </IonHeader>
+      <Header pageTitle="Map" />
       <IonContent fullscreen>
         <APIProvider apiKey={API_KEY}>
           <GoogleMap

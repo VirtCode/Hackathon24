@@ -6,6 +6,8 @@ COPY package*.json /app/
 RUN npm ci -f
 
 COPY ./ /app/
+
+ENV VITE_PROD=true
 RUN npm run build
 
 FROM nginx:1.27.1-alpine
