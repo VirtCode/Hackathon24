@@ -61,9 +61,7 @@ const GroupDetail: React.FC<GroupDetailProps> = ({ match }) => {
             <IonCardTitle>Members</IonCardTitle>
           </IonCardHeader>
           <IonCardContent>
-            <GroupMemberList
-              members={group?.members}
-            />
+            <GroupMemberList members={group?.members} />
           </IonCardContent>
         </IonCard>
         <IonCard>
@@ -73,17 +71,26 @@ const GroupDetail: React.FC<GroupDetailProps> = ({ match }) => {
           <IonCardContent>
             <p>{getGroupLink()}</p>
             <IonButton
-              onClick={() => navigator.clipboard.writeText(getGroupLink())}
+              onClick={() => {
+                navigator.clipboard.writeText(getGroupLink());
+              }}
             >
-              Share
+              Copy
             </IonButton>
           </IonCardContent>
         </IonCard>
-        <IonButton color='danger' fill="solid" expand="block" onClick={async () => {
-          await leaveGroup(id);
-          // router.push("/groups", "forward");
-          history.go(-1);
-        }}>Leave</IonButton>
+        <IonButton
+          color="danger"
+          fill="solid"
+          expand="block"
+          onClick={async () => {
+            await leaveGroup(id);
+            // router.push("/groups", "forward");
+            history.go(-1);
+          }}
+        >
+          Leave
+        </IonButton>
       </IonContent>
     </IonPage>
   );

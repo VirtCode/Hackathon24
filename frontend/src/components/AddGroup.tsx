@@ -19,11 +19,12 @@ interface AddGroupProps {
   setGroups: React.Dispatch<React.SetStateAction<Group[]>>;
 }
 
-
-
-
-const AddGroup: React.FC<AddGroupProps> = ({isOpen, setIsOpen, setGroups}) => {
-    const modalRef = useRef<HTMLIonModalElement>(null);
+const AddGroup: React.FC<AddGroupProps> = ({
+  isOpen,
+  setIsOpen,
+  setGroups,
+}) => {
+  const modalRef = useRef<HTMLIonModalElement>(null);
 
   const [name, setName] = useState<string>("");
 
@@ -37,8 +38,8 @@ const AddGroup: React.FC<AddGroupProps> = ({isOpen, setIsOpen, setGroups}) => {
               <IonButton
                 color="primary"
                 onClick={async () => {
-                  console.log(name);  
-                  createGroup({ name: name })
+                  console.log(name);
+                  createGroup({ name: name });
                   await getAllGroupsOfUser(setGroups);
                   setIsOpen(false);
                 }}
