@@ -92,11 +92,6 @@ const Map: React.FC<MapProps> = ({ mensas }) => {
             {mensas.map((mensa, idx) => renderMensaMarker(mensa, idx))}
           </GoogleMap>
         </APIProvider>
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large">Map</IonTitle>
-          </IonToolbar>
-        </IonHeader>
       </IonContent>
     </IonPage>
   );

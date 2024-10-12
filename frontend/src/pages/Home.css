@@ -1,3 +1,7 @@
 .home-grid {
     height: 20vh;
 }
+
+#slide-container {
+    height: auto;
+}

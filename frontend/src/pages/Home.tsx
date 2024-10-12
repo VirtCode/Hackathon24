@@ -11,6 +11,8 @@ import {
   IonText,
   IonList,
   IonToast,
+  getPlatforms,
+  isPlatform,
 } from "@ionic/react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -46,7 +48,7 @@ const Home: React.FC<HomeProps> = ({
 
   const renderMensaCard = (mensa: Mensa, idx: React.Key) => {
     return (
-      <SwiperSlide key={idx}>
+      <SwiperSlide key={idx} id="slide-container">
         <MensaCard mensa={mensa} />
       </SwiperSlide>
     );
@@ -55,14 +57,8 @@ const Home: React.FC<HomeProps> = ({
   return (
     <IonPage>
       <Header pageTitle="Mensarr" />
-      <IonHeader collapse="condense">
-        <IonToolbar>
-          <IonTitle size="large">Home</IonTitle>
-        </IonToolbar>
-      </IonHeader>
       <IonContent fullscreen>
         <IonGrid className="home-grid">
-          <IonList></IonList>
           <IonRow>
             <IonText>
               <h2>Wanna meet up?</h2>
@@ -72,7 +68,7 @@ const Home: React.FC<HomeProps> = ({
             <Swiper
               modules={[Navigation, Pagination, Scrollbar, A11y]}
               direction={"horizontal"}
-              slidesPerView={1}
+              slidesPerView={window.screen.width > 900 ? 3 : 1}
               draggable={false}
               scrollbar={{ draggable: false }}
             >
@@ -106,7 +102,7 @@ const Home: React.FC<HomeProps> = ({
           isOpen={isToastOpen}
           duration={3000}
           message={"Created Session!"}
-          position='bottom'
+          position="bottom"
           positionAnchor="tabs"
         />
       </IonContent>

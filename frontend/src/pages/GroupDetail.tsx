@@ -63,16 +63,14 @@ const GroupDetail: React.FC<GroupDetailProps> = ({ match, user }) => {
 
   const [present] = useIonToast();
 
-                  const presentToast = (
-                    position: "top" | "middle" | "bottom"
-                  ) => {
-                    present({
-                      message: "Not changed -> Name is empty",
-                      duration: 1500,
-                      position: position,
-                      positionAnchor: "tabs",
-                    });
-                  };
+  const presentToast = (position: "top" | "middle" | "bottom") => {
+    present({
+      message: "Not changed -> Name is empty",
+      duration: 1500,
+      position: position,
+      positionAnchor: "tabs",
+    });
+  };
 
   return (
     <IonPage>
@@ -140,7 +138,7 @@ const GroupDetail: React.FC<GroupDetailProps> = ({ match, user }) => {
             fill="solid"
             expand="block"
             onClick={async () => {
-              await leaveGroup(id);
+              leaveGroup(id);
               router.push("/groups", "forward");
             }}
           >
@@ -155,7 +153,7 @@ const GroupDetail: React.FC<GroupDetailProps> = ({ match, user }) => {
             onClick={async () => {
               await joinGroup(group.id);
 
-              await getGroupById(id, setGroup);
+              getGroupById(id, setGroup);
               console.log(group);
             }}
           >
@@ -179,7 +177,6 @@ const GroupDetail: React.FC<GroupDetailProps> = ({ match, user }) => {
                   ) as HTMLInputElement;
                   nameInput.value = "";
                 } else {
-                  
                   presentToast("bottom");
                 }
               },

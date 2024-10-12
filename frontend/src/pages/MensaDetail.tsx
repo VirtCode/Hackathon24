@@ -95,7 +95,6 @@ const MensaDetail: React.FC<MensaDetailProps> = ({ match, mensas }) => {
             </IonCardSubtitle>
           </IonCardHeader>
           <IonCardContent>
-            <img src={`${mensa.id}.jpg`} alt="Mensa image" draggable={false} />
             <section ref={ref} dangerouslySetInnerHTML={{ __html: layout }} />
             <IonButton onClick={resetZoomAndPan}>Reset zoom and pan</IonButton>
           </IonCardContent>

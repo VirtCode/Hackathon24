@@ -1,0 +1,10 @@
+.mensa-card {
+    /* height: 100%; */
+    /* width: 100%; */
+}
+
+.mensa-image {
+    object-fit: cover;
+    object-position: center;
+    aspect-ratio: 4/3;
+}
