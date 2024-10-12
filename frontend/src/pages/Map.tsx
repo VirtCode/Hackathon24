@@ -69,16 +69,12 @@ const Map: React.FC<MapProps> = ({ mensas }) => {
         />
         {infoWindowShown && (
           <InfoWindow anchor={marker} headerDisabled={true}>
-            <IonContent
-              onClick={() =>
-                router.push(`/mensa/${mensa.id}`, "forward", "replace")
-              }
-            >
+            <div onClick={()=> {router.push(`/mensa/${mensa.id}`)}}>
               <IonCardTitle>{mensa.name}</IonCardTitle>
               <IonCardSubtitle color={mensa.open ? "success" : "warning"}>
                 {mensa.open ? "Open" : "Closed"}
               </IonCardSubtitle>
-            </IonContent>
+              </div>
           </InfoWindow>
         )}
       </AdvancedMarker>
