@@ -1,5 +1,6 @@
 package ch.olivezebra.mensa.requests;
 
+import ch.olivezebra.mensa.auth.NoAuth;
 import ch.olivezebra.mensa.database.table.Mensa;
 import ch.olivezebra.mensa.database.table.MensaRepository;
 import ch.olivezebra.mensa.database.table.Table;
@@ -38,6 +39,7 @@ public class MensaController {
      * Returns all mensas in the app
      * @return list of mensas
      */
+    @NoAuth
     @GetMapping
     public List<Mensa> getAllMensas() {
         return mensas.findAll();
@@ -48,6 +50,7 @@ public class MensaController {
      * @param id id of the mensa
      * @return mensa
      */
+    @NoAuth
     @GetMapping("/{id}")
     public Mensa getMensa(@PathVariable UUID id) {
         return mensas.requireById(id);
@@ -58,6 +61,7 @@ public class MensaController {
      * @param id mensa id
      * @return tables ond so
      */
+    @NoAuth
     @GetMapping("/{id}/tables")
     public Set<Table> getTables(@PathVariable UUID id) {
         return mensas.requireById(id).getTables();
@@ -68,6 +72,7 @@ public class MensaController {
      * @param id id to fetch for
      * @return svg string (hopefully)
      */
+    @NoAuth
     @GetMapping("/{id}/layout")
     public ResponseEntity<String> getLayout(@PathVariable UUID id) {
         Mensa mensa = mensas.requireById(id);
@@ -84,7 +89,7 @@ public class MensaController {
                 throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, "Microservice response is null");
             }
 
-            return ResponseEntity.ok().contentType(MediaType.TEXT_XML).body(response.getBody());
+            return ResponseEntity.ok().contentType(MediaType.parseMediaType("image/svg+xml")).body(response.getBody());
         } catch (Exception e) {
             log.error("microservices call to render layout svg failed", e);
             throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, "Failed to render layout svg");

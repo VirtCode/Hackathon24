@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -30,6 +31,16 @@ public class AuthInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws ResponseStatusException {
+
+        // disable auth on methods with @NoAuth
+        if (handler instanceof HandlerMethod) {
+            NoAuth disabled = ((HandlerMethod) handler).getMethodAnnotation(NoAuth.class);
+            if (disabled != null) {
+                log.info("calling no-auth endpoint");
+                return true;
+            }
+        }
+
         String username = request.getHeader(usernameHeader);
         String email = request.getHeader(emailHeader);
         String name = request.getHeader(nameHeader);

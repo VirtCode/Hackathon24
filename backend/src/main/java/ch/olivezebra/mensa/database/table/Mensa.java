@@ -1,15 +1,14 @@
 package ch.olivezebra.mensa.database.table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Getter
@@ -42,5 +41,16 @@ public class Mensa {
     public void addTable(Table table) {
         table.setMensa(this);
         this.tables.add(table);
+    }
+
+    /* is the mensa currently open? (only a rough approx) */
+    @JsonProperty
+    public boolean isOpen() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+
+        // FIXME: this just pretends we know opening hours
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        return (hour >= 11 && hour <= 13) || (hour >= 17 && hour <= 18);
     }
 }
