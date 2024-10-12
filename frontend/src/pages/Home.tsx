@@ -7,7 +7,6 @@ import {
   IonTitle,
   IonToolbar,
   IonRow,
-  IonCol,
   IonLabel,
 } from "@ionic/react";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -34,7 +33,12 @@ const Home: React.FC<HomeProps> = ({ mensas }) => {
   const renderMensaCard = (mensa: Mensa, idx: React.Key) => {
     return (
       <SwiperSlide key={idx}>
-        <MensaCard name={mensa.name} open={mensa.open} image={mensa.image} />
+        <MensaCard
+          name={mensa.name}
+          open={mensa.open}
+          image={mensa.image}
+          id={mensa.id}
+        />
       </SwiperSlide>
     );
   };
