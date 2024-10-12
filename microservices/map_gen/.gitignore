@@ -1,0 +1,5 @@
+.DS_Store
+*.pyc
+data.json
+resources/my_svg.svg
+myvenv

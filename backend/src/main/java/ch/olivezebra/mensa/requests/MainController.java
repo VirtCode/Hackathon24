@@ -1,5 +1,6 @@
 package ch.olivezebra.mensa.requests;
 
+import ch.olivezebra.mensa.auth.NoAuth;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,7 @@ public class MainController {
     /**
      * Shows the version and start time of the api.
      */
+    @NoAuth
     @GetMapping
     public VersionPingResponse ping(){
         return new VersionPingResponse(BUILD_VERSION, BUILD_BRANCH, BUILD_COMMIT, new Date(BUILD_TIME), new Date(START_TIME));
@@ -49,6 +51,7 @@ public class MainController {
     /**
      * Specifies a robots.txt so crawlers can ignore the api.
      */
+    @NoAuth
     @GetMapping(value = "/robots.txt", produces = "text/plain")
     public String crawlerExclusion() {
         return "User-agent: *\nDisallow: /";

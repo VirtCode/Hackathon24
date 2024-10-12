@@ -22,8 +22,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class MeetupController {
 
-    private MensaRepository mensas;
-    private MeetupRepository meetups;
+    private final MensaRepository mensas;
+    private final MeetupRepository meetups;
 
     /**
      * Starts a meetup now. The user cannot create multiple meetups.
@@ -66,7 +66,7 @@ public class MeetupController {
     }
 
     /**
-     * Edits a meetup
+     * Edits a meetup. Only active meetups can be edited. Duration of meetups cannot be made shorter.
      * @param id id of the meetup
      * @param def definition stuff, attributes that are zero are left intact
      * @return edited meetup
@@ -78,10 +78,16 @@ public class MeetupController {
         if (!meetup.getOwner().equals(user))
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "user not allowed to edit meetup");
 
+        if (!meetup.isActive())
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "meetup must be active to be edited");
+
         if (def.duration != null) {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(meetup.getStart());
             calendar.add(Calendar.MINUTE, def.duration);
+
+            if (meetup.getEnd().after(calendar.getTime()))
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "cannot make duration shorter - use /end");
 
             meetup.setEnd(calendar.getTime());
         }
@@ -92,6 +98,25 @@ public class MeetupController {
         }
 
         return meetups.save(meetup);
+    }
+
+    /**
+     * Ends a meetup early
+     * @param id id to end
+     * @return ended meetup
+     */
+    @PostMapping("/{id}/end")
+    public Meetup endMeetup(@PathVariable UUID id, @RequestAttribute User user) {
+        Meetup target = meetups.requireById(id);
+
+        if (!target.getOwner().equals(user))
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "user not allowed to end meetup");
+
+        if (!target.isActive())
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "meetup must be active to be edited");
+
+        target.setEnded(true);
+        return meetups.save(target);
     }
 
     /**

@@ -20,7 +20,7 @@ public interface MeetupRepository extends CrudRepository<Meetup, UUID> {
      * @param date now
      * @return meetups
      */
-    @Query("SELECT meetup FROM Meetup meetup WHERE meetup.end >= :date")
+    @Query("SELECT meetup FROM Meetup meetup WHERE meetup.end >= :date AND meetup.ended = FALSE")
     List<Meetup> findOtherMeetups(Date date);
 
     /**
@@ -36,7 +36,7 @@ public interface MeetupRepository extends CrudRepository<Meetup, UUID> {
      * @param user user
      * @return meetups
      */
-    @Query("SELECT meetup FROM Meetup meetup WHERE meetup.owner = :user AND meetup.end >= :date")
+    @Query("SELECT meetup FROM Meetup meetup WHERE meetup.owner = :user AND meetup.end >= :date AND meetup.ended = FALSE")
     Optional<Meetup> findActiveForUser(User user, Date date);
 
     default Meetup requireById(UUID id) {

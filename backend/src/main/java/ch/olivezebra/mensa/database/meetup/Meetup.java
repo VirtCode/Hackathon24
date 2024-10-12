@@ -26,6 +26,9 @@ public class Meetup {
 
     private Date end;
 
+    /** the user has ended the meeting earlier */
+    private boolean ended = false;
+
     /** user that wants to meetup */
     @NonNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -47,13 +50,13 @@ public class Meetup {
 
     /** mensa of the meetup */
     @JsonProperty
-    private Mensa getMensa() {
+    public Mensa getMensa() {
         return table.getMensa();
     }
 
     /** is the meetup active */
     @JsonProperty
-    private boolean isActive() {
-        return end.after(new Date());
+    public boolean isActive() {
+        return end.after(new Date()) && !ended;
     }
 }
