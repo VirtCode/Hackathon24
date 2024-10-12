@@ -20,12 +20,20 @@ public interface GroupRepository extends CrudRepository<Group, UUID>  {
     List<Group> findGroupsForUser(User user);
 
     /**
+     * return a group or throw blah blah
+     * @return amogsu
+     */
+    default Group requireGroup(UUID group) {
+        return this.findById(group)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No such group in database"));
+    }
+
+    /**
      * throws if user doesn't have access
      * @return group
      */
     default Group requireAccessGroup(UUID group, User user) {
-        Group g = this.findById(group)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No such group in database"));
+        Group g = requireGroup(group);
 
         if (!g.getMembers().contains(user))
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "User is not in group");

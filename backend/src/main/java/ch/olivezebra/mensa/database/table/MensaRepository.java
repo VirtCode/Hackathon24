@@ -5,13 +5,19 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 public interface MensaRepository extends CrudRepository<Mensa, UUID> {
 
+    @Query("select t from eating_table t where t.mensa = :mensa")
+    List<Table> findAllTables(Mensa mensa);
+
     @Query("select t from eating_table t where t.mensa = :mensa AND t.id = :id")
     Optional<Table> findTable(Mensa mensa, UUID id);
+
+    List<Mensa> findAll();
 
     /**
      * does what it says
