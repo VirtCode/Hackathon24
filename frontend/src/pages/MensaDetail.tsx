@@ -18,30 +18,40 @@ import React from "react";
 import { RouteComponentProps } from "react-router";
 import GroupMemberList from "../components/GroupMemberList";
 
-interface GroupDetailProps
+interface MensaDetailProps
   extends RouteComponentProps<{
     id: string;
-  }> {}
+  }> {
+  mensas: Mensa[];
+}
 
-const GroupDetail: React.FC<GroupDetailProps> = ({ match }) => {
+const MensaDetail: React.FC<MensaDetailProps> = ({ match, mensas }) => {
   const id = match.params.id;
+
+  let mensa = mensas.find((m) => m.id == Number.parseInt(id));
+
+  if (!mensa) return;
 
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Group {id}</IonTitle>
+          <IonTitle>{mensa.name}</IonTitle>
           <IonButtons slot="start">
-            <IonBackButton defaultHref="/groups" />
+            <IonBackButton defaultHref="/home" />
           </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
         <IonCard>
           <IonCardHeader>
-            <IonCardTitle>Upcoming Meeting</IonCardTitle>
-            <IonCardSubtitle>12. October 2024 04.50 pm</IonCardSubtitle>
+            <IonCardSubtitle color={mensa.open ? "success" : "warning"}>
+              {mensa.open ? "Open" : "Closed"}
+            </IonCardSubtitle>
           </IonCardHeader>
+          <IonCardContent>
+            <img src={mensa.image} alt="Mensa image" />
+          </IonCardContent>
         </IonCard>
         <IonCard>
           <IonCardHeader>
@@ -56,18 +66,9 @@ const GroupDetail: React.FC<GroupDetailProps> = ({ match }) => {
             />
           </IonCardContent>
         </IonCard>
-        <IonCard>
-          <IonCardHeader>
-            <IonCardTitle>Share Link</IonCardTitle>
-          </IonCardHeader>
-          <IonCardContent>
-            <p>https://example.com/group/{id}</p>
-            <IonButton>Share</IonButton>
-          </IonCardContent>
-        </IonCard>
       </IonContent>
     </IonPage>
   );
 };
 
-export default GroupDetail;
+export default MensaDetail;

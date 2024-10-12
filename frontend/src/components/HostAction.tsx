@@ -7,7 +7,7 @@ type HostActionProps = {
 
 function HostAction({ onClick }: HostActionProps) {
   return (
-    <IonFab>
+    <IonFab slot="fixed" vertical="bottom" horizontal="end">
       <IonFabButton id="open-host" onClick={onClick}>
         <IonIcon icon={add}></IonIcon>
       </IonFabButton>

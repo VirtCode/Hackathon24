@@ -69,6 +69,18 @@ public class GroupController {
     }
 
     /**
+     * Join a group
+     * @param id group to join
+     */
+    @PostMapping("/{id}/join")
+    public void joinGroup(@PathVariable UUID id, @RequestAttribute User user) {
+        Group group = groups.requireGroup(id);
+
+        group.getMembers().add(user);
+        groups.save(group);
+    }
+
+    /**
      * Create a new group
      * @param def group definition
      * @return newly created group object

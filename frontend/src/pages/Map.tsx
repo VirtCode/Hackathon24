@@ -5,6 +5,7 @@ import {
   IonTitle,
   IonToolbar,
   IonItem,
+  IonLabel,
 } from "@ionic/react";
 import {
   AdvancedMarker,
@@ -18,14 +19,14 @@ const API_KEY = "AIzaSyBKebKvbRFYo64Ernvats-FX4v445xlW7Y";
 const DEFAULT_LAT = 47.37643604499102;
 const DEFAULT_LONG = 8.547644304932101;
 
-type MapProps = {
+interface MapProps {
   mensas: Mensa[];
-};
+}
 
 const Map: React.FC<MapProps> = ({ mensas }) => {
   const renderMensaMarker = (mensa: Mensa, idx: React.Key) => {
     return (
-      <IonItem routerLink="/home" key={idx}>
+      <IonItem routerLink={`/mensa/${mensa.id}`} key={idx}>
         <AdvancedMarker
           position={mensa.position}
           title={mensa.name}
@@ -34,7 +35,7 @@ const Map: React.FC<MapProps> = ({ mensas }) => {
           <Pin
             background={"#616F25"}
             borderColor={"#88993c"}
-            glyphColor={"#737264"}
+            glyphColor={"white"}
           />
         </AdvancedMarker>
       </IonItem>
