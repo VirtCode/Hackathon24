@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
-import { apiPath } from "./environment";
+import { API_DEV } from "./env";
 
 export interface User {
   id: number;
@@ -12,7 +12,7 @@ export function getCurrentUser() {
   const [user, setUser] = useState<User | null>(null);
 
   axios
-    .get(apiPath + "/user/current")
+    .get(`${API_DEV}/user/current`)
     .then((response) => {
       setUser(response.data);
     })

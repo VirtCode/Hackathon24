@@ -26,6 +26,10 @@ interface GroupDetailProps
 const GroupDetail: React.FC<GroupDetailProps> = ({ match }) => {
   const id = match.params.id;
 
+  const getGroupLink = () => {
+    return `https://example.com/group/${id}`;
+  };
+
   return (
     <IonPage>
       <IonHeader>
@@ -61,8 +65,12 @@ const GroupDetail: React.FC<GroupDetailProps> = ({ match }) => {
             <IonCardTitle>Share Link</IonCardTitle>
           </IonCardHeader>
           <IonCardContent>
-            <p>https://example.com/group/{id}</p>
-            <IonButton>Share</IonButton>
+            <p>{getGroupLink()}</p>
+            <IonButton
+              onClick={() => navigator.clipboard.writeText(getGroupLink())}
+            >
+              Share
+            </IonButton>
           </IonCardContent>
         </IonCard>
       </IonContent>
