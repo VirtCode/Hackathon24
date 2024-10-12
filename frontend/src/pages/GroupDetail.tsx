@@ -31,7 +31,7 @@ import {
   updateGroup,
   userInGroup,
 } from "../api/group";
-import { clipboard, create, createOutline } from "ionicons/icons";
+import { clipboard, createOutline } from "ionicons/icons";
 import { User } from "../api/user";
 
 interface GroupDetailProps
