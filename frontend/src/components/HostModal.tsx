@@ -20,15 +20,16 @@ import {
   OverlayEventDetail,
   IonDatetimeCustomEvent,
 } from "@ionic/core/components";
-import React, { useRef, useState } from "react";
-import { Group, Mensa } from "../api/group";
+import React, { Dispatch, SetStateAction, useRef, useState } from "react";
+import { Group, Mensa, Session } from "../api/group";
 
 type HostModalProps = {
-  setData: React.Dispatch<React.SetStateAction<{}>>;
+  setData: Dispatch<SetStateAction<{}>>;
   isModalOpen: boolean;
-  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsModalOpen: Dispatch<SetStateAction<boolean>>;
   mensas: Mensa[];
   groups: Group[];
+  setSessions: Dispatch<SetStateAction<Session[]>>;
 };
 
 function HostModal({
@@ -99,16 +100,23 @@ function HostModal({
               aria-label="Group"
               interface="action-sheet"
               placeholder="Select Group"
+              ref={selectGroupRef}
             >
               {groups.map((group, idx) => (
-                <IonSelectOption value={group.name} key={idx}>
+                <IonSelectOption value={group.id} key={idx}>
                   {group.name}
                 </IonSelectOption>
               ))}
             </IonSelect>
           </IonItem>
         </IonList>
-        <IonButton onClick={() => confirm()}>Save</IonButton>
+        <IonButton
+          onClick={() => confirm()}
+          expand="full"
+          disabled={!selectMensaRef.current?.value && true}
+        >
+          Save
+        </IonButton>
       </IonContent>
     </IonModal>
   );

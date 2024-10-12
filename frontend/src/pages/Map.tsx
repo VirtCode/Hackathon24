@@ -29,7 +29,10 @@ const Map: React.FC<MapProps> = ({ mensas }) => {
     return (
       <IonItem routerLink={`/mensa/${mensa.id}`} key={idx}>
         <AdvancedMarker
-          position={{ lat: mensa.lat, lng: mensa.lng }}
+          position={{
+            lat: mensa.lat | DEFAULT_LAT,
+            lng: mensa.lng | DEFAULT_LONG,
+          }}
           title={mensa.name}
           onClick={() => console.log(mensa.name)}
         >

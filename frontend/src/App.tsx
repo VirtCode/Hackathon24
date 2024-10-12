@@ -18,7 +18,9 @@ import Groups from "./pages/Groups";
 import Settings from "./pages/Settings";
 import GroupDetail from "./pages/GroupDetail";
 import MensaDetail from "./pages/MensaDetail";
-import { getAllGroupsOfUser, Group, Mensa } from "./api/group";
+import { getAllGroupsOfUser, Group, Mensa, Session } from "./api/group";
+import { getAllMensas } from "./api/mensas";
+import { getActiveSession } from "./api/sessions";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -94,9 +96,16 @@ const mensas: Mensa[] = [
 const App: React.FC = () => {
   const [mensas, setMensas] = useState<Mensa[]>([]);
   const [groups, setGroups] = useState<Group[]>([]);
+  const [activeSessions, setActiveSessions] = useState<Session[]>([]);
 
   useEffect(() => {
     getAllGroupsOfUser(setGroups);
+    getAllMensas(setMensas);
+
+    groups.forEach(async (group) => {
+      const session = await getActiveSession(group.id);
+      setActiveSessions((sessions) => [...sessions, session]);
+    });
   }, []);
 
   return (
@@ -105,13 +114,18 @@ const App: React.FC = () => {
         <IonTabs>
           <IonRouterOutlet>
             <Route exact path="/home">
-              <Home mensas={mensas} groups={groups} />
+              <Home
+                mensas={mensas}
+                groups={groups}
+                sessions={activeSessions}
+                setSessions={setActiveSessions}
+              />
             </Route>
             <Route exact path="/map">
               <Map mensas={mensas} />
             </Route>
             <Route path="/groups">
-              <Groups groups={groups} />
+              <Groups groups={groups} setGroups={setGroups} />
             </Route>
             <Route path="/settings" component={Settings} exact />
             <Route path="/group/:id" component={GroupDetail} exact />
