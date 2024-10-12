@@ -52,7 +52,7 @@ import "@ionic/react/css/palettes/dark.system.css";
 /* Theme variables */
 import "./theme/variables.css";
 import { getCurrentUser, User } from "./api/user";
-import TableSelect from "./pages/TableSelect";
+import TableSelect from "./pages/Create";
 
 setupIonicReact();
 
@@ -118,9 +118,12 @@ const App: React.FC = () => {
             />
             <Route
               exact
-              path="/qr/:id"
-              render={(props) => <TableSelect {...props} />}
+              path="/create/:id"
+              render={(props) => <TableSelect groups={groups} {...props} />}
             />
+            <Route exact path="/qr/:id">
+              <Redirect to="/create/:id" />
+            </Route>
             <Route exact path="/">
               <Redirect to="/home" />
             </Route>
