@@ -74,7 +74,7 @@ const Map: React.FC<MapProps> = ({ mensas }) => {
               }}
               className="window-popup"
             >
-              <IonCardTitle>{mensa.name}</IonCardTitle>
+              <IonCardTitle color={"tertiary"}>{mensa.name}</IonCardTitle>
               <IonCardSubtitle color={mensa.open ? "success" : "warning"}>
                 {mensa.open ? "Open" : "Closed"}
               </IonCardSubtitle>
