@@ -8,15 +8,10 @@ export interface User {
   email: string;
 }
 
-export function getCurrentUser(
-  setUser: React.Dispatch<React.SetStateAction<User>>
-) {
-  axios
-    .get(`${API}/user/current`)
-    .then((response) => {
-      setUser(response.data);
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+export async function getCurrentUser() {
+  const response = await axios.get(`${API}/user/current`).catch((error) => {
+    console.error(error);
+  });
+  if (!response || response.status != 200) return null;
+  return response.data;
 }

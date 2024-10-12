@@ -58,17 +58,26 @@ setupIonicReact();
 const App: React.FC = () => {
   const [mensas, setMensas] = useState<Mensa[]>([]);
   const [groups, setGroups] = useState<Group[]>([]);
-  const [activeSessions, setActiveSessions] = useState<Session[]>([]);
+  const [activeSessions, setActiveSessions] = useState<any[]>([]);
   const [user, setUser] = useState<User>({ id: "", name: "", email: "" });
 
   useEffect(() => {
-    getAllGroupsOfUser(setGroups);
-    getAllMensas(setMensas);
-    getCurrentUser(setUser);
-
-    groups.forEach(async (group) => {
-      const session = await getActiveSession(group.id);
-      setActiveSessions((sessions) => [...sessions, session]);
+    const fetchData = async () => {
+      const groups: Group[] = await getAllGroupsOfUser();
+      setGroups(groups);
+      const mensas: Mensa[] = await getAllMensas();
+      setMensas(mensas);
+      let sessions: any[] = [];
+      groups.forEach(async (group) => {
+        const session = await getActiveSession(group.id);
+        if (session) sessions.push(session);
+      });
+      setActiveSessions(() => sessions);
+      const user = await getCurrentUser();
+      setUser(user);
+    };
+    fetchData().then(() => {
+      console.log("Fetched all data!");
     });
   }, []);
 
@@ -81,8 +90,8 @@ const App: React.FC = () => {
               <Home
                 mensas={mensas}
                 groups={groups}
-                sessions={activeSessions}
-                setSessions={setActiveSessions}
+                activeSessions={activeSessions}
+                setActiveSessions={setActiveSessions}
               />
             </Route>
             <Route exact path="/map">
