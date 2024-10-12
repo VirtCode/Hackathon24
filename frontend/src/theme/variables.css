@@ -16,6 +16,8 @@ http://ionicframework.com/docs/theming/ */
     --ion-color-secondary-shade: #525248;
     --ion-color-secondary-tint: #868577;
 
+    --ion-colo-danger: #c5000f;
+
     --ion-red: #B1102D;
     --ion-green: #33AB2B;
 }
@@ -24,6 +26,10 @@ http://ionicframework.com/docs/theming/ */
     --color: var(--ion-color-secondary);
     --color-selected: var(--ion-color-primary);
     --color-focused: var(--ion-color-primary);
+}
+
+:root ion-button {
+    margin: 10px;
 }
 
 .qr-box {

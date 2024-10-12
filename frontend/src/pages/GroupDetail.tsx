@@ -36,7 +36,7 @@ const GroupDetail: React.FC<GroupDetailProps> = ({ match }) => {
   }, [id]);
 
   const getGroupLink = () => {
-    return `https://example.com/group/${id}`;
+    return `https://12.viscon-hackathon.ch/group/${id}`;
   };
 
   return (
@@ -62,10 +62,7 @@ const GroupDetail: React.FC<GroupDetailProps> = ({ match }) => {
           </IonCardHeader>
           <IonCardContent>
             <GroupMemberList
-              members={[
-                { id: 1, name: "Noel" },
-                { id: 2, name: "Arthur" },
-              ]}
+              members={group?.members}
             />
           </IonCardContent>
         </IonCard>
@@ -82,7 +79,7 @@ const GroupDetail: React.FC<GroupDetailProps> = ({ match }) => {
             </IonButton>
           </IonCardContent>
         </IonCard>
-        <IonButton color='alert' fill="solid" expand="block" onClick={async () => {
+        <IonButton color='danger' fill="solid" expand="block" onClick={async () => {
           await leaveGroup(id);
           // router.push("/groups", "forward");
           history.go(-1);

@@ -16,14 +16,13 @@ import { createGroup, getAllGroupsOfUser, Group } from "../api/group";
 interface AddGroupProps {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  groups: Group[];
   setGroups: React.Dispatch<React.SetStateAction<Group[]>>;
 }
 
 
 
 
-const AddGroup: React.FC<AddGroupProps> = ({isOpen, setIsOpen, groups, setGroups}) => {
+const AddGroup: React.FC<AddGroupProps> = ({isOpen, setIsOpen, setGroups}) => {
     const modalRef = useRef<HTMLIonModalElement>(null);
 
     const [name, setName] = useState<string>("");

@@ -14,14 +14,21 @@ import { add } from "ionicons/icons";
 import AddGroup from "../components/AddGroup";
 import { useState, useEffect } from "react";
 import { getAllGroupsOfUser } from "../api/group";
+import { useHistory } from "react-router-dom";
 
 const Groups: React.FC = () => {
   const [groups, setGroups] = useState<Group[]>([]);
   const [showAddGroupModal, setShowAddGroupModal] = useState(false);
+  const history = useHistory();
+
+  useEffect(() => {
+    history.listen((location) => {
+    getAllGroupsOfUser(setGroups);})
+  }, [history]);
 
   useEffect(() => {
     getAllGroupsOfUser(setGroups);
-  }, []);
+  }, [showAddGroupModal]);
 
   useIonViewWillEnter(() => {
     getAllGroupsOfUser(setGroups);
@@ -44,7 +51,6 @@ const Groups: React.FC = () => {
         <AddGroup
           isOpen={showAddGroupModal}
           setIsOpen={setShowAddGroupModal}
-          groups={groups}
           setGroups={setGroups}
         ></AddGroup>
       </IonContent>
