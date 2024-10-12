@@ -40,7 +40,7 @@ const Settings: React.FC<SettingsProps> = ({ user }) => {
         <IonToolbar>
           <IonTitle>Profile</IonTitle>
           <IonButtons slot="start">
-            <IonBackButton defaultHref="/home"></IonBackButton>
+            <IonBackButton></IonBackButton>
           </IonButtons>
         </IonToolbar>
       </IonHeader>
@@ -75,10 +75,10 @@ const Settings: React.FC<SettingsProps> = ({ user }) => {
               </IonItem>
             </IonList>
           </IonCardContent>
-          <IonCardHeader><IonCardSubtitle>Test</IonCardSubtitle></IonCardHeader>
-          <IonCardContent>
-            
-          </IonCardContent>
+          <IonCardHeader>
+            <IonCardSubtitle>Test</IonCardSubtitle>
+          </IonCardHeader>
+          <IonCardContent></IonCardContent>
         </IonCard>
       </IonContent>
     </IonPage>

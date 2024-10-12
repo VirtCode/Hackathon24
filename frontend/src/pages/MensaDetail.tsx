@@ -14,12 +14,12 @@ import {
   IonToolbar,
   useIonViewWillEnter,
 } from "@ionic/react";
-import React, {useEffect, useMemo, useRef, useState} from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { RouteComponentProps } from "react-router";
 import { Mensa } from "../api/group";
-import {getMensaLayout} from "../api/mensas";
+import { getMensaLayout } from "../api/mensas";
 import * as d3 from "d3";
-import {Selection} from "d3";
+import { Selection } from "d3";
 
 interface MensaDetailProps
   extends RouteComponentProps<{
@@ -35,7 +35,7 @@ const MensaDetail: React.FC<MensaDetailProps> = ({ match, mensas }) => {
   const [table, setTable] = useState<string>("");
 
   useEffect(() => {
-    getMensaLayout(id, setLayout)
+    getMensaLayout(id, setLayout);
   }, []);
 
   useEffect(() => {
@@ -51,7 +51,7 @@ const MensaDetail: React.FC<MensaDetailProps> = ({ match, mensas }) => {
   const resetZoomAndPan = () => {
     const selection: Selection<Element, any, any, any> = d3.select("svg");
     zoom.transform(selection, d3.zoomIdentity);
-  }
+  };
 
   const handleSvgClick = (event: React.MouseEvent<SVGElement>) => {
     const target = event.target as HTMLElement;
@@ -68,8 +68,8 @@ const MensaDetail: React.FC<MensaDetailProps> = ({ match, mensas }) => {
   };
 
   const zoom = d3.zoom().on("zoom", (e) => {
-    d3.select("svg g").attr("transform", e.transform)
-  })
+    d3.select("svg g").attr("transform", e.transform);
+  });
 
   let mensa = mensas.find((m) => m.id == id);
 
@@ -83,7 +83,7 @@ const MensaDetail: React.FC<MensaDetailProps> = ({ match, mensas }) => {
         <IonToolbar>
           <IonTitle>{mensa.name}</IonTitle>
           <IonButtons slot="start">
-            <IonBackButton defaultHref="/home" />
+            <IonBackButton />
           </IonButtons>
         </IonToolbar>
       </IonHeader>
@@ -97,9 +97,7 @@ const MensaDetail: React.FC<MensaDetailProps> = ({ match, mensas }) => {
           <IonCardContent>
             <img src={`${mensa.id}.jpg`} alt="Mensa image" draggable={false} />
             <section ref={ref} dangerouslySetInnerHTML={{ __html: layout }} />
-            <IonButton onClick={resetZoomAndPan}>
-              Reset zoom and pan
-            </IonButton>
+            <IonButton onClick={resetZoomAndPan}>Reset zoom and pan</IonButton>
           </IonCardContent>
         </IonCard>
       </IonContent>
