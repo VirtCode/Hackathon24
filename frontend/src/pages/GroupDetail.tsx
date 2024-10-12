@@ -12,11 +12,13 @@ import {
   IonPage,
   IonTitle,
   IonToolbar,
+  useIonRouter,
   useIonViewWillEnter,
 } from "@ionic/react";
-import React from "react";
+import React, { useEffect } from "react";
 import { RouteComponentProps } from "react-router";
 import GroupMemberList from "../components/GroupMemberList";
+import { getGroupById, Group, leaveGroup } from "../api/group";
 
 interface GroupDetailProps
   extends RouteComponentProps<{
@@ -24,7 +26,14 @@ interface GroupDetailProps
   }> {}
 
 const GroupDetail: React.FC<GroupDetailProps> = ({ match }) => {
+  const [group, setGroup] = React.useState<Group | null>(null);
   const id = match.params.id;
+
+  const router = useIonRouter();
+
+  useEffect(() => {
+    getGroupById(id, setGroup);
+  }, [id]);
 
   const getGroupLink = () => {
     return `https://example.com/group/${id}`;
@@ -34,7 +43,7 @@ const GroupDetail: React.FC<GroupDetailProps> = ({ match }) => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Group {id}</IonTitle>
+          <IonTitle>Group {group?.name}</IonTitle>
           <IonButtons slot="start">
             <IonBackButton defaultHref="/groups" />
           </IonButtons>
@@ -73,6 +82,11 @@ const GroupDetail: React.FC<GroupDetailProps> = ({ match }) => {
             </IonButton>
           </IonCardContent>
         </IonCard>
+        <IonButton color='alert' fill="solid" expand="block" onClick={async () => {
+          await leaveGroup(id);
+          // router.push("/groups", "forward");
+          history.go(-1);
+        }}>Leave</IonButton>
       </IonContent>
     </IonPage>
   );

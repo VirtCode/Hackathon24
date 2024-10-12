@@ -41,7 +41,9 @@ export interface Table {
 }
 
 export function createGroup(group: GroupCreate) {
-  axios.post(`${API_DEV}/groups`, group);
+  axios.post(`${API_DEV}/group`, group).then((response) => {
+    return {id: response.data.id, name: response.data.name, members: response.data.members, sessions: response.data.sessions};
+  });
 }
 
 export function getAllGroupsOfUser(
@@ -55,4 +57,19 @@ export function getAllGroupsOfUser(
     .catch((error) => {
       console.error(error);
     });
+}
+
+export function getGroupById(id: string, setGroup: React.Dispatch<React.SetStateAction<Group | null>>) {
+    axios
+        .get(`${API_DEV}/group/${id}`)
+        .then((response) => {
+        setGroup(response.data);
+        })
+        .catch((error) => {
+        console.error(error);
+        });
+}
+
+export function leaveGroup(id: string | undefined) {
+  axios.post(`${API_DEV}/group/${id}/leave`)
 }

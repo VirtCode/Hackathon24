@@ -11,17 +11,19 @@ import {
 } from "@ionic/react";
 import React, { useRef, useState } from "react";
 import "./AddGroup.css";
-import { createGroup } from "../api/group";
+import { createGroup, getAllGroupsOfUser, Group } from "../api/group";
 
 interface AddGroupProps {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  groups: Group[];
+  setGroups: React.Dispatch<React.SetStateAction<Group[]>>;
 }
 
 
 
 
-const AddGroup: React.FC<AddGroupProps> = ({isOpen, setIsOpen}) => {
+const AddGroup: React.FC<AddGroupProps> = ({isOpen, setIsOpen, groups, setGroups}) => {
     const modalRef = useRef<HTMLIonModalElement>(null);
 
     const [name, setName] = useState<string>("");
@@ -33,8 +35,10 @@ const AddGroup: React.FC<AddGroupProps> = ({isOpen, setIsOpen}) => {
           <IonToolbar>
             <IonTitle className="title" >New Group</IonTitle>
             <IonButtons slot="end" >
-               <IonButton color="primary" onClick={() => {
-                  createGroup({name: name});
+               <IonButton color="primary" onClick={async () => {
+                  console.log(name);  
+                  createGroup({name: name})
+                  await getAllGroupsOfUser(setGroups);
                   setIsOpen(false);
                }}>Save</IonButton>
             </IonButtons>
@@ -44,7 +48,7 @@ const AddGroup: React.FC<AddGroupProps> = ({isOpen, setIsOpen}) => {
           </IonToolbar>
         </IonHeader>
         <IonContent className="ion-padding">
-        <IonInput label="Group name" labelPlacement="floating" fill="solid" placeholder="Group Name" className="input" onIonChange={(e: any)=> setName(e)}></IonInput>
+        <IonInput label="Group name" labelPlacement="floating" fill="solid" placeholder="Group Name" className="input" onIonInput={(e: any)=> setName(e.detail.value)}></IonInput>
         </IonContent>
       </IonPage>
     </IonModal>

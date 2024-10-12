@@ -24,7 +24,7 @@ const Groups: React.FC = () => {
   }, []);
 
   useIonViewWillEnter(() => {
-    console.log(groups);
+    getAllGroupsOfUser(setGroups);
   });
 
   return (
@@ -44,6 +44,8 @@ const Groups: React.FC = () => {
         <AddGroup
           isOpen={showAddGroupModal}
           setIsOpen={setShowAddGroupModal}
+          groups={groups}
+          setGroups={setGroups}
         ></AddGroup>
       </IonContent>
     </IonPage>
