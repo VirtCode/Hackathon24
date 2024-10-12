@@ -22,17 +22,8 @@ public class AuthInterceptor implements HandlerInterceptor {
     @Value("${oauth.headers.name:X-authentik-name}")
     String nameHeader;
 
-    @Value("${oauth.params.override.username:username}")
-    String overrideUsername;
-
-    @Value("${oauth.params.override.email:email}")
-    String overrideEmail;
-
-    @Value("${oauth.params.override.name:name}")
-    String overrideName;
-
-    @Value("${oauth.override.enable:false}")
-    boolean enableUserOverride;
+    @Value("${auth.impersonate:false}")
+    boolean enable;
 
     @Autowired
     UserRepository users;
@@ -43,10 +34,11 @@ public class AuthInterceptor implements HandlerInterceptor {
         String email = request.getHeader(emailHeader);
         String name = request.getHeader(nameHeader);
 
-        if (enableUserOverride) {
-            if (username == null) username = request.getParameter(overrideUsername);
-            if (email == null) email = request.getParameter(overrideEmail);
-            if (name == null) name = request.getParameter(overrideName);
+        if (enable && username == null) {
+            log.info("overriding auth user");
+            username = "test";
+            email = "test@student.ethz.ch";
+            name = "Testing User";
         }
 
         if (username == null || email == null || name == null || username.isEmpty() || email.isEmpty() || name.isEmpty()) {
@@ -56,7 +48,8 @@ public class AuthInterceptor implements HandlerInterceptor {
         String finalEmail = email;
         String finalName = name;
         String finalUsername = username;
-        User user = users.findById(username).orElseGet(() -> users.save(new User(finalUsername, finalName, finalEmail)));
+        User user = users.findById(username)
+                .orElseGet(() -> users.save(new User(finalUsername, finalName, finalEmail)));
 
         log.info("Logged in user {}", user.getId());
         request.setAttribute("user", user);
