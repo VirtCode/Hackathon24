@@ -8,6 +8,7 @@ import {
   IonPage,
   IonTitle,
   IonToolbar,
+  useIonViewWillEnter,
 } from "@ionic/react";
 import "./Groups.css";
 import Header from "../components/Header";
@@ -15,6 +16,7 @@ import GroupList, { Group } from "../components/GroupList";
 import { add } from "ionicons/icons";
 import AddGroup from "../components/AddGroup";
 import { useRef, useState } from "react";
+import { getAllGroupsOfUser } from "../api/group";
 
 const groups: Group[] = [
   { id: 1, name: "Group 1" },
@@ -23,6 +25,9 @@ const groups: Group[] = [
 
 
 const Groups: React.FC = () => {
+  useIonViewWillEnter(() => {
+    console.log(getAllGroupsOfUser());
+  });
 
   const [showAddGroupModal, setShowAddGroupModal] = useState(false);
 
