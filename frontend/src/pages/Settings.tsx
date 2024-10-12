@@ -20,15 +20,14 @@ import {
   useIonViewWillEnter,
 } from "@ionic/react";
 import "./Settings.css";
-import { getCurrentUser } from "../api/user";
+import { getCurrentUser, User } from "../api/user";
 
 const Settings: React.FC = () => {
-  
-  useEffect(() => {
-    console.log(getCurrentUser()?.email);
-  }, []);
+  const [user, setUser] = useState<User | null>(null);
 
-  const user = "test"
+  useEffect(() => {
+    getCurrentUser(setUser);
+  }, []);
   
 
   return (
@@ -50,8 +49,8 @@ const Settings: React.FC = () => {
                 src="https://ionicframework.com/docs/img/demos/avatar.svg"
               />
             </IonAvatar>
-            <IonCardTitle>{user || "Username"}</IonCardTitle>
-            <IonCardSubtitle>{user || "E-Mail"}</IonCardSubtitle>
+            <IonCardTitle>{user?.name || "Username"}</IonCardTitle>
+            <IonCardSubtitle>{user?.email || "E-Mail"}</IonCardSubtitle>
           </IonCardHeader>
         </IonCard>
         <IonCard>

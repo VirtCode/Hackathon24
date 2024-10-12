@@ -8,8 +8,7 @@ export interface User {
   email: string;
 }
 
-export function getCurrentUser() {
-  const [user, setUser] = useState<User | null>(null);
+export function getCurrentUser(setUser: React.Dispatch<React.SetStateAction<User | null>>) {
 
   axios
     .get(`${API_DEV}/user/current`)
@@ -19,6 +18,4 @@ export function getCurrentUser() {
     .catch((error) => {
       console.error(error);
     });
-
-  return user;
 }
