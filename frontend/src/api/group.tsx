@@ -1,6 +1,7 @@
 import axios from "axios";
 import { User } from "./user";
 import { useState } from "react";
+import { apiPath } from "./environment";
 
 export interface GroupCreate {
     name: string;
@@ -40,13 +41,13 @@ export interface Table {
 
 
 export function createGroup(group: GroupCreate) {
-    axios.post(`https://12.viscon-hackathon.ch/api/group`, group)
+    axios.post(apiPath+"/group", group)
 }
 
 export function getAllGroupsOfUser() {
     const [groups, setGroups] = useState<any>(null);
 
-    axios.get(`https://12.viscon-hackathon.ch/api/group/all`)
+    axios.get(apiPath+"/group/all")
       .then(response => {
         setGroups(response.data);
       })

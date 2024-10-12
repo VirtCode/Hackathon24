@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   IonPage,
   IonHeader,
@@ -17,12 +17,19 @@ import {
   IonItem,
   IonThumbnail,
   IonLabel,
+  useIonViewWillEnter,
 } from "@ionic/react";
 import "./Settings.css";
 import { getCurrentUser } from "../api/user";
 
 const Settings: React.FC = () => {
-  const user = getCurrentUser();
+  
+  useEffect(() => {
+    console.log(getCurrentUser()?.email);
+  }, []);
+
+  const user = "test"
+  
 
   return (
     <IonPage>
@@ -43,8 +50,8 @@ const Settings: React.FC = () => {
                 src="https://ionicframework.com/docs/img/demos/avatar.svg"
               />
             </IonAvatar>
-            <IonCardTitle>{user?.name || "Username"}</IonCardTitle>
-            <IonCardSubtitle>{user?.email || "E-Mail"}</IonCardSubtitle>
+            <IonCardTitle>{user || "Username"}</IonCardTitle>
+            <IonCardSubtitle>{user || "E-Mail"}</IonCardSubtitle>
           </IonCardHeader>
         </IonCard>
         <IonCard>

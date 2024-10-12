@@ -1,1 +1,1 @@
-export const apiPath = "https://12.viscon-hackathon.ch/api";
+export const apiPath = "http://12-direct.viscon-hackathon.ch:8888";

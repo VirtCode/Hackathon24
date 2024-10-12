@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
+import { apiPath } from "./environment";
 
 export interface User {
   id: number;
@@ -11,7 +12,7 @@ export function getCurrentUser() {
   const [user, setUser] = useState<User | null>(null);
 
   axios
-    .get(`https://12-direct.viscon-hackathon.ch/user/current`)
+    .get(apiPath + "/user/current")
     .then((response) => {
       setUser(response.data);
     })
