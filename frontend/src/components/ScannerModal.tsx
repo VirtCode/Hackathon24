@@ -1,5 +1,6 @@
 import {
   IonButton,
+  IonButtons,
   IonContent,
   IonHeader,
   IonModal,
@@ -7,6 +8,7 @@ import {
   IonToolbar,
 } from "@ionic/react";
 import { Dispatch, SetStateAction } from "react";
+import QrReader from "./QRScanner";
 
 interface ScannerModalProps {
   isScannerOpen: boolean;
@@ -22,12 +24,13 @@ const ScannerModal: React.FC<ScannerModalProps> = ({
       <IonHeader>
         <IonToolbar>
           <IonTitle>Scan QR-Code</IonTitle>
+          <IonButtons slot="end">
+            <IonButton color='primary' onClick={() => setIsScannerOpen(false)}>Close</IonButton>
+          </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        <IonButton onClick={() => setIsScannerOpen(false)} expand="full">
-          Scan
-        </IonButton>
+        <QrReader/>
       </IonContent>
     </IonModal>
   );

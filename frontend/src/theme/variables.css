@@ -59,4 +59,9 @@ http://ionicframework.com/docs/theming/ */
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 100%;
+}
+
+video{
+    width: 100%;
 }

@@ -35,8 +35,8 @@ const QrReader = () => {
     console.log(err);
   };
 
-  async function startScanner() {
-    await setQrOn(true);
+  function startScanner() {
+    setQrOn(true);
     if (videoEl?.current && !scanner.current) {
         // 👉 Instantiate the QR Scanner
         scanner.current = new QrScanner(videoEl?.current, onScanSuccess, {
@@ -109,8 +109,8 @@ const QrReader = () => {
                   Scanned Result: {scannedResult}
               </p>
           )}
-        {(!qrOn && !scannedResult)? <IonButton onClick={() => startScanner()}>Start</IonButton> : null}
-        {qrOn? <IonButton onClick={() => {scanner?.current?.stop(); setQrOn(false)}}>Stop</IonButton> : null}
+        {(!qrOn && !scannedResult)? <IonButton expand='full' onClick={() => startScanner()}>Start</IonButton> : null}
+        {qrOn? <IonButton expand="full" onClick={() => {scanner?.current?.stop(); setQrOn(false)}}>Stop</IonButton> : null}
         </>
 
         
