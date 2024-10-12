@@ -1,0 +1,8 @@
+.input {
+    margin: 10px;
+    width: calc(100% - 20px);
+}
+
+.title {
+    text-align: center;
+}

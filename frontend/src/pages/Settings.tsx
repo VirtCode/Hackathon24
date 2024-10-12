@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   IonPage,
   IonHeader,
@@ -19,8 +19,11 @@ import {
   IonLabel,
 } from "@ionic/react";
 import "./Settings.css";
+import { getCurrentUser } from "../api/user";
 
 const Settings: React.FC = () => {
+  const user = getCurrentUser();
+
   return (
     <IonPage>
       <IonHeader>
@@ -40,14 +43,9 @@ const Settings: React.FC = () => {
                 src="https://ionicframework.com/docs/img/demos/avatar.svg"
               />
             </IonAvatar>
-            <IonCardTitle>User Name</IonCardTitle>
-            <IonCardSubtitle>Card Subtitle</IonCardSubtitle>
+            <IonCardTitle>{user?.name || "Username"}</IonCardTitle>
+            <IonCardSubtitle>{user?.email || "E-Mail"}</IonCardSubtitle>
           </IonCardHeader>
-
-          <IonCardContent className="centred">
-            Here's a small text description for the card content. Nothing more,
-            nothing less.
-          </IonCardContent>
         </IonCard>
         <IonCard>
       <IonCardHeader>

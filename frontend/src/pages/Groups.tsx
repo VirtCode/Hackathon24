@@ -14,14 +14,17 @@ import Header from "../components/Header";
 import GroupList, { Group } from "../components/GroupList";
 import { add } from "ionicons/icons";
 import AddGroup from "../components/AddGroup";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 const groups: Group[] = [
   { id: 1, name: "Group 1" },
   { id: 2, name: "Group 2" },
 ];
 
+
 const Groups: React.FC = () => {
+
+  const [showAddGroupModal, setShowAddGroupModal] = useState(false);
 
   return (
     <IonPage>
@@ -29,10 +32,11 @@ const Groups: React.FC = () => {
       <IonContent fullscreen>
         <GroupList groups={groups}></GroupList>
         <IonFab slot="fixed" vertical="bottom" horizontal="end">
-          <IonFabButton id="fabButton">
+          <IonFabButton id="fabButton" onClick={() => setShowAddGroupModal(true)}>
             <IonIcon icon={add}></IonIcon>
           </IonFabButton>
         </IonFab>
+        <AddGroup isOpen={showAddGroupModal} setIsOpen={setShowAddGroupModal}></AddGroup>
       </IonContent>
     </IonPage>
   );
