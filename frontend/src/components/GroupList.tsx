@@ -1,5 +1,6 @@
 import React from 'react';
-import { IonList, IonItem, IonLabel } from '@ionic/react';
+import { IonList, IonItem, IonLabel, useIonViewWillEnter } from '@ionic/react';
+import { getAllGroupsOfUser } from '../api/group';
 
 export interface Group {
     id: number;
@@ -11,6 +12,8 @@ export interface GroupListProps {
 }
 
 const GroupList: React.FC<GroupListProps> = ({ groups }) => {
+    console.log(getAllGroupsOfUser());
+
     return (
         <IonList lines='full'>
             {groups.map(group => (
