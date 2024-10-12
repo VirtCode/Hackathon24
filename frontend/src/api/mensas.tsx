@@ -11,3 +11,10 @@ export function getAllMensas(setMensas: Dispatch<SetStateAction<Mensa[]>>) {
       console.error(err);
     });
 }
+
+export function getMensaLayout(mensaId: string, setLayout: Dispatch<SetStateAction<string>>) {
+    axios
+        .get(`${API}/mensa/${mensaId}/layout`)
+        .then((res) => setLayout(res.data))
+        .catch(console.error);
+}
