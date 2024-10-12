@@ -94,6 +94,7 @@ public class MensaController {
     @Getter
     public static class MensaSvgPayload {
         int x, y, width, height;
+        UUID id;
         Set<Table> tables;
 
         public MensaSvgPayload(Mensa mensa) {
@@ -101,6 +102,7 @@ public class MensaController {
             this.y = mensa.getY();
             this.width = mensa.getWidth();
             this.height = mensa.getHeight();
+            this.id = mensa.getId();
             this.tables = mensa.getTables();
         }
     }

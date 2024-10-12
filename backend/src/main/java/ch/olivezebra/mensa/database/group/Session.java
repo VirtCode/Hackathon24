@@ -3,11 +3,9 @@ package ch.olivezebra.mensa.database.group;
 import ch.olivezebra.mensa.database.table.Mensa;
 import ch.olivezebra.mensa.database.table.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -17,11 +15,15 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 public class Session {
     @Id
     @GeneratedValue
     @Setter(AccessLevel.PRIVATE)
     private UUID id;
+
+    @Setter(AccessLevel.PRIVATE)
+    private Date created;
 
     private Date start;
     private Date end;
@@ -38,4 +40,19 @@ public class Session {
     @ManyToMany
     @Setter(AccessLevel.PRIVATE)
     private Set<Table> tables = new HashSet<>();
+
+    public Session(Date start, Date end, Mensa mensa, @NonNull Group group) {
+        this.start = start;
+        this.end = end;
+        this.mensa = mensa;
+        this.group = group;
+
+        this.created = new Date();
+    }
+
+    /** is the meetup active */
+    @JsonProperty
+    private boolean isActive() {
+        return start.before(new Date()) && end.after(new Date());
+    }
 }

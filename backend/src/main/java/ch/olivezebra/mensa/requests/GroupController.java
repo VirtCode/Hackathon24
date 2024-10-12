@@ -89,9 +89,9 @@ public class GroupController {
     public Group createGroup(@RequestBody GroupDefinition def, @RequestAttribute User user) {
         FieldHelper.assertPopulated(def.name);
 
-        Group group = new Group();
+        Group group = new Group(def.name);
         group.getMembers().add(user);
-        group.setName(def.getName());
+
         return groups.save(group);
     }
 
