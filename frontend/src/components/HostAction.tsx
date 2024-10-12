@@ -1,16 +1,33 @@
-import { IonFab, IonFabButton, IonIcon } from "@ionic/react";
-import { add } from "ionicons/icons";
+import {
+  IonFab,
+  IonFabButton,
+  IonFabList,
+  IonIcon,
+  IonLabel,
+} from "@ionic/react";
+import { add, radioOutline, qrCodeOutline } from "ionicons/icons";
 
 type HostActionProps = {
-  onClick: () => void;
+  openModal: () => void;
+  openScan: () => void;
 };
 
-function HostAction({ onClick }: HostActionProps) {
+function HostAction({ openModal, openScan }: HostActionProps) {
   return (
-    <IonFab slot="fixed" vertical="bottom" horizontal="end">
-      <IonFabButton id="open-host" onClick={onClick}>
+    <IonFab slot="fixed" vertical="bottom" horizontal="center">
+      <IonFabButton>
         <IonIcon icon={add}></IonIcon>
       </IonFabButton>
+      <IonFabList side="start">
+        <IonFabButton onClick={openModal}>
+          <IonIcon icon={radioOutline}></IonIcon>
+        </IonFabButton>
+      </IonFabList>
+      <IonFabList side="end">
+        <IonFabButton onClick={openScan}>
+          <IonIcon icon={qrCodeOutline}></IonIcon>
+        </IonFabButton>
+      </IonFabList>
     </IonFab>
   );
 }

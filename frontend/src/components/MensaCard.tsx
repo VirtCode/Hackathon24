@@ -20,7 +20,7 @@ function MensaCard({ mensa }: MensaCardProps) {
   return (
     <IonCard>
       <IonCardHeader>
-        <img src={mensa.image} alt="image" className="image" />
+        <img src={`${mensa.id}.jpg`} alt="image" className="image" />
         <IonRouterLink routerLink={`/mensa/${mensa.id}`}>
           <IonCardTitle>{mensa.name}</IonCardTitle>
         </IonRouterLink>

@@ -34,8 +34,8 @@ public class GroupController {
      * @return group object
      */
     @GetMapping("/{id}")
-    public Group getGroupById(@RequestAttribute User user, @PathVariable UUID id) {
-        return groups.requireAccessGroup(id, user);
+    public Group getGroupById(@PathVariable UUID id) {
+        return groups.requireGroup(id);
     }
 
     /**

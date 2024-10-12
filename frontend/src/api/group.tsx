@@ -1,8 +1,7 @@
 import axios from "axios";
-import { getCurrentUser, User } from "./user";
-import { useState } from "react";
+import { User } from "./user";
 
-import { API_DEV } from "./env";
+import { API } from "./env";
 
 export interface GroupCreate {
   name: string;
@@ -50,7 +49,7 @@ export interface Table {
 }
 
 export function createGroup(group: GroupCreate) {
-  axios.post(`${API_DEV}/group`, group).then((response) => {
+  axios.post(`${API}/group`, group).then((response) => {
     return {
       id: response.data.id,
       name: response.data.name,
@@ -64,7 +63,7 @@ export function getAllGroupsOfUser(
   setGroups: React.Dispatch<React.SetStateAction<Group[]>>
 ) {
   axios
-    .get(`${API_DEV}/group/all`)
+    .get(`${API}/group/all`)
     .then((response) => {
       setGroups(response.data);
     })
@@ -78,7 +77,7 @@ export function getGroupById(
   setGroup: React.Dispatch<React.SetStateAction<Group>>
 ) {
   axios
-    .get(`${API_DEV}/group/${id}`)
+    .get(`${API}/group/${id}`)
     .then((response) => {
       setGroup(response.data);
     })

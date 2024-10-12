@@ -50,7 +50,7 @@ const MensaDetail: React.FC<MensaDetailProps> = ({ match, mensas }) => {
             </IonCardSubtitle>
           </IonCardHeader>
           <IonCardContent>
-            <img src={mensa.image} alt="Mensa image" draggable={false} />
+            <img src={`${mensa.id}.jpg`} alt="Mensa image" draggable={false} />
           </IonCardContent>
         </IonCard>
       </IonContent>
