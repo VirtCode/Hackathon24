@@ -18,6 +18,7 @@ import {
   IonThumbnail,
   IonLabel,
   useIonViewWillEnter,
+  IonToggle,
 } from "@ionic/react";
 import "./Settings.css";
 import { getCurrentUser, User } from "../api/user";
@@ -58,51 +59,25 @@ const Settings: React.FC<SettingsProps> = ({ user }) => {
         </IonCard>
         <IonCard>
           <IonCardHeader>
-            <IonCardTitle>Card Title</IonCardTitle>
-            <IonCardSubtitle>Card Subtitle</IonCardSubtitle>
+            <IonCardTitle>Settings</IonCardTitle>
+            <IonCardSubtitle>Notification Settings</IonCardSubtitle>
           </IonCardHeader>
           <IonCardContent>
             <IonList>
               <IonItem>
-                <IonThumbnail slot="start">
-                  <img
-                    alt="Silhouette of mountains"
-                    src="https://ionicframework.com/docs/img/demos/thumbnail.svg"
-                  />
-                </IonThumbnail>
-                <IonLabel>Item</IonLabel>
+                <IonToggle>Receive Push Notifications</IonToggle>
               </IonItem>
-
               <IonItem>
-                <IonThumbnail slot="start">
-                  <img
-                    alt="Silhouette of mountains"
-                    src="https://ionicframework.com/docs/img/demos/thumbnail.svg"
-                  />
-                </IonThumbnail>
-                <IonLabel>Item</IonLabel>
+                <IonToggle>Receive Emails</IonToggle>
               </IonItem>
-
               <IonItem>
-                <IonThumbnail slot="start">
-                  <img
-                    alt="Silhouette of mountains"
-                    src="https://ionicframework.com/docs/img/demos/thumbnail.svg"
-                  />
-                </IonThumbnail>
-                <IonLabel>Item</IonLabel>
-              </IonItem>
-
-              <IonItem lines="none">
-                <IonThumbnail slot="start">
-                  <img
-                    alt="Silhouette of mountains"
-                    src="https://ionicframework.com/docs/img/demos/thumbnail.svg"
-                  />
-                </IonThumbnail>
-                <IonLabel>Item</IonLabel>
+                <IonToggle>Receive Text Messages</IonToggle>
               </IonItem>
             </IonList>
+          </IonCardContent>
+          <IonCardHeader><IonCardSubtitle>Test</IonCardSubtitle></IonCardHeader>
+          <IonCardContent>
+            
           </IonCardContent>
         </IonCard>
       </IonContent>

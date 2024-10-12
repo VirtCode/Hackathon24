@@ -17,6 +17,7 @@ import {
   IonToast,
   IonToolbar,
   useIonRouter,
+  useIonToast,
   useIonViewWillEnter,
 } from "@ionic/react";
 import React, { useEffect } from "react";
@@ -60,6 +61,19 @@ const GroupDetail: React.FC<GroupDetailProps> = ({ match, user }) => {
     return `https://12.viscon-hackathon.ch/group/${id}`;
   };
 
+  const [present] = useIonToast();
+
+                  const presentToast = (
+                    position: "top" | "middle" | "bottom"
+                  ) => {
+                    present({
+                      message: "Not changed -> Name is empty",
+                      duration: 1500,
+                      position: position,
+                      positionAnchor: "tabs",
+                    });
+                  };
+
   return (
     <IonPage>
       <IonHeader>
@@ -69,16 +83,16 @@ const GroupDetail: React.FC<GroupDetailProps> = ({ match, user }) => {
             <IonBackButton defaultHref="/groups" />
           </IonButtons>
           <IonButtons slot="end">
-              <IonButton
-                disabled={!userInGroup(group, user)}
-                onClick={() => {
-                  console.log("edit");
-                }}
-                id="openAlert"
-              >
-                <IonIcon icon={createOutline} slot="icon-only"></IonIcon>
-              </IonButton>
-            </IonButtons>
+            <IonButton
+              disabled={!userInGroup(group, user)}
+              onClick={() => {
+                console.log("edit");
+              }}
+              id="openAlert"
+            >
+              <IonIcon icon={createOutline} slot="icon-only"></IonIcon>
+            </IonButton>
+          </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
@@ -156,13 +170,18 @@ const GroupDetail: React.FC<GroupDetailProps> = ({ match, user }) => {
               text: "Save",
               cssClass: "alert-button-confirm",
               handler: async (alertData) => {
-                console.log(alertData.name);
-                await updateGroup(group.id, alertData.name);
-                getGroupById(id, setGroup);
-                let nameInput = document.getElementById(
-                  "name"
-                ) as HTMLInputElement;
-                nameInput.value = "";
+                if (alertData.name !== "") {
+                  console.log(alertData.name);
+                  await updateGroup(group.id, alertData.name);
+                  getGroupById(id, setGroup);
+                  let nameInput = document.getElementById(
+                    "name"
+                  ) as HTMLInputElement;
+                  nameInput.value = "";
+                } else {
+                  
+                  presentToast("bottom");
+                }
               },
             },
             { text: "Dismiss", cssClass: "alert-button-cancel" },
