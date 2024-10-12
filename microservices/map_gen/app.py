@@ -18,10 +18,17 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 @app.route('/render', methods=['POST'])
 def getRender():
     data = request.get_json()
-    #file_path = f'resources/{data["id"]}.json'
-    file_path = f'resources/polaymensa.json'
+    file_path = f'resources/{data["id"]}.json'
     mensaMap = maps.Map(file_path)
     return maps.addTables(mensaMap, data).svgMap.as_str()
+
+@app.route('/preview', methods=['POST'])
+def getPreview():
+    data = request.get_json()
+    id = request.args.get('highlight')
+    file_path = f'resources/{data["id"]}.json'
+    mensaMap = maps.Map(file_path)
+    return maps.addTables(mensaMap, data, id).svgMap.as_str()
 
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 4444)))

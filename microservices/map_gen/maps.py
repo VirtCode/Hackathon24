@@ -73,7 +73,7 @@ def calcTableWidth(relTableWidth, tableAreaWidth, innerWidth):
 def calcTableHeight(relTableHeight, tableAreaHeight, innerHeight):
     return calcTableWidth(relTableHeight, tableAreaHeight, innerHeight)
 
-def addTables(myMap, jsonData):
+def addTables(myMap, jsonData, highlight = None):
 
     table_start_x = jsonData['x']
     table_start_y = jsonData['y']
@@ -81,9 +81,25 @@ def addTables(myMap, jsonData):
     table_area_height = jsonData['height']
     tables_data = jsonData['tables']
 
+    center_x = 0
+    center_y = 0
+    center_magnitude = 0
+
     for entry in tables_data:
 
-        current = myMap.style['table']
+        if highlight and entry['id'] == highlight:
+            current = myMap.style['highlight']
+            center_x = calcTableX(entry['x'] + (entry['width'] / 2), table_area_width, myMap.inner_x, myMap.inner_width)
+            center_y = calcTableY(entry['y'] + (entry['height'] / 2), table_area_height, myMap.inner_y, myMap.inner_height)
+
+            mag_test = calcTableWidth(entry['width'], table_area_width, myMap.inner_width)
+            if center_magnitude < mag_test:
+                center_magnitude = mag_test
+            mag_test = calcTableHeight(entry['height'], table_area_height, myMap.inner_height)
+            if center_magnitude < mag_test:
+                center_magnitude = mag_test
+        else:
+            current = myMap.style['table']
 
         table = svg.Rect(
             id = entry['id'],
@@ -102,5 +118,15 @@ def addTables(myMap, jsonData):
        )
 
         myMap.container.elements.append(table)
+
+    # doesn't work for some fucking reason, viewbox seems to be broken
+    if highlight and False:
+        print(center_x)
+        print(center_y)
+
+        myMap.container.elements.append(svg.Rect(x = center_x, y = center_y, width = 10, height = 10, fill = "RED"))
+
+        center_magnitude = 100
+        myMap.svgMap.viewBox = f'{center_x - center_magnitude} {center_y - center_magnitude} {center_x + center_magnitude} {center_y + center_magnitude}'
 
     return myMap

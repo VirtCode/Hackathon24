@@ -4,6 +4,7 @@ import ch.olivezebra.mensa.auth.NoAuth;
 import ch.olivezebra.mensa.database.table.Mensa;
 import ch.olivezebra.mensa.database.table.MensaRepository;
 import ch.olivezebra.mensa.database.table.Table;
+import ch.olivezebra.mensa.microservices.MapGen;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,10 +31,8 @@ import java.util.UUID;
 @RequestMapping("/mensa")
 public class MensaController {
 
-    @Value("${microservices.layout.host}")
-    public String layoutHost;
-
     private final MensaRepository mensas;
+    private final MapGen mapGen;
 
     /**
      * Returns all mensas in the app
@@ -77,23 +76,9 @@ public class MensaController {
     public ResponseEntity<String> getLayout(@PathVariable UUID id) {
         Mensa mensa = mensas.requireById(id);
 
-        var request = WebClient.create(layoutHost + "/render").post()
-                .bodyValue(new MensaSvgPayload(mensa))
-                .accept(MediaType.TEXT_XML)
-                .retrieve()
-                .toEntity(String.class);
-
-        try {
-            var response = request.block(Duration.of(10, ChronoUnit.SECONDS));
-            if (response == null) {
-                throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, "Microservice response is null");
-            }
-
-            return ResponseEntity.ok().contentType(MediaType.parseMediaType("image/svg+xml")).body(response.getBody());
-        } catch (Exception e) {
-            log.error("microservices call to render layout svg failed", e);
-            throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, "Failed to render layout svg");
-        }
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType("image/svg+xml"))
+                .body(mapGen.getMapPreview(mensa, mensa.getTables().stream().findFirst().get()));
     }
 
     @Getter

@@ -1,15 +1,15 @@
 {
   "border": {
-    "fill_color": "#ACADA8",
+    "fill_color": "#d2d6c2",
     "fill_opacity": 0,
-    "stroke_color": "#ACADA8",
+    "stroke_color": "#d2d6c2",
     "stroke_width": 4,
     "border_radius": 12
   },
   "view": {
-    "fill_color": "#ACADA8",
+    "fill_color": "#d2d6c2",
     "fill_opacity": 1,
-    "stroke_color": "BLACK",
+    "stroke_color": "#00000000",
     "stroke_width": 0,
     "border_radius": 12
   },
@@ -21,9 +21,9 @@
     "border_radius": 0
   },
   "stairs": {
-    "fill_color": "#746D69",
+    "fill_color": "#d2d6c2",
     "fill_opacity": 1,
-    "stroke_color": "BLACK",
+    "stroke_color": "#00000000",
     "stroke_width": 0,
     "border_radius": 12
   },
@@ -63,10 +63,17 @@
     "border_radius": 0
   },
   "table": {
-      "fill_color": "RED",
-      "fill_opacity": 1,
-      "stroke_color": "BLACK",
-      "stroke_width": 0,
-      "border_radius": 12
-    }
+    "fill_color": "#DBE3B5",
+    "fill_opacity": 1,
+    "stroke_color": "#00000000",
+    "stroke_width": 0,
+    "border_radius": 12
+  },
+  "highlight": {
+    "fill_color": "#C1CE7E",
+    "fill_opacity": 1,
+    "stroke_color": "#00000000",
+    "stroke_width": 0,
+    "border_radius": 12
+  }
 }
