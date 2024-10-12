@@ -6,6 +6,7 @@ import ch.olivezebra.mensa.database.group.Session;
 import ch.olivezebra.mensa.database.group.SessionRepository;
 import ch.olivezebra.mensa.database.table.Mensa;
 import ch.olivezebra.mensa.database.table.MensaRepository;
+import ch.olivezebra.mensa.database.table.Table;
 import ch.olivezebra.mensa.database.user.User;
 import ch.olivezebra.mensa.helpers.FieldHelper;
 import lombok.Getter;
@@ -62,8 +63,7 @@ public class SessionController {
 
         FieldHelper.assertPopulated(def.duration, def.start, def.mensa);
 
-        Mensa m = mensas.findById(def.mensa)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No such mensa found"));
+        Mensa m = mensas.requireById(def.mensa);
 
         // yes, this still opens an edge case of overlapping sessions, but we don't care
         if (sessions.getActiveSession(g, def.start).isPresent())
@@ -92,20 +92,76 @@ public class SessionController {
         private UUID mensa;
     }
 
-    /*
-    @PostMapping("/session/{id}")
+    /**
+     * Edits the metadata of a session. WARNING, when the mensa is not null, it will be changed, but all tables WILL BE REMOVED!!!
+     * @param id id of the session
+     * @param def new data (leave fields null to not change them)
+     * @return edited session
+     */
+    @PutMapping("/session/{id}")
+    public Session editSession(@RequestAttribute User user, @PathVariable UUID id, @RequestBody SessionDefinition def) {
+        Session session = sessions.requireSessionAccess(id, user);
+
+        if (def.start != null) session.setStart(def.start);
+        if (def.duration != null) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(def.start);
+            calendar.add(Calendar.MINUTE, def.duration);
+            session.setEnd(calendar.getTime());
+        }
+        if (def.mensa != null) {
+            Mensa m = mensas.requireById(def.mensa);
+            session.setMensa(m);
+
+            // clear tables, as they might not belong to the mensa
+            session.getTables().clear();
+        }
+
+        return sessions.save(session);
+    }
+
+    /**
+     * Adds tables to a session
+     * @param id session to add to
+     * @param tables tables to add
+     * @return edited session
+     */
+    @PutMapping("/session/{id}/tables")
     public Session addTables(@RequestAttribute User user, @PathVariable UUID id, @RequestBody List<UUID> tables) {
         Session session = sessions.requireSessionAccess(id, user);
 
-        tables.stream().map((table) ->
-            session.getTables().stream()
+        List<Table> instances = tables.stream().map((table) ->
+            session.getMensa().getTables().stream()
                     .filter(t -> t.getId().equals(table))
                     .findFirst()
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Table " + table + " is not in mensa"))
-        )
+        ).toList();
 
+        session.getTables().addAll(instances);
+
+        return sessions.save(session);
     }
 
+    /**
+     * Removes tables from a session
+     * @param id session to remove from
+     * @param tables tables to remove
+     * @return edited session
      */
+    @DeleteMapping("/session/{id}/tables")
+    public Session deleteTables(@RequestAttribute User user, @PathVariable UUID id, @RequestBody List<UUID> tables) {
+        Session session = sessions.requireSessionAccess(id, user);
 
+        List<Table> instances = tables.stream().map((table) ->
+                session.getTables().stream()
+                        .filter(t -> t.getId().equals(table))
+                        .findFirst()
+                        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Table " + table + " is not in session"))
+        ).toList();
+
+        // intellij says we shouldn't use remove all
+        instances.forEach(session.getTables()::remove);
+
+        return sessions.save(session);
+    }
 }

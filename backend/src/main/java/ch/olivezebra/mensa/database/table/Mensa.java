@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import net.minidev.json.annotate.JsonIgnore;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -23,6 +24,7 @@ public class Mensa {
 
     private String name;
 
+    @JsonIgnore
     @OneToMany
     @Setter(AccessLevel.PRIVATE)
     private Set<Table> tables = new HashSet<>();
