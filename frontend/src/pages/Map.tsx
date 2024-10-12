@@ -14,6 +14,7 @@ import {
   Pin,
 } from "@vis.gl/react-google-maps";
 import "./Map.css";
+import { Mensa } from "../api/group";
 
 const API_KEY = "AIzaSyBKebKvbRFYo64Ernvats-FX4v445xlW7Y";
 const DEFAULT_LAT = 47.37643604499102;
@@ -28,7 +29,7 @@ const Map: React.FC<MapProps> = ({ mensas }) => {
     return (
       <IonItem routerLink={`/mensa/${mensa.id}`} key={idx}>
         <AdvancedMarker
-          position={mensa.position}
+          position={{ lat: mensa.lat, lng: mensa.lng }}
           title={mensa.name}
           onClick={() => console.log(mensa.name)}
         >

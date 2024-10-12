@@ -8,25 +8,24 @@ import {
   IonRouterLink,
 } from "@ionic/react";
 
+import { Mensa } from "../api/group";
+
 import "./MensaCard.css";
 
 type MensaCardProps = {
-  id: number;
-  name: string;
-  open: boolean;
-  image: string;
+  mensa: Mensa;
 };
 
-function MensaCard({ name, open, image, id }: MensaCardProps) {
+function MensaCard({ mensa }: MensaCardProps) {
   return (
     <IonCard>
       <IonCardHeader>
-        <img src={image} alt="image" className="image" />
-        <IonRouterLink routerLink={`/mensa/${id}`}>
-          <IonCardTitle>{name}</IonCardTitle>
+        <img src={mensa.image} alt="image" className="image" />
+        <IonRouterLink routerLink={`/mensa/${mensa.id}`}>
+          <IonCardTitle>{mensa.name}</IonCardTitle>
         </IonRouterLink>
-        <IonCardSubtitle color={open ? "success" : "warning"}>
-          {open ? "Open" : "Closed"}
+        <IonCardSubtitle color={mensa.open ? "success" : "warning"}>
+          {mensa.open ? "Open" : "Closed"}
         </IonCardSubtitle>
       </IonCardHeader>
     </IonCard>

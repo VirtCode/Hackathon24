@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { Redirect, Route } from "react-router-dom";
 import {
   IonApp,
@@ -17,6 +18,7 @@ import Groups from "./pages/Groups";
 import Settings from "./pages/Settings";
 import GroupDetail from "./pages/GroupDetail";
 import MensaDetail from "./pages/MensaDetail";
+import { getAllGroupsOfUser, Group, Mensa } from "./api/group";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -52,77 +54,93 @@ setupIonicReact();
 
 const mensas: Mensa[] = [
   {
-    id: 1,
+    id: "1",
     name: "Polymensa",
-    position: { lat: 47.376661270004625, lng: 8.546335386948527 },
+    lat: 47.376661270004625,
+    lng: 8.546335386948527,
     image: "polymensa.jpg",
+    tables: [],
     open: true,
   },
   {
-    id: 2,
+    id: "2",
     name: "Archimedes",
-    position: { lat: 47.377333693765095, lng: 8.55339563884709 },
+    lat: 47.377333693765095,
+    lng: 8.55339563884709,
     image: "archimedes.jpg",
+    tables: [],
     open: false,
   },
   {
-    id: 3,
+    id: "3",
     name: "UZH Zentrum",
-    position: { lat: 47.373986372527774, lng: 8.548303462614687 },
+    lat: 47.373986372527774,
+    lng: 8.548303462614687,
     image: "uzh-zentrum.jpeg",
+    tables: [],
     open: true,
   },
   {
-    id: 4,
+    id: "4",
     name: "Clausiusbar",
-    position: { lat: 47.37720447727566, lng: 8.5470529791761 },
+    lat: 47.37720447727566,
+    lng: 8.5470529791761,
     image: "clausiusbar.jpg",
+    tables: [],
     open: false,
   },
 ];
 
-const App: React.FC = () => (
-  <IonApp>
-    <IonReactRouter>
-      <IonTabs>
-        <IonRouterOutlet>
-          <Route exact path="/home">
-            <Home mensas={mensas} />
-          </Route>
-          <Route exact path="/map">
-            <Map mensas={mensas} />
-          </Route>
-          <Route path="/groups">
-            <Groups />
-          </Route>
-          <Route path="/settings" component={Settings} exact />
-          <Route path="/group/:id" component={GroupDetail} exact />
-          <Route
-            exact
-            path="/mensa/:id"
-            render={(props) => <MensaDetail mensas={mensas} {...props} />}
-          />
-          <Route exact path="/">
-            <Redirect to="/home" />
-          </Route>
-        </IonRouterOutlet>
-        <IonTabBar slot="bottom">
-          <IonTabButton tab="tab1" href="/home">
-            <IonIcon aria-hidden="true" icon={home} />
-            <IonLabel>Home</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="tab2" href="/map">
-            <IonIcon aria-hidden="true" icon={map} />
-            <IonLabel>Map</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="tab3" href="/groups">
-            <IonIcon aria-hidden="true" icon={people} />
-            <IonLabel>Groups</IonLabel>
-          </IonTabButton>
-        </IonTabBar>
-      </IonTabs>
-    </IonReactRouter>
-  </IonApp>
-);
+const App: React.FC = () => {
+  const [mensas, setMensas] = useState<Mensa[]>([]);
+  const [groups, setGroups] = useState<Group[]>([]);
 
+  useEffect(() => {
+    getAllGroupsOfUser(setGroups);
+  }, []);
+
+  return (
+    <IonApp>
+      <IonReactRouter>
+        <IonTabs>
+          <IonRouterOutlet>
+            <Route exact path="/home">
+              <Home mensas={mensas} groups={groups} />
+            </Route>
+            <Route exact path="/map">
+              <Map mensas={mensas} />
+            </Route>
+            <Route path="/groups">
+              <Groups groups={groups} />
+            </Route>
+            <Route path="/settings" component={Settings} exact />
+            <Route path="/group/:id" component={GroupDetail} exact />
+            <Route
+              exact
+              path="/mensa/:id"
+              render={(props) => <MensaDetail mensas={mensas} {...props} />}
+            />
+            <Route exact path="/">
+              <Redirect to="/home" />
+            </Route>
+          </IonRouterOutlet>
+          <IonTabBar slot="bottom">
+            <IonTabButton tab="tab1" href="/home">
+              <IonIcon aria-hidden="true" icon={home} />
+              <IonLabel>Home</IonLabel>
+            </IonTabButton>
+            <IonTabButton tab="tab2" href="/map">
+              <IonIcon aria-hidden="true" icon={map} />
+              <IonLabel>Map</IonLabel>
+            </IonTabButton>
+            <IonTabButton tab="tab3" href="/groups">
+              <IonIcon aria-hidden="true" icon={people} />
+              <IonLabel>Groups</IonLabel>
+            </IonTabButton>
+          </IonTabBar>
+        </IonTabs>
+      </IonReactRouter>
+    </IonApp>
+  );
+};
 export default App;

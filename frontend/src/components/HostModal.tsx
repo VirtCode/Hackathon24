@@ -11,15 +11,24 @@ import {
   IonButtons,
   IonToolbar,
   IonTitle,
+  IonSegment,
+  IonSegmentButton,
+  IonLabel,
 } from "@ionic/react";
-import { OverlayEventDetail } from "@ionic/core/components";
+import {
+  DatetimeChangeEventDetail,
+  OverlayEventDetail,
+  IonDatetimeCustomEvent,
+} from "@ionic/core/components";
 import React, { useRef, useState } from "react";
+import { Group, Mensa } from "../api/group";
 
 type HostModalProps = {
   setData: React.Dispatch<React.SetStateAction<{}>>;
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   mensas: Mensa[];
+  groups: Group[];
 };
 
 function HostModal({
@@ -27,16 +36,18 @@ function HostModal({
   isModalOpen,
   setIsModalOpen,
   mensas,
+  groups,
 }: HostModalProps) {
-  const [time, setTime] = useState<string>("");
-  const selectRef = useRef<HTMLIonSelectElement>(null);
-  const timeRef = useRef<HTMLIonDatetimeElement>(null);
+  const [time, setTime] = useState<string>();
+  const selectMensaRef = useRef<HTMLIonSelectElement>(null);
+  const selectGroupRef = useRef<HTMLIonSelectElement>(null);
   const modalRef = useRef<HTMLIonModalElement>(null);
 
   const confirm = () => {
     let data = {
       time: time,
-      mensa: selectRef.current?.value,
+      mensa: selectMensaRef.current?.value,
+      group: selectGroupRef.current?.value,
     };
     console.log(data);
     setData(data);
@@ -50,7 +61,7 @@ function HostModal({
     <IonModal ref={modalRef} isOpen={isModalOpen} onWillDismiss={onWillDismiss}>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Host</IonTitle>
+          <IonTitle>Host Session</IonTitle>
           <IonButtons slot="end">
             <IonButton onClick={() => setIsModalOpen(false)} color="primary">
               Close
@@ -62,8 +73,11 @@ function HostModal({
         <IonDatetime
           presentation="time"
           preferWheel={true}
-          ref={timeRef}
-          value={time}
+          onIonChange={(
+            ev: IonDatetimeCustomEvent<DatetimeChangeEventDetail>
+          ) => {
+            setTime(ev.target.value as string);
+          }}
         ></IonDatetime>
         <IonList>
           <IonItem>
@@ -71,11 +85,24 @@ function HostModal({
               aria-label="Mensa"
               interface="popover"
               placeholder="Select Mensa"
-              ref={selectRef}
+              ref={selectMensaRef}
             >
               {mensas.map((mensa, idx) => (
                 <IonSelectOption value={mensa.name.toLowerCase()} key={idx}>
                   {mensa.name}
+                </IonSelectOption>
+              ))}
+            </IonSelect>
+          </IonItem>
+          <IonItem>
+            <IonSelect
+              aria-label="Group"
+              interface="action-sheet"
+              placeholder="Select Group"
+            >
+              {groups.map((group, idx) => (
+                <IonSelectOption value={group.name} key={idx}>
+                  {group.name}
                 </IonSelectOption>
               ))}
             </IonSelect>

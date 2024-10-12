@@ -15,6 +15,11 @@ export interface Group {
   sessions: Session[];
 }
 
+export interface SessionCreate {
+  start: string;
+  mensa: Mensa;
+}
+
 export interface Session {
   id: string;
   start: string;
@@ -27,7 +32,11 @@ export interface Session {
 export interface Mensa {
   id: string;
   name: string;
+  lat: number;
+  lng: number;
+  image: string;
   tables: Table[];
+  open: boolean;
 }
 
 export interface Table {

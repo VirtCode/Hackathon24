@@ -8,6 +8,7 @@ import {
   IonToolbar,
   IonRow,
   IonLabel,
+  IonText,
 } from "@ionic/react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -16,6 +17,7 @@ import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import { Scrollbar, Navigation, Pagination, A11y } from "swiper/modules";
 import "./Home.css";
+import { Group, Mensa } from "../api/group";
 import Header from "../components/Header";
 import MensaCard from "../components/MensaCard";
 import HostAction from "../components/HostAction";
@@ -23,21 +25,17 @@ import HostModal from "../components/HostModal";
 
 interface HomeProps {
   mensas: Mensa[];
+  groups: Group[];
 }
 
-const Home: React.FC<HomeProps> = ({ mensas }) => {
+const Home: React.FC<HomeProps> = ({ mensas, groups }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [data, setData] = useState<{}>({});
 
   const renderMensaCard = (mensa: Mensa, idx: React.Key) => {
     return (
       <SwiperSlide key={idx}>
-        <MensaCard
-          name={mensa.name}
-          open={mensa.open}
-          image={mensa.image}
-          id={mensa.id}
-        />
+        <MensaCard mensa={mensa} />
       </SwiperSlide>
     );
   };
@@ -53,7 +51,9 @@ const Home: React.FC<HomeProps> = ({ mensas }) => {
         </IonHeader>
         <IonGrid className="home-grid">
           <IonRow>
-            <IonLabel>Wanna meet up?</IonLabel>
+            <IonText>
+              <h2>Wanna meet up?</h2>
+            </IonText>
           </IonRow>
           <IonRow class="ion-align-items-start">
             <Swiper
@@ -77,6 +77,7 @@ const Home: React.FC<HomeProps> = ({ mensas }) => {
           isModalOpen={isModalOpen}
           setIsModalOpen={setIsModalOpen}
           mensas={mensas}
+          groups={groups}
         />
       </IonContent>
     </IonPage>
