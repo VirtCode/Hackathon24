@@ -10,7 +10,9 @@ import {
   IonContent,
   IonHeader,
   IonPage,
+  IonTabs,
   IonTitle,
+  IonToast,
   IonToolbar,
   useIonRouter,
   useIonViewWillEnter,
@@ -18,21 +20,26 @@ import {
 import React, { useEffect } from "react";
 import { RouteComponentProps } from "react-router";
 import GroupMemberList from "../components/GroupMemberList";
-import { getGroupById, Group, leaveGroup } from "../api/group";
+import { getGroupById, Group, leaveGroup, userInGroup } from "../api/group";
+import { clipboard } from "ionicons/icons";
+import { User } from "../api/user";
 
 interface GroupDetailProps
   extends RouteComponentProps<{
     id: string;
-  }> {}
+  }> {
+    user: User;
+  }
 
-const GroupDetail: React.FC<GroupDetailProps> = ({ match }) => {
-  const [group, setGroup] = React.useState<Group | null>(null);
+const GroupDetail: React.FC<GroupDetailProps> = ({ match, user }) => {
+  const [group, setGroup] = React.useState<Group>({ id: "", name: "", members: [], sessions: [] });
   const id = match.params.id;
 
   const router = useIonRouter();
 
   useEffect(() => {
     getGroupById(id, setGroup);
+    // console.log(group, user);
   }, [id]);
 
   const getGroupLink = () => {
@@ -70,17 +77,19 @@ const GroupDetail: React.FC<GroupDetailProps> = ({ match }) => {
           </IonCardHeader>
           <IonCardContent>
             <p>{getGroupLink()}</p>
-            <IonButton
+            <IonButton id="open-toast"
               onClick={() => {
                 navigator.clipboard.writeText(getGroupLink());
               }}
             >
               Copy
             </IonButton>
+            <IonToast trigger="open-toast" message="Copied to Clipboard" duration={2000} position="bottom" positionAnchor="tabs" icon={clipboard}></IonToast>
           </IonCardContent>
         </IonCard>
-        <IonButton
+        {userInGroup(group, user) ? <IonButton
           color="danger"
+          disabled={!userInGroup(group, user)}
           fill="solid"
           expand="block"
           onClick={async () => {
@@ -90,7 +99,21 @@ const GroupDetail: React.FC<GroupDetailProps> = ({ match }) => {
           }}
         >
           Leave
-        </IonButton>
+        </IonButton>: null}
+        {!userInGroup(group, user) ? <IonButton
+          color="primary"
+          disabled={!userInGroup(group, user)}
+          fill="solid"
+          expand="block"
+          onClick={async () => {
+            console.log("Joined");
+          }}
+        >
+          Join
+        </IonButton>: null}
+
+        
+        {/* <IonButton onClick={() => console.log(userInGroup(group, user), user, group)}>Default</IonButton> */}
       </IonContent>
     </IonPage>
   );

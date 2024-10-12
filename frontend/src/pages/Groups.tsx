@@ -4,6 +4,7 @@ import {
   IonFabButton,
   IonIcon,
   IonPage,
+  useIonViewWillEnter,
 } from "@ionic/react";
 import "./Groups.css";
 import Header from "../components/Header";
@@ -33,6 +34,9 @@ const Groups: React.FC<GroupsProps> = ({ groups, setGroups }) => {
     getAllGroupsOfUser(setGroups);
   }, [showAddGroupModal]);
 
+  useIonViewWillEnter(() => {
+    getAllGroupsOfUser(setGroups);
+  });
 
   return (
     <IonPage>

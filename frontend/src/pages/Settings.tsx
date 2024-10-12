@@ -22,12 +22,16 @@ import {
 import "./Settings.css";
 import { getCurrentUser, User } from "../api/user";
 
-const Settings: React.FC = () => {
-  const [user, setUser] = useState<User | null>(null);
+interface SettingsProps {
+  user: User;
+}
 
-  useEffect(() => {
-    getCurrentUser(setUser);
-  }, []);
+const Settings: React.FC<SettingsProps> = ({user}) => {
+  // const [user, setUser] = useState<User>({ id: "", name: "", email: "" });
+
+  // useEffect(() => {
+  //   getCurrentUser(setUser);
+  // }, []);
   
 
   return (

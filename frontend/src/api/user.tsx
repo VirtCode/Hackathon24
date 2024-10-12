@@ -3,12 +3,12 @@ import { useState } from "react";
 import { API_DEV } from "./env";
 
 export interface User {
-  id: number;
+  id: string;
   name: string;
   email: string;
 }
 
-export function getCurrentUser(setUser: React.Dispatch<React.SetStateAction<User | null>>) {
+export function getCurrentUser(setUser: React.Dispatch<React.SetStateAction<User>>) {
 
   axios
     .get(`${API_DEV}/user/current`)

@@ -51,6 +51,7 @@ import "@ionic/react/css/palettes/dark.system.css";
 
 /* Theme variables */
 import "./theme/variables.css";
+import { getCurrentUser, User } from "./api/user";
 
 setupIonicReact();
 
@@ -97,10 +98,13 @@ const App: React.FC = () => {
   const [mensas, setMensas] = useState<Mensa[]>([]);
   const [groups, setGroups] = useState<Group[]>([]);
   const [activeSessions, setActiveSessions] = useState<Session[]>([]);
+  const [user, setUser] = useState<User>({id: "", name: "", email: ""});
 
   useEffect(() => {
     getAllGroupsOfUser(setGroups);
     getAllMensas(setMensas);
+    getCurrentUser(setUser);
+
 
     groups.forEach(async (group) => {
       const session = await getActiveSession(group.id);
@@ -127,8 +131,8 @@ const App: React.FC = () => {
             <Route path="/groups">
               <Groups groups={groups} setGroups={setGroups} />
             </Route>
-            <Route path="/settings" component={Settings} exact />
-            <Route path="/group/:id" component={GroupDetail} exact />
+            <Route path="/settings" render={(props) => <Settings user={user} {...props}/>} exact />
+            <Route path="/group/:id" render={(props) => <GroupDetail user={user} {...props}/>} exact />
             <Route
               exact
               path="/mensa/:id"
@@ -138,7 +142,7 @@ const App: React.FC = () => {
               <Redirect to="/home" />
             </Route>
           </IonRouterOutlet>
-          <IonTabBar slot="bottom">
+          <IonTabBar slot="bottom" id="tabs">
             <IonTabButton tab="tab1" href="/home">
               <IonIcon aria-hidden="true" icon={home} />
               <IonLabel>Home</IonLabel>

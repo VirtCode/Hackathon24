@@ -1,5 +1,5 @@
 import axios from "axios";
-import { User } from "./user";
+import { getCurrentUser, User } from "./user";
 import { useState } from "react";
 
 import { API_DEV } from "./env";
@@ -75,7 +75,7 @@ export function getAllGroupsOfUser(
 
 export function getGroupById(
   id: string,
-  setGroup: React.Dispatch<React.SetStateAction<Group | null>>
+  setGroup: React.Dispatch<React.SetStateAction<Group>>
 ) {
   axios
     .get(`${API_DEV}/group/${id}`)
@@ -89,4 +89,14 @@ export function getGroupById(
 
 export function leaveGroup(id: string | undefined) {
   axios.post(`${API_DEV}/group/${id}/leave`);
+}
+
+export function userInGroup(group: Group, user: User): boolean {
+    let isMember: boolean = false
+    group.members.forEach((member) => {
+        if (member.id === user.id) {
+            isMember = true
+        }
+    });
+    return isMember;
 }
