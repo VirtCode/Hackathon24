@@ -1,0 +1,13 @@
+rect[class*="table"] {
+    fill: #33AB2B;
+    transition: all 0.5s ease;
+    cursor: pointer;
+}
+
+rect[data-selected="true"] {
+    fill: darkgreen;
+}
+
+g {
+    cursor: move;
+}
