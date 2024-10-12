@@ -60,10 +60,6 @@ class Map():
 
     def createRect(self, className, start_x, start_y, width, height, fill_color, opacity, stroke_color = "BLACK", stroke_width = 0):
        return svg.Rect(class_=className, x=start_x, y=start_y, width=width, height=height, fill=fill_color, fill_opacity=opacity, stroke=stroke_color, stroke_width=stroke_width)
-    
-    def createPolygon(self, className, start_x, start_y, width, height, fill_color, opacity, stroke_color = "BLACK", stroke_width = 0):
-       return svg.Polygon(class_=className, )
-    
 
 def calcTableX(relTableX, tableAreaWidth, innerX, innerWidth):
     return innerX + (innerWidth / tableAreaWidth) * relTableX
