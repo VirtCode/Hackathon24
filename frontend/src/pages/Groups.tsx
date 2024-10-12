@@ -27,7 +27,8 @@ const Groups: React.FC<GroupsProps> = ({ groups, setGroups }) => {
 
   useEffect(() => {
     history.listen((location) => {
-    getAllGroupsOfUser(setGroups);})
+      getAllGroupsOfUser(setGroups);
+    });
   }, [history]);
 
   useEffect(() => {
@@ -44,7 +45,7 @@ const Groups: React.FC<GroupsProps> = ({ groups, setGroups }) => {
       <IonContent fullscreen>
         <GroupList groups={groups}></GroupList>
 
-        <IonFab slot="fixed" vertical="bottom" horizontal="end">
+        <IonFab slot="fixed" vertical="bottom" horizontal="center">
           <IonFabButton
             id="fabButton"
             onClick={() => setShowAddGroupModal(true)}

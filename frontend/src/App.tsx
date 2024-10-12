@@ -59,15 +59,12 @@ const App: React.FC = () => {
   const [mensas, setMensas] = useState<Mensa[]>([]);
   const [groups, setGroups] = useState<Group[]>([]);
   const [activeSessions, setActiveSessions] = useState<Session[]>([]);
-  const [user, setUser] = useState<User>({id: "", name: "", email: ""});
+  const [user, setUser] = useState<User>({ id: "", name: "", email: "" });
 
   useEffect(() => {
     getAllGroupsOfUser(setGroups);
     getAllMensas(setMensas);
     getCurrentUser(setUser);
-
-
-    console.log(mensas);
 
     groups.forEach(async (group) => {
       const session = await getActiveSession(group.id);
@@ -94,8 +91,16 @@ const App: React.FC = () => {
             <Route path="/groups">
               <Groups groups={groups} setGroups={setGroups} />
             </Route>
-            <Route path="/settings" render={(props) => <Settings user={user} {...props}/>} exact />
-            <Route path="/group/:id" render={(props) => <GroupDetail user={user} {...props}/>} exact />
+            <Route
+              path="/settings"
+              render={(props) => <Settings user={user} {...props} />}
+              exact
+            />
+            <Route
+              path="/group/:id"
+              render={(props) => <GroupDetail user={user} {...props} />}
+              exact
+            />
             <Route
               exact
               path="/mensa/:id"
