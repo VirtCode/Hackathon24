@@ -14,4 +14,5 @@ OAUTH_PARAMS_OVERRIDE_USERNAME=<string> # overwritten user username. Default: us
 OAUTH_PARAMS_OVERRIDE_EMAIL=<string> # overwritten user email. Default: email
 OAUTH_PARAMS_OVERRIDE_NAME=<string> # overwritten user name. Default: user
 OAUTH_OVERRIDE_ENABLE=<string> # enable user overriding
+MICROSERVICES_LAYOUT_HOST=<string> # hostname under which the layout microservice is available
 ```
