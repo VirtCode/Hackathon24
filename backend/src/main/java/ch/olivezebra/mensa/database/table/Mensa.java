@@ -25,7 +25,7 @@ public class Mensa {
     private String name;
 
     @JsonIgnore
-    @OneToMany
+    @OneToMany(mappedBy = "mensa", cascade = CascadeType.ALL)
     @Setter(AccessLevel.PRIVATE)
     private Set<Table> tables = new HashSet<>();
 }

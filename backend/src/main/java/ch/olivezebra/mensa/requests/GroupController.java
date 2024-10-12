@@ -81,7 +81,7 @@ public class GroupController {
     }
 
     /**
-     * Create a new group
+     * Create a new group, automatically adds creating user
      * @param def group definition
      * @return newly created group object
      */

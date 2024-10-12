@@ -25,8 +25,8 @@ public class Group {
     @Setter(AccessLevel.PRIVATE)
     private Set<User> members = new HashSet<>();
 
-    @OneToMany
-    @Setter(AccessLevel.PRIVATE)
     @JsonIgnore
+    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
+    @Setter(AccessLevel.PRIVATE)
     private Set<Session> sessions = new HashSet<>();
 }
