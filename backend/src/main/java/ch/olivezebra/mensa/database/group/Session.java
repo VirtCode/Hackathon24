@@ -5,6 +5,7 @@ import ch.olivezebra.mensa.database.table.Table;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 import net.minidev.json.annotate.JsonIgnore;
 
@@ -29,7 +30,9 @@ public class Session {
     private Mensa mensa;
 
     @JsonIgnore
-    @ManyToOne
+    @NonNull
+    @ManyToOne(optional = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "eating_group")
     private Group group;
 
     @ManyToMany
