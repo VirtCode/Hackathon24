@@ -20,7 +20,6 @@ import Header from "../components/Header";
 import MensaCard from "../components/MensaCard";
 import HostAction from "../components/HostAction";
 import HostModal from "../components/HostModal";
-import { RouteComponentProps } from "react-router";
 
 interface HomeProps {
   mensas: Mensa[];
