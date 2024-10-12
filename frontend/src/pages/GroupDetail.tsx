@@ -1,4 +1,5 @@
 import {
+  IonAlert,
   IonBackButton,
   IonButton,
   IonButtons,
@@ -9,6 +10,7 @@ import {
   IonCardTitle,
   IonContent,
   IonHeader,
+  IonIcon,
   IonPage,
   IonTabs,
   IonTitle,
@@ -20,8 +22,8 @@ import {
 import React, { useEffect } from "react";
 import { RouteComponentProps } from "react-router";
 import GroupMemberList from "../components/GroupMemberList";
-import { getGroupById, Group, leaveGroup, userInGroup } from "../api/group";
-import { clipboard } from "ionicons/icons";
+import { getGroupById, Group, joinGroup, leaveGroup, userInGroup } from "../api/group";
+import { clipboard, create, createOutline } from "ionicons/icons";
 import { User } from "../api/user";
 
 interface GroupDetailProps
@@ -53,6 +55,11 @@ const GroupDetail: React.FC<GroupDetailProps> = ({ match, user }) => {
           <IonTitle>Group {group?.name}</IonTitle>
           <IonButtons slot="start">
             <IonBackButton defaultHref="/groups" />
+          </IonButtons>
+          <IonButtons slot="end">
+            <IonButton  onClick={()=> {console.log("edit")}} id="openAlert">
+              <IonIcon icon={createOutline} slot="icon-only"></IonIcon>
+            </IonButton>
           </IonButtons>
         </IonToolbar>
       </IonHeader>
@@ -89,7 +96,6 @@ const GroupDetail: React.FC<GroupDetailProps> = ({ match, user }) => {
         </IonCard>
         {userInGroup(group, user) ? <IonButton
           color="danger"
-          disabled={!userInGroup(group, user)}
           fill="solid"
           expand="block"
           onClick={async () => {
@@ -102,16 +108,27 @@ const GroupDetail: React.FC<GroupDetailProps> = ({ match, user }) => {
         </IonButton>: null}
         {!userInGroup(group, user) ? <IonButton
           color="primary"
-          disabled={!userInGroup(group, user)}
           fill="solid"
           expand="block"
           onClick={async () => {
-            console.log("Joined");
+            await joinGroup(group.id)
+            
+            await getGroupById(id, setGroup);
+            console.log(group);
           }}
         >
           Join
         </IonButton>: null}
-
+        <IonAlert
+        trigger="openAlert"
+        header="Change Group Name"
+        buttons={[{'OK', handler: ()=> {}}, 'Cancel']}
+        inputs={[
+          {
+            placeholder: 'Name',
+          },
+        ]}
+      ></IonAlert>
         
         {/* <IonButton onClick={() => console.log(userInGroup(group, user), user, group)}>Default</IonButton> */}
       </IonContent>

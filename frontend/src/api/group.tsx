@@ -93,10 +93,15 @@ export function leaveGroup(id: string | undefined) {
 
 export function userInGroup(group: Group, user: User): boolean {
     let isMember: boolean = false
+    // test
     group.members.forEach((member) => {
         if (member.id === user.id) {
             isMember = true
         }
     });
     return isMember;
+}
+
+export async function joinGroup(id: string) {
+    await axios.post(`${API_DEV}/group/${id}/join`);
 }
