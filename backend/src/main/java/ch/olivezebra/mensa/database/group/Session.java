@@ -55,4 +55,10 @@ public class Session {
     public boolean isActive() {
         return start.before(new Date()) && end.after(new Date());
     }
+
+    /** is the meetup pending (in the future) */
+    @JsonProperty
+    public boolean isPending() {
+        return start.after(new Date());
+    }
 }

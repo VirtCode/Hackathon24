@@ -56,6 +56,17 @@ public class MensaController {
     }
 
     /**
+     * Returns a mensa for a table.
+     * @param id id of the TABLE
+     * @return mensa of the table
+     */
+    @NoAuth
+    @GetMapping("/table/{id}")
+    public Mensa getMensaByTable(@PathVariable UUID id) {
+        return mensas.requireTableById(id).getMensa();
+    }
+
+    /**
      * Get all tables at a mensa
      * @param id mensa id
      * @return tables ond so
