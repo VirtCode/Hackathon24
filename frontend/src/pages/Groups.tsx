@@ -11,12 +11,9 @@ import GroupList from "../components/GroupList";
 import { add } from "ionicons/icons";
 import AddGroup from "../components/AddGroup";
 import { useState, useEffect } from "react";
-<<<<<<< HEAD
 import { getAllGroupsOfUser } from "../api/group";
 import { useHistory } from "react-router-dom";
-=======
 import { Group } from "../api/group";
->>>>>>> e1683b5287bcd03a0b1e215cc46e8ae17affbc50
 
 interface GroupsProps {
   groups: Group[];
@@ -32,17 +29,11 @@ const Groups: React.FC<GroupsProps> = ({ groups, setGroups }) => {
     getAllGroupsOfUser(setGroups);})
   }, [history]);
 
-<<<<<<< HEAD
   useEffect(() => {
     getAllGroupsOfUser(setGroups);
   }, [showAddGroupModal]);
 
-  useIonViewWillEnter(() => {
-    getAllGroupsOfUser(setGroups);
-  });
 
-=======
->>>>>>> e1683b5287bcd03a0b1e215cc46e8ae17affbc50
   return (
     <IonPage>
       <Header pageTitle={"Groups"} />
