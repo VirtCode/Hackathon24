@@ -3,7 +3,7 @@ FROM node:22.9-alpine as build
 WORKDIR /app
 COPY package*.json /app/
 
-RUN npm ci
+RUN npm ci -f
 
 COPY ./ /app/
 RUN npm run build
