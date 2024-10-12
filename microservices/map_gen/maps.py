@@ -87,6 +87,7 @@ def addTables(myMap, jsonData):
 
         table = svg.Rect(
             id = entry['id'],
+            class_ = ["table"],
             x = calcTableX(entry['x'], table_area_width, myMap.inner_x, myMap.inner_width),
             y = calcTableY(entry['y'], table_area_height, myMap.inner_y, myMap.inner_height),
             width=calcTableWidth(entry['width'], table_area_width, myMap.inner_width),
