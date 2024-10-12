@@ -6,6 +6,7 @@ import {
   IonLabel,
 } from "@ionic/react";
 import { add, radioOutline, qrCodeOutline } from "ionicons/icons";
+import "./HostAction.css";
 
 type HostActionProps = {
   openModal: () => void;
@@ -15,16 +16,16 @@ type HostActionProps = {
 function HostAction({ openModal, openScan }: HostActionProps) {
   return (
     <IonFab slot="fixed" vertical="bottom" horizontal="center">
-      <IonFabButton>
+      <IonFabButton className="action-btn">
         <IonIcon icon={add}></IonIcon>
       </IonFabButton>
       <IonFabList side="start">
-        <IonFabButton onClick={openModal}>
+        <IonFabButton onClick={openModal} className="fab-btn">
           <IonIcon icon={radioOutline}></IonIcon>
         </IonFabButton>
       </IonFabList>
       <IonFabList side="end">
-        <IonFabButton onClick={openScan}>
+        <IonFabButton onClick={openScan} className="fab-btn">
           <IonIcon icon={qrCodeOutline}></IonIcon>
         </IonFabButton>
       </IonFabList>

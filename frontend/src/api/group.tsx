@@ -22,10 +22,10 @@ export interface SessionCreate {
 export interface Session {
   id: string;
   start: string;
-  end: string;
-  mensa: Mensa;
+  duration: number;
+  mensa: string;
   group: string;
-  tables: Table[];
+  tables?: Table[];
 }
 
 export interface Mensa {
@@ -106,5 +106,5 @@ export async function joinGroup(id: string) {
 }
 
 export async function updateGroup(id: string, name: string) {
-    await axios.put(`${API}/group/${id}`, { name: name });
+  await axios.put(`${API}/group/${id}`, { name: name });
 }

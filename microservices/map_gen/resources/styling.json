@@ -13,12 +13,54 @@
     "stroke_width": 0,
     "border_radius": 12
   },
+  "window": {
+    "fill_color": "#006eccff",
+    "fill_opacity": 1,
+    "stroke_color": "BLACK",
+    "stroke_width": 0,
+    "border_radius": 0
+  },
   "stairs": {
     "fill_color": "#746D69",
     "fill_opacity": 1,
     "stroke_color": "BLACK",
     "stroke_width": 0,
     "border_radius": 12
+  },
+  "wall": {
+    "fill_color": "#262626ff",
+    "fill_opacity": 1,
+    "stroke_color": "BLACK",
+    "stroke_width": 0,
+    "border_radius": 0
+  },
+  "floor1": {
+    "fill_color": "#bfbfbfff",
+    "fill_opacity": 1,
+    "stroke_color": "BLACK",
+    "stroke_width": 0,
+    "border_radius": 0
+  },
+  "floor2": {
+    "fill_color": "#ccccccff",
+    "fill_opacity": 1,
+    "stroke_color": "BLACK",
+    "stroke_width": 0,
+    "border_radius": 0
+  },
+  "floor3": {
+    "fill_color": "#d9d9d9ff",
+    "fill_opacity": 1,
+    "stroke_color": "BLACK",
+    "stroke_width": 0,
+    "border_radius": 0
+  },
+  "floor4": {
+    "fill_color": "#e5e5e5ff",
+    "fill_opacity": 1,
+    "stroke_color": "BLACK",
+    "stroke_width": 0,
+    "border_radius": 0
   },
   "table": {
       "fill_color": "RED",

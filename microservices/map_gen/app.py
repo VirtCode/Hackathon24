@@ -18,7 +18,8 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 @app.route('/render', methods=['POST'])
 def getRender():
     data = request.get_json()
-    file_path = f'resources/{data["id"]}.json'
+    #file_path = f'resources/{data["id"]}.json'
+    file_path = f'resources/polaymensa.json'
     mensaMap = maps.Map(file_path)
     return maps.addTables(mensaMap, data).svgMap.as_str()
 

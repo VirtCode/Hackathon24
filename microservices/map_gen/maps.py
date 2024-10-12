@@ -31,10 +31,10 @@ class Map():
             self.inner_height = self.size_y
 
             # padding
-            self.size_x += 20;
-            self.size_y += 20;
+            self.size_x += 20
+            self.size_y += 20
 
-            self.container = svg.G(elements=[], class_ = ["container"]);
+            self.container = svg.G(elements=[], class_ = ["container"])
             self.svgMap = svg.SVG(viewBox=f'0 0 {self.size_x} {self.size_y}', elements=[self.container])
 
             for element in data['floor'][0]['objects']:

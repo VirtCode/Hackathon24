@@ -32,9 +32,10 @@ import React, {
   useState,
 } from "react";
 import { Group, Mensa, Session } from "../api/group";
+import { createSession } from "../api/sessions";
 
 type HostModalProps = {
-  setData: Dispatch<SetStateAction<{}>>;
+  setActiveSession: Dispatch<SetStateAction<Session | undefined>>;
   isModalOpen: boolean;
   setIsModalOpen: Dispatch<SetStateAction<boolean>>;
   mensas: Mensa[];
@@ -45,13 +46,13 @@ type HostModalProps = {
 };
 
 function HostModal({
-  setData,
   isModalOpen,
   setIsModalOpen,
   mensas,
   groups,
   isToastOpen,
   setIsToastOpen,
+  setActiveSession,
 }: HostModalProps) {
   const [time, setTime] = useState<string>(new Date().toISOString());
   const [mensa, setMensa] = useState<string>("");
@@ -70,22 +71,20 @@ function HostModal({
   }, [isToastOpen]);
 
   const confirm = () => {
-    let data = {
-      time: time,
+    let session: Session = {
+      id: "",
+      start: time,
+      duration: 30,
       mensa: mensa,
       group: group,
     };
-    console.log(data);
-    setData(data);
+    createSession(group, session, setActiveSession);
     setIsModalOpen(false);
     setIsToastOpen(true);
   };
 
-  const onWillDismiss = (ev: CustomEvent<OverlayEventDetail>) => {
-    if (ev.detail.role === "confirm") setData(ev.detail.data);
-  };
   return (
-    <IonModal ref={modalRef} isOpen={isModalOpen} onWillDismiss={onWillDismiss}>
+    <IonModal ref={modalRef} isOpen={isModalOpen}>
       <IonHeader>
         <IonToolbar>
           <IonTitle>Host Session</IonTitle>

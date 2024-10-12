@@ -6,18 +6,17 @@ import { API } from "./env";
 
 export function createSession(
   groupId: string,
-  setSession: Dispatch<SetStateAction<Session>>
+  sessionInfo: Session,
+  setActiveSession: Dispatch<SetStateAction<Session | undefined>>
 ) {
   axios
-    .post(`${API}/group/${groupId}/session/start`)
-    .then((res) => setSession(res.data))
+    .post(`${API}/group/${groupId}/session/start`, sessionInfo)
+    .then((res) => setActiveSession(res.data))
     .catch((err) => console.error(err));
 }
 
 export async function getActiveSession(groupId: string) {
-  const response = await axios.get(
-    `${API}/group/${groupId}/session/active`
-  );
+  const response = await axios.get(`${API}/group/${groupId}/session/active`);
 
   return response.data;
 }

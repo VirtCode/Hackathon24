@@ -7,8 +7,8 @@ import {
   IonCardHeader,
   IonCardSubtitle,
   IonCardTitle,
-  IonContent,
-  IonHeader,
+  IonContent, IonFab, IonFabButton,
+  IonHeader, IonIcon,
   IonPage,
   IonTitle,
   IonToolbar,
@@ -20,6 +20,8 @@ import { Mensa } from "../api/group";
 import { getMensaLayout } from "../api/mensas";
 import * as d3 from "d3";
 import { Selection } from "d3";
+import "./MensaDetail.css"
+import { refresh } from 'ionicons/icons';
 
 interface MensaDetailProps
   extends RouteComponentProps<{
@@ -90,13 +92,17 @@ const MensaDetail: React.FC<MensaDetailProps> = ({ match, mensas }) => {
       <IonContent className="ion-padding">
         <IonCard>
           <IonCardHeader>
-            <IonCardSubtitle color={mensa.open ? "success" : "warning"}>
-              {mensa.open ? "Open" : "Closed"}
-            </IonCardSubtitle>
+            <IonCardTitle>
+              Select your table
+            </IonCardTitle>
           </IonCardHeader>
           <IonCardContent>
-            <section ref={ref} dangerouslySetInnerHTML={{ __html: layout }} />
-            <IonButton onClick={resetZoomAndPan}>Reset zoom and pan</IonButton>
+            <section className={"svg-container"} ref={ref} dangerouslySetInnerHTML={{ __html: layout }} />
+            <IonFab slot={"fixed"} horizontal={"end"} vertical={"bottom"}>
+              <IonFabButton size={"small"} onClick={resetZoomAndPan}>
+                <IonIcon icon={refresh} />
+              </IonFabButton>
+            </IonFab>
           </IonCardContent>
         </IonCard>
       </IonContent>
