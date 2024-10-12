@@ -27,9 +27,9 @@ import {
   Group,
   joinGroup,
   leaveGroup,
+  updateGroup,
   userInGroup,
 } from "../api/group";
-import { getGroupById, Group, joinGroup, leaveGroup, updateGroup, userInGroup } from "../api/group";
 import { clipboard, create, createOutline } from "ionicons/icons";
 import { User } from "../api/user";
 
@@ -69,18 +69,16 @@ const GroupDetail: React.FC<GroupDetailProps> = ({ match, user }) => {
             <IonBackButton defaultHref="/groups" />
           </IonButtons>
           <IonButtons slot="end">
-            <IonButton
-              onClick={() => {
-                console.log("edit");
-              }}
-              id="openAlert"
-            >
-          {userInGroup(group, user) ? <IonButtons slot="end">
-            <IonButton  onClick={()=> {console.log("edit")}} id="openAlert">
-              <IonIcon icon={createOutline} slot="icon-only"></IonIcon>
-            </IonButton>
-          </IonButtons>:null}
-          
+              <IonButton
+                disabled={!userInGroup(group, user)}
+                onClick={() => {
+                  console.log("edit");
+                }}
+                id="openAlert"
+              >
+                <IonIcon icon={createOutline} slot="icon-only"></IonIcon>
+              </IonButton>
+            </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
@@ -153,32 +151,31 @@ const GroupDetail: React.FC<GroupDetailProps> = ({ match, user }) => {
         <IonAlert
           trigger="openAlert"
           header="Change Group Name"
-          buttons={[{ text: "OK", handler: () => {} }, "Cancel"]}
+          buttons={[
+            {
+              text: "Save",
+              cssClass: "alert-button-confirm",
+              handler: async (alertData) => {
+                console.log(alertData.name);
+                await updateGroup(group.id, alertData.name);
+                getGroupById(id, setGroup);
+                let nameInput = document.getElementById(
+                  "name"
+                ) as HTMLInputElement;
+                nameInput.value = "";
+              },
+            },
+            { text: "Dismiss", cssClass: "alert-button-cancel" },
+          ]}
           inputs={[
             {
-              placeholder: "Name",
+              id: "name",
+              name: "name",
+              placeholder: group.name,
             },
           ]}
         ></IonAlert>
 
-        trigger="openAlert"
-        header="Change Group Name"
-        buttons={[{text:'Save', cssClass: 'alert-button-confirm', handler: async (alertData)=> {
-          console.log(alertData.name);
-          await updateGroup(group.id, alertData.name);
-          getGroupById(id, setGroup);
-          let nameInput = document.getElementById('name') as HTMLInputElement;
-          nameInput.value = '';
-        }}, {text:'Dismiss', cssClass: 'alert-button-cancel'}]}
-        inputs={[
-          {
-            id: 'name',
-            name: 'name',
-            placeholder: group.name,
-          },
-        ]}
-      ></IonAlert>
-        
         {/* <IonButton onClick={() => console.log(userInGroup(group, user), user, group)}>Default</IonButton> */}
       </IonContent>
     </IonPage>

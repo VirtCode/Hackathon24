@@ -88,8 +88,6 @@ export function getGroupById(
 
 export function leaveGroup(id: string | undefined) {
   axios.post(`${API}/group/${id}/leave`);
-export async function leaveGroup(id: string | undefined) {
-  await axios.post(`${API}/group/${id}/leave`);
 }
 
 export function userInGroup(group: Group, user: User): boolean {
@@ -105,4 +103,8 @@ export function userInGroup(group: Group, user: User): boolean {
 
 export async function joinGroup(id: string) {
   await axios.post(`${API}/group/${id}/join`);
+}
+
+export async function updateGroup(id: string, name: string) {
+    await axios.put(`${API}/group/${id}`, { name: name });
 }
