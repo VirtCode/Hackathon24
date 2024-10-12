@@ -3,6 +3,7 @@ package ch.olivezebra.mensa.requests;
 import ch.olivezebra.mensa.database.table.Mensa;
 import ch.olivezebra.mensa.database.table.MensaRepository;
 import ch.olivezebra.mensa.database.table.Table;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -62,12 +63,17 @@ public class MensaController {
         return mensas.requireById(id).getTables();
     }
 
+    /**
+     * Get the layout svg for a given mensa
+     * @param id id to fetch for
+     * @return svg string (hopefully)
+     */
     @GetMapping("/{id}/layout")
     public ResponseEntity<String> getLayout(@PathVariable UUID id) {
-        Set<Table> tables = mensas.requireById(id).getTables();
+        Mensa mensa = mensas.requireById(id);
 
         var request = WebClient.create(layoutHost + "/render").post()
-                .bodyValue(tables)
+                .bodyValue(new MensaSvgPayload(mensa))
                 .accept(MediaType.TEXT_XML)
                 .retrieve()
                 .toEntity(String.class);
@@ -82,6 +88,20 @@ public class MensaController {
         } catch (Exception e) {
             log.error("microservices call to render layout svg failed", e);
             throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, "Failed to render layout svg");
+        }
+    }
+
+    @Getter
+    public static class MensaSvgPayload {
+        int x, y, width, height;
+        Set<Table> tables;
+
+        public MensaSvgPayload(Mensa mensa) {
+            this.x = mensa.getX();
+            this.y = mensa.getY();
+            this.width = mensa.getWidth();
+            this.height = mensa.getHeight();
+            this.tables = mensa.getTables();
         }
     }
 }

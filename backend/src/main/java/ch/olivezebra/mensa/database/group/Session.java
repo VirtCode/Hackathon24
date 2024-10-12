@@ -2,12 +2,12 @@ package ch.olivezebra.mensa.database.group;
 
 import ch.olivezebra.mensa.database.table.Mensa;
 import ch.olivezebra.mensa.database.table.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
-import net.minidev.json.annotate.JsonIgnore;
 
 import java.util.Date;
 import java.util.HashSet;
