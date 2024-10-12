@@ -20,20 +20,19 @@ const ScannerModal: React.FC<ScannerModalProps> = ({
   setIsScannerOpen,
 }) => {
 
-  const [modalTitle, setModalTitle] = useState<string>("Scan QR Code");
   
   return (
     <IonModal isOpen={isScannerOpen}>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>{modalTitle}</IonTitle>
+          <IonTitle>Scann QR-Code</IonTitle>
           <IonButtons slot="end">
             <IonButton color='primary' onClick={() => setIsScannerOpen(false)}>Close</IonButton>
           </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        <QrReader setModalIsOpen={setIsScannerOpen} setModelTitle={setModalTitle}/>
+        <QrReader setModalIsOpen={setIsScannerOpen}/>
       </IonContent>
     </IonModal>
   );
