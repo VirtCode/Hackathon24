@@ -1,0 +1,22 @@
+{
+    "lang": "en",
+    "dir": "ltr",
+    "name": "Mensarr",
+    "short_name": "Mensarr",
+    "icons": [{
+      "src": "icon/lowres.webp",
+      "sizes": "64x64",
+      "type": "image/webp"
+    }, {
+      "src": "icon/lowres.png",
+      "sizes": "64x64"
+    }, {
+      "src": "icon/hd_hi",
+      "sizes": "128x128"
+    }],
+    "scope": "/",
+    "id": "Mensar",
+    "display": "fullscreen",
+    "theme_color": "aliceblue",
+    "background_color": "red"
+  }
