@@ -48,8 +48,8 @@ export interface Table {
   mensa: string;
 }
 
-export function createGroup(group: GroupCreate) {
-  axios.post(`${API}/group`, group).then((response) => {
+export async function createGroup(group: GroupCreate) {
+  await axios.post(`${API}/group`, group).then((response) => {
     return {
       id: response.data.id,
       name: response.data.name,
@@ -88,23 +88,21 @@ export function getGroupById(
 
 export function leaveGroup(id: string | undefined) {
   axios.post(`${API}/group/${id}/leave`);
+export async function leaveGroup(id: string | undefined) {
+  await axios.post(`${API}/group/${id}/leave`);
 }
 
 export function userInGroup(group: Group, user: User): boolean {
-    let isMember: boolean = false
-    // test
-    group.members.forEach((member) => {
-        if (member.id === user.id) {
-            isMember = true
-        }
-    });
-    return isMember;
+  let isMember: boolean = false;
+  // test
+  group.members.forEach((member) => {
+    if (member.id === user.id) {
+      isMember = true;
+    }
+  });
+  return isMember;
 }
 
 export async function joinGroup(id: string) {
-    await axios.post(`${API}/group/${id}/join`);
-}
-
-export async function updateGroup(id: string, name: string) {
-    await axios.put(`${API}/group/${id}`, {name: name});
+  await axios.post(`${API}/group/${id}/join`);
 }

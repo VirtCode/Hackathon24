@@ -22,6 +22,13 @@ import {
 import React, { useEffect } from "react";
 import { RouteComponentProps } from "react-router";
 import GroupMemberList from "../components/GroupMemberList";
+import {
+  getGroupById,
+  Group,
+  joinGroup,
+  leaveGroup,
+  userInGroup,
+} from "../api/group";
 import { getGroupById, Group, joinGroup, leaveGroup, updateGroup, userInGroup } from "../api/group";
 import { clipboard, create, createOutline } from "ionicons/icons";
 import { User } from "../api/user";
@@ -30,11 +37,16 @@ interface GroupDetailProps
   extends RouteComponentProps<{
     id: string;
   }> {
-    user: User;
-  }
+  user: User;
+}
 
 const GroupDetail: React.FC<GroupDetailProps> = ({ match, user }) => {
-  const [group, setGroup] = React.useState<Group>({ id: "", name: "", members: [], sessions: [] });
+  const [group, setGroup] = React.useState<Group>({
+    id: "",
+    name: "",
+    members: [],
+    sessions: [],
+  });
   const id = match.params.id;
 
   const router = useIonRouter();
@@ -56,6 +68,13 @@ const GroupDetail: React.FC<GroupDetailProps> = ({ match, user }) => {
           <IonButtons slot="start">
             <IonBackButton defaultHref="/groups" />
           </IonButtons>
+          <IonButtons slot="end">
+            <IonButton
+              onClick={() => {
+                console.log("edit");
+              }}
+              id="openAlert"
+            >
           {userInGroup(group, user) ? <IonButtons slot="end">
             <IonButton  onClick={()=> {console.log("edit")}} id="openAlert">
               <IonIcon icon={createOutline} slot="icon-only"></IonIcon>
@@ -85,42 +104,63 @@ const GroupDetail: React.FC<GroupDetailProps> = ({ match, user }) => {
           </IonCardHeader>
           <IonCardContent>
             <p>{getGroupLink()}</p>
-            <IonButton id="open-toast"
+            <IonButton
+              id="open-toast"
               onClick={() => {
                 navigator.clipboard.writeText(getGroupLink());
               }}
             >
               Copy
             </IonButton>
-            <IonToast trigger="open-toast" message="Copied to Clipboard" duration={2000} position="bottom" positionAnchor="tabs" icon={clipboard}></IonToast>
+            <IonToast
+              trigger="open-toast"
+              message="Copied to Clipboard"
+              duration={2000}
+              position="bottom"
+              positionAnchor="tabs"
+              icon={clipboard}
+            ></IonToast>
           </IonCardContent>
         </IonCard>
-        {userInGroup(group, user) ? <IonButton
-          color="danger"
-          fill="solid"
-          expand="block"
-          onClick={async () => {
-            await leaveGroup(id);
-            // router.push("/groups", "forward");
-            history.go(-1);
-          }}
-        >
-          Leave
-        </IonButton>: null}
-        {!userInGroup(group, user) ? <IonButton
-          color="primary"
-          fill="solid"
-          expand="block"
-          onClick={async () => {
-            await joinGroup(group.id)
-            
-            await getGroupById(id, setGroup);
-            console.log(group);
-          }}
-        >
-          Join
-        </IonButton>: null}
+        {userInGroup(group, user) ? (
+          <IonButton
+            color="danger"
+            fill="solid"
+            expand="block"
+            onClick={async () => {
+              await leaveGroup(id);
+              router.push("/groups", "forward");
+            }}
+          >
+            Leave
+          </IonButton>
+        ) : null}
+        {!userInGroup(group, user) ? (
+          <IonButton
+            color="primary"
+            fill="solid"
+            expand="block"
+            onClick={async () => {
+              await joinGroup(group.id);
+
+              await getGroupById(id, setGroup);
+              console.log(group);
+            }}
+          >
+            Join
+          </IonButton>
+        ) : null}
         <IonAlert
+          trigger="openAlert"
+          header="Change Group Name"
+          buttons={[{ text: "OK", handler: () => {} }, "Cancel"]}
+          inputs={[
+            {
+              placeholder: "Name",
+            },
+          ]}
+        ></IonAlert>
+
         trigger="openAlert"
         header="Change Group Name"
         buttons={[{text:'Save', cssClass: 'alert-button-confirm', handler: async (alertData)=> {

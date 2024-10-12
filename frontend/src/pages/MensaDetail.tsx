@@ -38,7 +38,7 @@ const MensaDetail: React.FC<MensaDetailProps> = ({ match, mensas }) => {
         <IonToolbar>
           <IonTitle>{mensa.name}</IonTitle>
           <IonButtons slot="start">
-            <IonBackButton />
+            <IonBackButton defaultHref="/home" />
           </IonButtons>
         </IonToolbar>
       </IonHeader>

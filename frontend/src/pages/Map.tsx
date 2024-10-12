@@ -5,10 +5,15 @@ import {
   IonTitle,
   IonToolbar,
   IonItem,
-  IonLabel,
+  IonCard,
+  IonCardContent,
+  IonCardTitle,
+  IonCardSubtitle,
 } from "@ionic/react";
 import {
+  useAdvancedMarkerRef,
   AdvancedMarker,
+  InfoWindow,
   APIProvider,
   Map as GoogleMap,
   Pin,
@@ -16,6 +21,7 @@ import {
 import "./Map.css";
 import { Mensa } from "../api/group";
 import Header from "../components/Header";
+import { useState } from "react";
 
 const API_KEY = "AIzaSyBKebKvbRFYo64Ernvats-FX4v445xlW7Y";
 const DEFAULT_LAT = 47.37643604499102;
@@ -27,6 +33,14 @@ interface MapProps {
 
 const Map: React.FC<MapProps> = ({ mensas }) => {
   const renderMensaMarker = (mensa: Mensa, idx: React.Key) => {
+    const [markerRef, marker] = useAdvancedMarkerRef();
+    const [infoWindowShown, setInfoWindowShown] = useState(false);
+    const openInfo = () => {
+      setInfoWindowShown(true);
+    };
+    const closeInfo = () => {
+      setInfoWindowShown(false);
+    };
     return (
       <IonItem routerLink={`/mensa/${mensa.id}`} key={idx}>
         <AdvancedMarker
@@ -35,13 +49,24 @@ const Map: React.FC<MapProps> = ({ mensas }) => {
             lng: mensa.lng,
           }}
           title={mensa.name}
-          onClick={() => console.log(mensa.name)}
+          onClick={openInfo}
+          ref={markerRef}
+          onMouseEnter={openInfo}
+          onMouseLeave={closeInfo}
         >
           <Pin
             background={"#616F25"}
             borderColor={"#88993c"}
             glyphColor={"white"}
           />
+          {infoWindowShown && (
+            <InfoWindow anchor={marker} headerDisabled={true}>
+              <IonCardTitle>{mensa.name}</IonCardTitle>
+              <IonCardSubtitle color={mensa.open ? "success" : "warning"}>
+                {mensa.open ? "Open" : "Closed"}
+              </IonCardSubtitle>
+            </InfoWindow>
+          )}
         </AdvancedMarker>
       </IonItem>
     );
