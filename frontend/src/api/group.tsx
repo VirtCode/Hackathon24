@@ -10,12 +10,13 @@ export interface GroupCreate {
 export interface Group {
   id: string;
   name: string;
+  created: string;
   members: User[];
-  sessions: Session[];
 }
 
 export interface SessionCreate {
   start: string;
+  duration: number;
   mensa: Mensa;
 }
 
@@ -35,7 +36,6 @@ export interface Mensa {
   name: string;
   lat: number;
   lng: number;
-  tables: Table[];
   open: boolean;
 }
 

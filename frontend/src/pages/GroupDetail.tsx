@@ -45,8 +45,8 @@ const GroupDetail: React.FC<GroupDetailProps> = ({ match, user }) => {
   const [group, setGroup] = React.useState<Group>({
     id: "",
     name: "",
-    members: [],
-    sessions: [],
+    created: "",
+    members: []
   });
   const id = match.params.id;
 
@@ -96,7 +96,7 @@ const GroupDetail: React.FC<GroupDetailProps> = ({ match, user }) => {
       <IonContent className="ion-padding">
         <IonCard>
           <IonCardHeader>
-            <IonCardTitle>Upcoming Meeting</IonCardTitle>
+            <IonCardTitle></IonCardTitle>
             <IonCardSubtitle>12. October 2024 04.50 pm</IonCardSubtitle>
           </IonCardHeader>
         </IonCard>
