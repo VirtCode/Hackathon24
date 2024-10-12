@@ -9,7 +9,7 @@ export interface User {
 }
 
 export function getCurrentUser(
-  setUser: React.Dispatch<React.SetStateAction<User | null>>
+  setUser: React.Dispatch<React.SetStateAction<User>>
 ) {
   axios
     .get(`${API}/user/current`)
