@@ -28,6 +28,14 @@ public class Table {
     @JoinColumn(name = "mensa")
     private Mensa mensa;
 
+    public int getCenterX() {
+        return x + width / 2;
+    }
+
+    public int getCenterY() {
+        return y + height / 2;
+    }
+
     public Table(int x, int y, int width, int height, int level) {
         this.x = x;
         this.y = y;

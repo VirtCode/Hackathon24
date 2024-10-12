@@ -48,7 +48,8 @@ public class SessionController {
     public Session getActiveSession(@RequestAttribute User user, @PathVariable UUID group) {
         Group g = groups.requireAccessGroup(group, user);
 
-        return sessions.getActiveSession(g, new Date()).orElse(null);
+        return sessions.getActiveSession(g, new Date())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "no such session"));
     }
 
     /**
