@@ -1,0 +1,108 @@
+{
+    "innerX": 70,
+    "innerY": 120,
+    "innerWidth": 1800,
+    "innerHeight": 500,
+    "floor": [
+        {
+            "objects": [ 
+                {
+                    "type": 1,
+                    "class": "VIEW",
+                    "x": 4,
+                    "y": 4,
+                    "width": 1900,
+                    "height": 700,
+                    "fill_color": "GRAY",
+                    "fill_opacity": 0,
+                    "stroke_color": "BLACK",
+                    "stroke_width": 4
+                },
+                {
+                    "type": 1,
+                    "class": "VIEW",
+                    "x": 30,
+                    "y": 40,
+                    "width": 1000,
+                    "height": 50,
+                    "fill_color": "BLUE",
+                    "fill_opacity": 100,
+                    "stroke_color": "BLACK",
+                    "stroke_width": 0
+                }, 
+                {
+                    "type": 1,
+                    "class": "VIEW",
+                    "x": 400,
+                    "y": 670,
+                    "width": 150,
+                    "height": 30,
+                    "fill_color": "BLUE",
+                    "fill_opacity": 100,
+                    "stroke_color": "BLACK",
+                    "stroke_width": 0
+                },
+                {
+                    "type": 1,
+                    "class": "VIEW",
+                    "x": 550,
+                    "y": 640,
+                    "width": 130,
+                    "height": 60,
+                    "fill_color": "BLUE",
+                    "fill_opacity": 100,
+                    "stroke_color": "BLACK",
+                    "stroke_width": 0
+                },
+                {
+                    "type": 1,
+                    "class": "VIEW",
+                    "x": 1400,
+                    "y": 200,
+                    "width": 105,
+                    "height": 275,
+                    "fill_color": "BLUE",
+                    "fill_opacity": 100,
+                    "stroke_color": "BLACK",
+                    "stroke_width": 0
+                },
+                {
+                    "type": 1,
+                    "class": "VIEW",
+                    "x": 1470,
+                    "y": 150,
+                    "width": 35,
+                    "height": 50,
+                    "fill_color": "BLUE",
+                    "fill_opacity": 100,
+                    "stroke_color": "BLACK",
+                    "stroke_width": 0
+                },
+                {
+                    "type": 1,
+                    "class": "VIEW",
+                    "x": 1600,
+                    "y": 120,
+                    "width": 110,
+                    "height": 580,
+                    "fill_color": "BLUE",
+                    "fill_opacity": 100,
+                    "stroke_color": "BLACK",
+                    "stroke_width": 0
+                },
+                {
+                    "type": 1,
+                    "class": "STAIRS",
+                    "x": 1130,
+                    "y": 475,
+                    "width": 320,
+                    "height": 120,
+                    "fill_color": "GRAY",
+                    "fill_opacity": 100,
+                    "stroke_color": "BLACK",
+                    "stroke_width": 0
+                }
+            ]
+        }
+      ]
+    }
