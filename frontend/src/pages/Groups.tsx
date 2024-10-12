@@ -18,10 +18,10 @@ import AddGroup from "../components/AddGroup";
 import { useRef, useState } from "react";
 import { getAllGroupsOfUser } from "../api/group";
 
-// const groups: Group[] = [
-//   { id: 1, name: "Group 1" },
-//   { id: 2, name: "Group 2" },
-// ];
+const groupsDummy: Group[] = [
+  { id: 1, name: "Group 1" },
+  { id: 2, name: "Group 2" },
+];
 
 
 const Groups: React.FC = () => {
@@ -38,7 +38,7 @@ const Groups: React.FC = () => {
     <IonPage>
       <Header pageTitle={"Groups"} />
       <IonContent fullscreen>
-        {/* <GroupList groups={groups}></GroupList> */}
+        <GroupList groups={groupsDummy}></GroupList>
         <IonFab slot="fixed" vertical="bottom" horizontal="end">
           <IonFabButton id="fabButton" onClick={() => setShowAddGroupModal(true)}>
             <IonIcon icon={add}></IonIcon>

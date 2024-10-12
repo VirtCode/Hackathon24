@@ -44,7 +44,7 @@ export function createGroup(group: createGroup) {
 }
 
 export function getAllGroupsOfUser() {
-    const [groups, setGroups] = useState<Group[] | null>(null);
+    const [groups, setGroups] = useState<any>(null);
 
     axios.get(`https://12.viscon-hackathon.ch/api/group/all`)
       .then(response => {
