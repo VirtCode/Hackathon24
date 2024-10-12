@@ -8,6 +8,7 @@ import {
   IonToolbar,
   IonRow,
   IonCol,
+  IonLabel,
 } from "@ionic/react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -20,10 +21,11 @@ import Header from "../components/Header";
 import MensaCard from "../components/MensaCard";
 import HostAction from "../components/HostAction";
 import HostModal from "../components/HostModal";
+import { RouteComponentProps } from "react-router";
 
-type HomeProps = {
+interface HomeProps {
   mensas: Mensa[];
-};
+}
 
 const Home: React.FC<HomeProps> = ({ mensas }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -47,6 +49,9 @@ const Home: React.FC<HomeProps> = ({ mensas }) => {
           </IonToolbar>
         </IonHeader>
         <IonGrid className="home-grid">
+          <IonRow>
+            <IonLabel>Wanna meet up?</IonLabel>
+          </IonRow>
           <IonRow class="ion-align-items-start">
             <Swiper
               modules={[Navigation, Pagination, Scrollbar, A11y]}
@@ -58,16 +63,12 @@ const Home: React.FC<HomeProps> = ({ mensas }) => {
               {mensas.map((mensa, idx) => renderMensaCard(mensa, idx))}
             </Swiper>
           </IonRow>
-          <IonRow class="ion-align-items-end">
-            <IonCol>
-              <HostAction
-                onClick={() => {
-                  setIsModalOpen(true);
-                }}
-              />
-            </IonCol>
-          </IonRow>
         </IonGrid>
+        <HostAction
+          onClick={() => {
+            setIsModalOpen(true);
+          }}
+        />
         <HostModal
           setData={setData}
           isModalOpen={isModalOpen}

@@ -13,7 +13,7 @@ import {
   IonTitle,
 } from "@ionic/react";
 import { OverlayEventDetail } from "@ionic/core/components";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 
 type HostModalProps = {
   setData: React.Dispatch<React.SetStateAction<{}>>;
@@ -28,13 +28,14 @@ function HostModal({
   setIsModalOpen,
   mensas,
 }: HostModalProps) {
+  const [time, setTime] = useState<string>("");
   const selectRef = useRef<HTMLIonSelectElement>(null);
   const timeRef = useRef<HTMLIonDatetimeElement>(null);
   const modalRef = useRef<HTMLIonModalElement>(null);
 
   const confirm = () => {
     let data = {
-      hours: timeRef.current?.children[0],
+      time: time,
       mensa: selectRef.current?.value,
     };
     console.log(data);
@@ -62,6 +63,7 @@ function HostModal({
           presentation="time"
           preferWheel={true}
           ref={timeRef}
+          value={time}
         ></IonDatetime>
         <IonList>
           <IonItem>
