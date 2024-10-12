@@ -1,0 +1,14 @@
+.qr-reader {
+    width: 100% !important;
+    /* height: 100% !important; */
+}
+
+.qr-reader video {
+    width: 100% !important;
+    /* height: 100% !important; */
+}
+
+.code-outline-highlight {
+    width: auto !important;
+    z-index: 10000 !important;
+}

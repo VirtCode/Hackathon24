@@ -1,4 +1,6 @@
 import {
+  IonButton,
+  IonButtons,
   IonContent,
   IonFab,
   IonFabButton,
@@ -17,6 +19,7 @@ import { add } from "ionicons/icons";
 import AddGroup from "../components/AddGroup";
 import { useRef, useState } from "react";
 import { getAllGroupsOfUser } from "../api/group";
+import QrReader from "../components/QRScanner";
 
 const groupsDummy: Group[] = [
   { id: 1, name: "Group 1" },
@@ -39,6 +42,7 @@ const Groups: React.FC = () => {
       <Header pageTitle={"Groups"} />
       <IonContent fullscreen>
         <GroupList groups={groupsDummy}></GroupList>
+        
         <IonFab slot="fixed" vertical="bottom" horizontal="end">
           <IonFabButton id="fabButton" onClick={() => setShowAddGroupModal(true)}>
             <IonIcon icon={add}></IonIcon>

@@ -26,3 +26,31 @@ http://ionicframework.com/docs/theming/ */
     --color-focused: var(--ion-color-primary);
 }
 
+.qr-box {
+    position: absolute;
+    width: 100% !important;
+    height: 100% !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: auto !important;
+    left: auto !important;
+}
+
+.qr-box img {
+    position: absolute;
+    width: 150px !important;
+    height: 150px !important;
+}
+
+.qr-box svg {
+    position: absolute;
+    width: 150px !important;
+    height: 150px !important;
+}
+
+.qr-reader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

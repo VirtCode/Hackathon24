@@ -2,7 +2,7 @@ import axios from "axios";
 import { User } from "./user";
 import { useState } from "react";
 
-export interface createGroup {
+export interface GroupCreate {
     name: string;
 }
 
@@ -39,7 +39,7 @@ export interface Table {
 }
 
 
-export function createGroup(group: createGroup) {
+export function createGroup(group: GroupCreate) {
     axios.post(`https://12.viscon-hackathon.ch/api/group`, group)
 }
 
