@@ -15,9 +15,9 @@ public interface GroupRepository extends CrudRepository<Group, UUID>  {
      * Fetches all groups a user is part of.
      * @param user user to find for
      * @return a list (duh)
-    @Query("SELECT g FROM eating_group g WHERE :user IN g.members")
-    List<Group> findGroupsForUser(User user);
      */
+    @Query("SELECT g FROM eating_group g INNER JOIN g.members member WHERE member = :user")
+    List<Group> findGroupsForUser(User user);
 
     /**
      * throws if user doesn't have access

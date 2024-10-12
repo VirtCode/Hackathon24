@@ -23,11 +23,11 @@ public class GroupController {
     /**
      * Get all groups the logged-in user is member of
      * @return list with group objects
+     */
     @GetMapping("/all")
     public List<Group> getAllGroupsForUser(@RequestAttribute User user) {
         return groups.findGroupsForUser(user);
     }
-    */
 
     /**
      * Get a group by its id
@@ -67,7 +67,6 @@ public class GroupController {
             groups.save(group);
         }
     }
-
 
     /**
      * Create a new group

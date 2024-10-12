@@ -1,13 +1,15 @@
 package ch.olivezebra.mensa;
 
-import ch.olivezebra.mensa.auth.OAuthInterceptor;
+import ch.olivezebra.mensa.auth.AuthInterceptor;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.hibernate6.Hibernate6Module;
 import io.swagger.v3.core.jackson.ModelResolver;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
+import org.springdoc.core.utils.SpringDocUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -57,8 +59,8 @@ public class Config implements WebMvcConfigurer {
     }
 
     @Bean
-    public OAuthInterceptor createAuthInterceptor() {
-        return new OAuthInterceptor();
+    public AuthInterceptor createAuthInterceptor() {
+        return new AuthInterceptor();
     }
 
     @Override
