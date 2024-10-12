@@ -94,9 +94,6 @@ const Home: React.FC<HomeProps> = ({
           </IonRow>
         </IonGrid>
         <HostAction
-          openModal={() => {
-            setIsModalOpen(true);
-          }}
           openScan={() => {
             setIsScannerOpen(true);
           }}
