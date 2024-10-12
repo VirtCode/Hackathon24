@@ -131,15 +131,12 @@ const App: React.FC = () => {
           <IonTabBar slot="bottom" id="tabs">
             <IonTabButton tab="tab1" href="/home">
               <IonIcon aria-hidden="true" icon={home} />
-              <IonLabel>Home</IonLabel>
             </IonTabButton>
             <IonTabButton tab="tab2" href="/map">
               <IonIcon aria-hidden="true" icon={map} />
-              <IonLabel>Map</IonLabel>
             </IonTabButton>
             <IonTabButton tab="tab3" href="/groups">
               <IonIcon aria-hidden="true" icon={people} />
-              <IonLabel>Groups</IonLabel>
             </IonTabButton>
           </IonTabBar>
         </IonTabs>
