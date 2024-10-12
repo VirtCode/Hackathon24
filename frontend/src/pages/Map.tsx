@@ -58,8 +58,6 @@ const Map: React.FC<MapProps> = ({ mensas }) => {
         title={mensa.name}
         onClick={toggleInfo}
         ref={markerRef}
-        onMouseEnter={openInfo}
-        onMouseLeave={closeInfo}
         key={idx}
       >
         <Pin
@@ -68,13 +66,19 @@ const Map: React.FC<MapProps> = ({ mensas }) => {
           glyphColor={"white"}
         />
         {infoWindowShown && (
-          <InfoWindow anchor={marker} headerDisabled={true}>
-            <div onClick={()=> {router.push(`/mensa/${mensa.id}`)}}>
+          <InfoWindow anchor={marker} headerDisabled>
+            <div
+              onClick={() => {
+                setInfoWindowShown(false);
+                router.push(`/mensa/${mensa.id}`);
+              }}
+              className="window-popup"
+            >
               <IonCardTitle>{mensa.name}</IonCardTitle>
               <IonCardSubtitle color={mensa.open ? "success" : "warning"}>
                 {mensa.open ? "Open" : "Closed"}
               </IonCardSubtitle>
-              </div>
+            </div>
           </InfoWindow>
         )}
       </AdvancedMarker>
