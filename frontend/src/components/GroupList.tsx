@@ -12,7 +12,7 @@ export interface GroupListProps {
 }
 
 const GroupList: React.FC<GroupListProps> = ({ groups }) => {
-    console.log(getAllGroupsOfUser());
+    // console.log(getAllGroupsOfUser());
 
     return (
         <IonList lines='full'>
