@@ -9,6 +9,8 @@ import {
   IonCardContent,
   IonCardTitle,
   IonCardSubtitle,
+  IonRouterLink,
+  useIonRouter,
 } from "@ionic/react";
 import {
   useAdvancedMarkerRef,
@@ -32,9 +34,15 @@ interface MapProps {
 }
 
 const Map: React.FC<MapProps> = ({ mensas }) => {
+  const router = useIonRouter();
+  
   const renderMensaMarker = (mensa: Mensa, idx: React.Key) => {
     const [markerRef, marker] = useAdvancedMarkerRef();
     const [infoWindowShown, setInfoWindowShown] = useState(false);
+
+    const toggleInfo = () => {
+      setInfoWindowShown(!infoWindowShown);
+    };
     const openInfo = () => {
       setInfoWindowShown(true);
     };
@@ -42,33 +50,38 @@ const Map: React.FC<MapProps> = ({ mensas }) => {
       setInfoWindowShown(false);
     };
     return (
-      <IonItem routerLink={`/mensa/${mensa.id}`} key={idx}>
-        <AdvancedMarker
-          position={{
-            lat: mensa.lat,
-            lng: mensa.lng,
-          }}
-          title={mensa.name}
-          onClick={openInfo}
-          ref={markerRef}
-          onMouseEnter={openInfo}
-          onMouseLeave={closeInfo}
-        >
-          <Pin
-            background={"#616F25"}
-            borderColor={"#88993c"}
-            glyphColor={"white"}
-          />
-          {infoWindowShown && (
-            <InfoWindow anchor={marker} headerDisabled={true}>
+      <AdvancedMarker
+        position={{
+          lat: mensa.lat,
+          lng: mensa.lng,
+        }}
+        title={mensa.name}
+        onClick={toggleInfo}
+        ref={markerRef}
+        onMouseEnter={openInfo}
+        onMouseLeave={closeInfo}
+        key={idx}
+      >
+        <Pin
+          background={"#616F25"}
+          borderColor={"#88993c"}
+          glyphColor={"white"}
+        />
+        {infoWindowShown && (
+          <InfoWindow anchor={marker} headerDisabled={true}>
+            <IonContent
+              onClick={() =>
+                router.push(`/mensa/${mensa.id}`, "forward", "replace")
+              }
+            >
               <IonCardTitle>{mensa.name}</IonCardTitle>
               <IonCardSubtitle color={mensa.open ? "success" : "warning"}>
                 {mensa.open ? "Open" : "Closed"}
               </IonCardSubtitle>
-            </InfoWindow>
-          )}
-        </AdvancedMarker>
-      </IonItem>
+            </IonContent>
+          </InfoWindow>
+        )}
+      </AdvancedMarker>
     );
   };
   return (

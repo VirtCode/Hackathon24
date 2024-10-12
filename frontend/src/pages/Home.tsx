@@ -106,6 +106,8 @@ const Home: React.FC<HomeProps> = ({
           isOpen={isToastOpen}
           duration={3000}
           message={"Created Session!"}
+          position='bottom'
+          positionAnchor="tabs"
         />
       </IonContent>
     </IonPage>

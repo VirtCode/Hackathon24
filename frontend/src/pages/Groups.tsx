@@ -23,21 +23,21 @@ interface GroupsProps {
 
 const Groups: React.FC<GroupsProps> = ({ groups, setGroups }) => {
   const [showAddGroupModal, setShowAddGroupModal] = useState(false);
-  const history = useHistory();
+  // const history = useHistory();
 
-  useEffect(() => {
-    history.listen((location) => {
-      getAllGroupsOfUser(setGroups);
-    });
-  }, [history]);
+  // useEffect(() => {
+  //   history.listen((location) => {
+  //     getAllGroupsOfUser(setGroups);
+  //   });
+  // }, [history]);
 
-  useEffect(() => {
-    getAllGroupsOfUser(setGroups);
-  }, [showAddGroupModal]);
+  // useEffect(() => {
+  //   getAllGroupsOfUser(setGroups);
+  // }, [showAddGroupModal]);
 
-  useIonViewWillEnter(() => {
-    getAllGroupsOfUser(setGroups);
-  });
+  // useIonViewWillEnter(() => {
+  //   getAllGroupsOfUser(setGroups);
+  // });
 
   return (
     <IonPage>
