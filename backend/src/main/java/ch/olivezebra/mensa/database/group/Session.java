@@ -52,7 +52,7 @@ public class Session {
 
     /** is the meetup active */
     @JsonProperty
-    private boolean isActive() {
+    public boolean isActive() {
         return start.before(new Date()) && end.after(new Date());
     }
 }
