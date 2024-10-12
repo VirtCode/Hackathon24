@@ -16,7 +16,7 @@ import {
 } from "@ionic/react";
 import React from "react";
 import { RouteComponentProps } from "react-router";
-import GroupMemberList from "../components/GroupMemberList";
+import { Mensa } from "../api/group";
 
 interface MensaDetailProps
   extends RouteComponentProps<{
@@ -28,7 +28,7 @@ interface MensaDetailProps
 const MensaDetail: React.FC<MensaDetailProps> = ({ match, mensas }) => {
   const id = match.params.id;
 
-  let mensa = mensas.find((m) => m.id == Number.parseInt(id));
+  let mensa = mensas.find((m) => m.id == id);
 
   if (!mensa) return;
 
@@ -38,7 +38,7 @@ const MensaDetail: React.FC<MensaDetailProps> = ({ match, mensas }) => {
         <IonToolbar>
           <IonTitle>{mensa.name}</IonTitle>
           <IonButtons slot="start">
-            <IonBackButton defaultHref="/home" />
+            <IonBackButton />
           </IonButtons>
         </IonToolbar>
       </IonHeader>
@@ -51,19 +51,6 @@ const MensaDetail: React.FC<MensaDetailProps> = ({ match, mensas }) => {
           </IonCardHeader>
           <IonCardContent>
             <img src={mensa.image} alt="Mensa image" draggable={false} />
-          </IonCardContent>
-        </IonCard>
-        <IonCard>
-          <IonCardHeader>
-            <IonCardTitle>Members</IonCardTitle>
-          </IonCardHeader>
-          <IonCardContent>
-            <GroupMemberList
-              members={[
-                { id: 1, name: "Noel" },
-                { id: 2, name: "Arthur" },
-              ]}
-            />
           </IonCardContent>
         </IonCard>
       </IonContent>

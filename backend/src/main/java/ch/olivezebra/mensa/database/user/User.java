@@ -2,14 +2,12 @@ package ch.olivezebra.mensa.database.user;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
+import java.util.Date;
 
 @Entity
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class User {
@@ -23,4 +21,15 @@ public class User {
 
     /** ethz email from headers */
     private String email;
+
+    @Setter(AccessLevel.PRIVATE)
+    private Date joined;
+
+    public User(String id, String name, String email) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+
+        this.joined = new Date();
+    }
 }

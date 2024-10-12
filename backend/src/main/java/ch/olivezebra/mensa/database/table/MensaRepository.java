@@ -11,6 +11,9 @@ import java.util.UUID;
 
 public interface MensaRepository extends CrudRepository<Mensa, UUID> {
 
+    @Query("select t from eating_table t where t.id = :id")
+    Optional<Table> findTableById(UUID id);
+
     @Query("select t from eating_table t where t.mensa = :mensa")
     List<Table> findAllTables(Mensa mensa);
 
@@ -25,6 +28,11 @@ public interface MensaRepository extends CrudRepository<Mensa, UUID> {
     default Mensa requireById(UUID id) {
         return this.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No such mensa found"));
+    }
+
+    default Table requireTableById(UUID id) {
+        return this.findTableById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No such table found"));
     }
 
 }

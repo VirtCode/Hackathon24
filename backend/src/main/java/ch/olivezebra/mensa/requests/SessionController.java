@@ -74,13 +74,7 @@ public class SessionController {
         calendar.add(Calendar.MINUTE, def.duration);
         Date end = calendar.getTime();
 
-        Session session = new Session();
-        session.setStart(def.start);
-        session.setEnd(end);
-        session.setGroup(g);
-        session.setMensa(m);
-
-        return sessions.save(session);
+        return sessions.save(new Session(def.start, end, m, g));
     }
     @Getter
     public static class SessionDefinition {

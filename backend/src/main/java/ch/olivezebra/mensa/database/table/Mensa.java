@@ -29,6 +29,9 @@ public class Mensa {
     @Setter(AccessLevel.PRIVATE)
     private Set<Table> tables = new HashSet<>();
 
+    /** coordinates of the mensa */
+    private double lat, lng;
+
     /** viewport of the mensa svg */
     @JsonIgnore
     private int x, y, width, height;

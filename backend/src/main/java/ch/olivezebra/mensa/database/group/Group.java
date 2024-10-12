@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -21,6 +22,9 @@ public class Group {
 
     private String name;
 
+    @Setter(AccessLevel.PRIVATE)
+    private Date created;
+
     @ManyToMany
     @Setter(AccessLevel.PRIVATE)
     private Set<User> members = new HashSet<>();
@@ -29,4 +33,9 @@ public class Group {
     @OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
     @Setter(AccessLevel.PRIVATE)
     private Set<Session> sessions = new HashSet<>();
+
+    public Group(String name) {
+        this.name = name;
+        this.created = new Date();
+    }
 }

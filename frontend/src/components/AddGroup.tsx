@@ -25,29 +25,48 @@ interface AddGroupProps {
 const AddGroup: React.FC<AddGroupProps> = ({isOpen, setIsOpen, setGroups}) => {
     const modalRef = useRef<HTMLIonModalElement>(null);
 
-    const [name, setName] = useState<string>("");
+  const [name, setName] = useState<string>("");
 
   return (
     <IonModal isOpen={isOpen} ref={modalRef}>
       <IonPage>
         <IonHeader>
           <IonToolbar>
-            <IonTitle className="title" >New Group</IonTitle>
-            <IonButtons slot="end" >
-               <IonButton color="primary" onClick={async () => {
+            <IonTitle className="title">New Group</IonTitle>
+            <IonButtons slot="end">
+              <IonButton
+                color="primary"
+                onClick={async () => {
                   console.log(name);  
-                  createGroup({name: name})
+                  createGroup({ name: name })
                   await getAllGroupsOfUser(setGroups);
                   setIsOpen(false);
-               }}>Save</IonButton>
+                }}
+              >
+                Save
+              </IonButton>
             </IonButtons>
             <IonButtons slot="start">
-              <IonButton onClick={() => {setIsOpen(false)}} color='danger'>Dismiss</IonButton>
+              <IonButton
+                onClick={() => {
+                  setIsOpen(false);
+                }}
+                color="danger"
+              >
+                Dismiss
+              </IonButton>
             </IonButtons>
           </IonToolbar>
         </IonHeader>
         <IonContent className="ion-padding">
-        <IonInput label="Group name" labelPlacement="floating" fill="solid" placeholder="Group Name" className="input" onIonInput={(e: any)=> setName(e.detail.value)}></IonInput>
+          <IonInput
+            label="Group name"
+            labelPlacement="floating"
+            fill="solid"
+            placeholder="Group Name"
+            className="input"
+            onIonInput={(e: any) => setName(e.detail.value)}
+          ></IonInput>
         </IonContent>
       </IonPage>
     </IonModal>
