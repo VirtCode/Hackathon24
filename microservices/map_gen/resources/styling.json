@@ -1,0 +1,30 @@
+{
+  "border": {
+    "fill_color": "#ACADA8",
+    "fill_opacity": 0,
+    "stroke_color": "#ACADA8",
+    "stroke_width": 4,
+    "border_radius": 12
+  },
+  "view": {
+    "fill_color": "#ACADA8",
+    "fill_opacity": 1,
+    "stroke_color": "BLACK",
+    "stroke_width": 0,
+    "border_radius": 12
+  },
+  "stairs": {
+    "fill_color": "#746D69",
+    "fill_opacity": 1,
+    "stroke_color": "BLACK",
+    "stroke_width": 0,
+    "border_radius": 12
+  },
+  "table": {
+      "fill_color": "RED",
+      "fill_opacity": 1,
+      "stroke_color": "BLACK",
+      "stroke_width": 0,
+      "border_radius": 12
+    }
+}
