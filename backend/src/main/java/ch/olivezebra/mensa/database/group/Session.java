@@ -31,7 +31,6 @@ public class Session {
     @ManyToOne
     private Mensa mensa;
 
-    @JsonIgnore
     @NonNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "eating_group")

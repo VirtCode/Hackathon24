@@ -1,18 +1,14 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import {
   IonContent,
   IonGrid,
-  IonHeader,
   IonPage,
-  IonTitle,
-  IonToolbar,
   IonRow,
   IonLabel,
   IonText,
   IonList,
   IonToast,
-  getPlatforms,
-  isPlatform,
+  IonItem,
 } from "@ionic/react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -31,15 +27,34 @@ import ScannerModal from "../components/ScannerModal";
 interface HomeProps {
   mensas: Mensa[];
   groups: Group[];
-  sessions: Session[];
-  setSessions: Dispatch<SetStateAction<Session[]>>;
+  activeSessions: Session[];
+  setActiveSessions: Dispatch<SetStateAction<any[]>>;
 }
 
-const Home: React.FC<HomeProps> = ({ mensas, groups, setSessions }) => {
+const Home: React.FC<HomeProps> = ({
+  mensas,
+  groups,
+  activeSessions,
+  setActiveSessions,
+}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isScannerOpen, setIsScannerOpen] = useState(false);
   const [isToastOpen, setIsToastOpen] = useState(false);
-  const [activeSession, setActiveSession] = useState<Session>();
+
+  const renderSession = (session: Session, idx: number) => {
+    return (
+      <IonItem
+        key={idx}
+        routerLink={`/group/${session.group?.id}`}
+        color="success"
+        className="pending-session"
+      >
+        {session.pending ? "Pending" : "Active"} - {session.group?.name}
+      </IonItem>
+    );
+  };
+
+  useEffect(() => {}, [activeSessions]);
 
   const renderMensaCard = (mensa: Mensa, idx: React.Key) => {
     return (
@@ -54,6 +69,13 @@ const Home: React.FC<HomeProps> = ({ mensas, groups, setSessions }) => {
       <Header pageTitle="Mensarr" />
       <IonContent fullscreen>
         <IonGrid className="home-grid">
+          {activeSessions.length > 0 && (
+            <IonList>
+              {activeSessions.map((session, idx) =>
+                renderSession(session, idx)
+              )}
+            </IonList>
+          )}
           <IonRow>
             <IonText>
               <h2>Already Hungry?</h2>
@@ -80,12 +102,11 @@ const Home: React.FC<HomeProps> = ({ mensas, groups, setSessions }) => {
           }}
         />
         <HostModal
-          setActiveSession={setActiveSession}
+          setActiveSessions={setActiveSessions}
           isModalOpen={isModalOpen}
           setIsModalOpen={setIsModalOpen}
           mensas={mensas}
           groups={groups}
-          setSessions={setSessions}
           isToastOpen={isToastOpen}
           setIsToastOpen={setIsToastOpen}
         />

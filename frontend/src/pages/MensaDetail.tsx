@@ -37,7 +37,11 @@ const MensaDetail: React.FC<MensaDetailProps> = ({ match, mensas }) => {
   const [table, setTable] = useState<string>("");
 
   useEffect(() => {
-    getMensaLayout(id, setLayout);
+    const fetchLayout = async () => {
+      const layout = await getMensaLayout(id);
+      setLayout(layout);
+    };
+    fetchLayout().then(() => console.log("Fetched layout from ", mensa?.name));
   }, []);
 
   useEffect(() => {

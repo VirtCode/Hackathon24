@@ -35,12 +35,11 @@ import { Group, Mensa, Session } from "../api/group";
 import { createSession } from "../api/sessions";
 
 type HostModalProps = {
-  setActiveSession: Dispatch<SetStateAction<Session | undefined>>;
+  setActiveSessions: Dispatch<SetStateAction<Session[]>>;
   isModalOpen: boolean;
   setIsModalOpen: Dispatch<SetStateAction<boolean>>;
   mensas: Mensa[];
   groups: Group[];
-  setSessions: Dispatch<SetStateAction<Session[]>>;
   isToastOpen: boolean;
   setIsToastOpen: Dispatch<SetStateAction<boolean>>;
 };
@@ -52,7 +51,7 @@ function HostModal({
   groups,
   isToastOpen,
   setIsToastOpen,
-  setActiveSession,
+  setActiveSessions,
 }: HostModalProps) {
   const [time, setTime] = useState<string>(new Date().toISOString());
   const [mensa, setMensa] = useState<string>("");
@@ -70,17 +69,16 @@ function HostModal({
     }
   }, [isToastOpen]);
 
-  const confirm = () => {
-    let session: Session = {
-      id: "",
+  const confirm = async () => {
+    let session = {
       start: time,
       duration: 30,
       mensa: mensa,
-      group: group,
     };
-    createSession(group, session, setActiveSession);
+    let data: Session = await createSession(group, session);
+    if (data) setIsToastOpen(true);
+    setActiveSessions((activeSessions) => [...activeSessions, data]);
     setIsModalOpen(false);
-    setIsToastOpen(true);
   };
 
   return (

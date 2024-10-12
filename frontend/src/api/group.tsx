@@ -20,11 +20,13 @@ export interface SessionCreate {
 }
 
 export interface Session {
-  id: string;
+  id?: string;
+  active: boolean;
+  pending: boolean;
   start: string;
   duration: number;
-  mensa: string;
-  group: string;
+  mensa: Mensa;
+  group?: Group;
   tables?: Table[];
 }
 
@@ -33,7 +35,6 @@ export interface Mensa {
   name: string;
   lat: number;
   lng: number;
-  image: string;
   tables: Table[];
   open: boolean;
 }
@@ -59,17 +60,12 @@ export async function createGroup(group: GroupCreate) {
   });
 }
 
-export function getAllGroupsOfUser(
-  setGroups: React.Dispatch<React.SetStateAction<Group[]>>
-) {
-  axios
-    .get(`${API}/group/all`)
-    .then((response) => {
-      setGroups(response.data);
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+export async function getAllGroupsOfUser() {
+  let res = await axios.get(`${API}/group/all`).catch((error) => {
+    console.error(error);
+  });
+  if (!res || res.status != 200) return null;
+  return res.data;
 }
 
 export function getGroupById(

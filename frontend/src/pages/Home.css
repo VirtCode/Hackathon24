@@ -5,3 +5,7 @@
 #slide-container {
     height: auto;
 }
+
+.pending-session {
+    border-radius: 15px;
+}
