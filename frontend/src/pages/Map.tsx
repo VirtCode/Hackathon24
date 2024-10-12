@@ -34,20 +34,15 @@ interface MapProps {
 }
 
 const Map: React.FC<MapProps> = ({ mensas }) => {
-  const router = useIonRouter();
-
   const renderMensaMarker = (mensa: Mensa, idx: React.Key) => {
+    const router = useIonRouter();
+
     const [markerRef, marker] = useAdvancedMarkerRef();
+
     const [infoWindowShown, setInfoWindowShown] = useState(false);
 
     const toggleInfo = () => {
       setInfoWindowShown(!infoWindowShown);
-    };
-    const openInfo = () => {
-      setInfoWindowShown(true);
-    };
-    const closeInfo = () => {
-      setInfoWindowShown(false);
     };
     return (
       <AdvancedMarker
