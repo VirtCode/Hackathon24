@@ -15,7 +15,7 @@ import {
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
-import React, { useEffect, useRef, useState } from "react";
+import React, {useEffect, useMemo, useRef, useState} from "react";
 import { RouteComponentProps } from "react-router";
 import { Meetup, Mensa } from "../api/group";
 import { getMensaLayout } from "../api/mensas";
@@ -68,18 +68,14 @@ const MensaDetail: React.FC<MensaDetailProps> = ({ match, mensas }) => {
 
   useEffect(() => {
     if (!layout) return;
-    setTimeout(() => {
-      const selection: Selection<Element, any, any, any> = d3.select("svg");
-      selection.call(zoom);
-
-      const svgElement = ref.current?.firstElementChild as HTMLElement;
-      if (!svgElement) return;
-      svgElement.addEventListener("click", handleSvgClick as any);
-    });
+    const selection: Selection<Element, any, any, any> = d3.select("ion-router-outlet > .ion-page:not(.ion-page-hidden) svg");
+    selection.call(zoom);
+    const svgEl = document.querySelector("ion-router-outlet > .ion-page:not(.ion-page-hidden) svg");
+    if(svgEl) svgEl.addEventListener("click", handleSvgClick as any);
   }, [layout]);
 
   const resetZoomAndPan = () => {
-    const selection: Selection<Element, any, any, any> = d3.select("svg");
+    const selection: Selection<Element, any, any, any> = d3.select("ion-router-outlet > .ion-page:not(.ion-page-hidden) svg");
     selection.call(zoom.transform, d3.zoomIdentity);
     setIsDirty(false);
   };
@@ -99,7 +95,7 @@ const MensaDetail: React.FC<MensaDetailProps> = ({ match, mensas }) => {
   };
 
   const zoom = d3.zoom().on("zoom", (e) => {
-    d3.select("svg g").attr("transform", e.transform);
+    d3.select("ion-router-outlet > .ion-page:not(.ion-page-hidden) svg g").attr("transform", e.transform);
     setIsDirty(true);
   });
 

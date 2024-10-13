@@ -28,7 +28,7 @@ import {
 import { RouteComponentProps } from "react-router";
 import { getMensaByTable } from "../api/mensas";
 import { Group, Mensa, Session, Meetup } from "../api/group";
-import { createMeetup, createSession } from "../api/sessions";
+import {addSessionTables, createMeetup, createSession} from "../api/sessions";
 
 interface TableSelectProps extends RouteComponentProps<{ id: string }> {
   groups: Group[];
@@ -67,13 +67,15 @@ const TableSelect: React.FC<TableSelectProps> = ({
       let data = await createMeetup(tableId, duration);
       setMyMeetup(data);
       setToastMessage("Opened Meetup!");
+      router.push("/home", "root", "replace");
     } else {
       let data = await createSession(group, session);
-      setActiveSessions((activeSessions) => [...activeSessions, data]);
+      data = await createSession(group, session);
+      // add table
+      data = await addSessionTables(data.id, [tableId]);
       setToastMessage("Created Session!");
+      router.push(`/session/${data.id}`)
     }
-    setIsToastOpen(true);
-    router.push("/home", "root", "replace");
   };
 
   return (

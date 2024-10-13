@@ -39,10 +39,18 @@ const Session: React.FC<SessionProps> = ({ match }) => {
 
     useEffect(() => {
         tableRef.current = tables;
-    }, [tables]);
+        const svgEl = document.querySelector("ion-router-outlet > .ion-page:not(.ion-page-hidden) svg");
+        if (svgEl) {
+            tables.forEach(table => {
+                const rect = document.getElementById(table);
+                if (!rect) return;
+                rect.setAttribute("data-selected", "true");
+            })
+        }
+    }, [tables, layout]);
 
     useEffect(() => {
-        if (!session) return;
+        if (!session || tables.length > 0) return;
         setTables(session.tables?.map(t => t.id) || []);
         const fetchLayout = async () => {
             const layout = await getMensaLayout(session.mensa.id);
@@ -58,38 +66,25 @@ const Session: React.FC<SessionProps> = ({ match }) => {
 
     useEffect(() => {
         if (!layout) return;
-        setTimeout(() => {
-            const selection: Selection<Element, any, any, any> = d3.select("svg");
-            selection.call(zoom)
-
-            if (session) {
-                session.tables?.forEach(table => {
-                    const rect = document.getElementById(table.id);
-                    if (!rect) return;
-                    rect.setAttribute("data-selected", "true");
-                })
-            }
-
-            const svgElement = ref.current?.firstElementChild as HTMLElement;
-            if (!svgElement) return;
-            svgElement.addEventListener("click", handleSvgClick as any);
-        });
+        const selection: Selection<Element, any, any, any> = d3.select("ion-router-outlet > .ion-page:not(.ion-page-hidden) svg");
+        selection.call(zoom)
+        const svgEl = document.querySelector("ion-router-outlet > .ion-page:not(.ion-page-hidden) svg");
+        if(svgEl) svgEl.addEventListener("click", handleSvgClick as any);
     }, [layout]);
 
     const resetZoomAndPan = () => {
-        const selection: Selection<Element, any, any, any> = d3.select("svg");
+        const selection: Selection<Element, any, any, any> = d3.select("ion-router-outlet > .ion-page:not(.ion-page-hidden) svg");
         selection.call(zoom.transform, d3.zoomIdentity);
         setIsDirty(false)
     };
 
     const handleSvgClick = (event: React.MouseEvent<SVGElement>) => {
-        if (!session?.active) return;
+        if (hasSessionEnded) return;
         const target = event.target as HTMLElement;
         if (target.classList.contains("table")) {
             // the clicked element was a table
             const id = target.id;
             const tables = tableRef.current;
-            console.log("tables included " + tables.includes(id), tables)
             if (tables.includes(id)) {
                 target.removeAttribute("data-selected");
                 setTables((tables) => tables.filter(t => t !== id));
@@ -109,7 +104,7 @@ const Session: React.FC<SessionProps> = ({ match }) => {
     }
 
     const zoom = d3.zoom().on("zoom", (e) => {
-        d3.select("svg g").attr("transform", e.transform);
+        d3.select("ion-router-outlet > .ion-page:not(.ion-page-hidden) svg g").attr("transform", e.transform);
         setIsDirty(true);
     });
 
@@ -155,7 +150,7 @@ const Session: React.FC<SessionProps> = ({ match }) => {
                                 {tables.length == 0 && (
                                     <i>The session does not{isPastSession ? "" : " yet"} have a table assigned</i>
                                 )}
-                                <section ref={ref} className={`svg-container ${!session?.active ? "readonly" : ""}`} dangerouslySetInnerHTML={{ __html: layout }} />
+                                <section ref={ref} className={`svg-container ${hasSessionEnded ? "readonly" : ""}`} dangerouslySetInnerHTML={{ __html: layout }} />
                                 {isDirty && (
                                     <IonFab slot={"fixed"} horizontal={"end"} vertical={"bottom"}>
                                         <IonFabButton size={"small"} onClick={resetZoomAndPan}>
