@@ -1,7 +1,7 @@
 import axios from "axios";
 
 import { API } from "./env";
-import { Session } from "./group";
+import { Session, Meetup } from "./group";
 
 export async function createSession(groupId: string, sessionInfo: any) {
   try {
@@ -33,16 +33,35 @@ export async function getSession(sessionId: string) {
     console.log("getSession:", err);
   }
 }
-export async function createMeetup(tableId: string) {
+export async function createMeetup(tableId: string, duration: number) {
   try {
-    const response = await axios.post(`${API}/meetup`, { table: tableId });
+    const response = await axios.post(`${API}/meetup`, {
+      table: tableId,
+      duration: duration,
+    });
     if (response) return response.data;
   } catch (err) {
     console.log("createMeetup:", err);
   }
 }
 
-export async function getSessionOfGroup(groupId: string, setSession: React.Dispatch<React.SetStateAction<Session | undefined>>) {
+export async function getMyActiveMeetup() {
+  try {
+    const response = await axios.get(`${API}/meetup/own`);
+    if (response)
+      response.data.forEach((meetup: Meetup) => {
+        if (meetup.active) return meetup;
+      });
+    return undefined;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+export async function getSessionOfGroup(
+  groupId: string,
+  setSession: React.Dispatch<React.SetStateAction<Session | undefined>>
+) {
   try {
     const response = await axios.get(`${API}/group/${groupId}/session/active`);
     if (response) setSession(response.data);

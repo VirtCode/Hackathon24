@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Redirect, Route } from "react-router-dom";
+import { Redirect, Route, useParams, generatePath } from "react-router-dom";
 import {
   IonApp,
   IonIcon,
@@ -22,7 +22,7 @@ import MensaDetail from "./pages/MensaDetail";
 import SessionPage from "./pages/Session"
 import { getAllGroupsOfUser, Group, Mensa, Session } from "./api/group";
 import { getAllMensas } from "./api/mensas";
-import { getActiveSession } from "./api/sessions";
+import { getActiveSession, getMyActiveMeetup } from "./api/sessions";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -58,10 +58,16 @@ import TableSelect from "./pages/Create";
 
 setupIonicReact();
 
+const CustomRedirect = ({ to }) => {
+  const params = useParams();
+  return <Redirect to={generatePath(to, params)} />;
+};
+
 const App: React.FC = () => {
   const [mensas, setMensas] = useState<Mensa[]>([]);
   const [groups, setGroups] = useState<Group[]>([]);
   const [activeSessions, setActiveSessions] = useState<any[]>([]);
+  const [myMeetup, setMyMeetup] = useState<Meetup | undefined>();
   const [user, setUser] = useState<User>({
     id: "",
     name: "",
@@ -84,6 +90,8 @@ const App: React.FC = () => {
           if (session) sessions.push(session);
         })
       );
+      const myMeetup = await getMyActiveMeetup();
+      setMyMeetup(myMeetup);
       setActiveSessions(() => sessions);
       const user = await getCurrentUser();
       if (user) setUser(user);
@@ -106,6 +114,8 @@ const App: React.FC = () => {
                 setActiveSessions={setActiveSessions}
                 isToastOpen={isToastOpen}
                 setIsToastOpen={setIsToastOpen}
+                myMeetup={myMeetup}
+                setMyMeetup={setMyMeetup}
               />
             </Route>
             <Route exact path="/map">
@@ -140,11 +150,12 @@ const App: React.FC = () => {
                   {...props}
                   setIsToastOpen={setIsToastOpen}
                   setActiveSessions={setActiveSessions}
+                  setMyMeetup={setMyMeetup}
                 />
               )}
             />
             <Route exact path="/qr/:id">
-              <Redirect to="/create/:id" />
+              <CustomRedirect to="/create/:id" />
             </Route>
             <Route
                 exact
