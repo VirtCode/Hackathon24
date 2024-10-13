@@ -17,7 +17,7 @@ import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import { Scrollbar, Navigation, Pagination, A11y } from "swiper/modules";
 import "./Home.css";
-import { Group, Mensa, Session } from "../api/group";
+import { Group, Meetup, Mensa, Session } from "../api/group";
 import Header from "../components/Header";
 import MensaCard from "../components/MensaCard";
 import HostAction from "../components/HostAction";
@@ -30,6 +30,8 @@ interface HomeProps {
   setActiveSessions: Dispatch<SetStateAction<any[]>>;
   isToastOpen: boolean;
   setIsToastOpen: Dispatch<SetStateAction<boolean>>;
+  myMeetup: Meetup | undefined;
+  setMyMeetup: Dispatch<SetStateAction<Meetup | undefined>>;
 }
 
 const Home: React.FC<HomeProps> = ({
@@ -38,18 +40,32 @@ const Home: React.FC<HomeProps> = ({
   activeSessions,
   setActiveSessions,
   isToastOpen,
+  myMeetup,
 }) => {
   const [isScannerOpen, setIsScannerOpen] = useState(false);
 
+  const renderMeetup = (meetup: Meetup) => {
+    let end = new Date(meetup.end);
+
+    return (
+      <IonList>
+        <IonItem color="medium">
+          Meet me at {meetup.mensa.name} until{" "}
+          {("0" + end.getHours()).slice(-2)}:
+          {("0" + end.getMinutes()).slice(-2)}
+        </IonItem>
+      </IonList>
+    );
+  };
+
   const renderSession = (session: Session, idx: number) => {
-    let start = new Date(session.start);
     let end = new Date(session.end);
 
     let diff = end.getTime() - new Date().getTime();
     let hours = Math.floor(diff / (1000 * 60 * 60));
     let minutes = Math.floor((diff - hours * (1000 * 60 * 60)) / (1000 * 60));
 
-    let text = minutes + "min"
+    let text = minutes + "min";
     if (hours > 0) text = hours + "h " + text;
 
     return (
@@ -62,9 +78,9 @@ const Home: React.FC<HomeProps> = ({
       <div className="session-div">
         <b>{session.group?.name}</b>
         <div>
-         at {session.mensa.name} until {" "}
-        {("0" + end.getHours()).slice(-2)}:{("0" + end.getMinutes()).slice(-2)}
-            {" "} ({text} remaining)
+         at {session.mensa.name} until{" "}
+        {("0" + end.getHours()).slice(-2)}:{("0" + end.getMinutes()).slice(-2)}{" "}
+        ({text} remaining)
             </div>
             </div>
       </IonItem>
@@ -86,6 +102,7 @@ const Home: React.FC<HomeProps> = ({
       <Header pageTitle="Title" main={true} />
       <IonContent fullscreen>
         <IonGrid className="home-grid">
+          {myMeetup && renderMeetup(myMeetup)}
           {activeSessions.length > 0 && (
             <IonList title="Currently having food" lines="none">
               <h2>Currently having food</h2>

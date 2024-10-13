@@ -28,13 +28,14 @@ import {
 import { RouteComponentProps } from "react-router";
 import Header from "../components/Header";
 import { getMensaByTable } from "../api/mensas";
-import { Group, Mensa, Session } from "../api/group";
+import { Group, Mensa, Session, Meetup } from "../api/group";
 import { createMeetup, createSession } from "../api/sessions";
 
 interface TableSelectProps extends RouteComponentProps<{ id: string }> {
   groups: Group[];
   setIsToastOpen: Dispatch<SetStateAction<boolean>>;
   setActiveSessions: Dispatch<SetStateAction<Session[]>>;
+  setMyMeetup: Dispatch<SetStateAction<Meetup | undefined>>;
 }
 
 const TableSelect: React.FC<TableSelectProps> = ({
@@ -42,6 +43,7 @@ const TableSelect: React.FC<TableSelectProps> = ({
   groups,
   setIsToastOpen,
   setActiveSessions,
+  setMyMeetup,
 }) => {
   const router = useIonRouter();
   const tableId = match.params.id;
@@ -53,21 +55,21 @@ const TableSelect: React.FC<TableSelectProps> = ({
   const confirm = async () => {
     const mensa = await getMensaByTable(tableId);
 
+    if (!mensa) console.log("Mensa is undefined");
+
     let session = {
       start: time,
       duration: duration,
       mensa: mensa.id,
     };
-    let data;
     if (group == "open") {
-      data = await createMeetup(tableId);
+      let data = await createMeetup(tableId, duration);
+      setMyMeetup(data);
     } else {
-      data = await createSession(group, session);
-    }
-    if (data) {
-      setIsToastOpen(true);
+      let data = await createSession(group, session);
       setActiveSessions((activeSessions) => [...activeSessions, data]);
     }
+    setIsToastOpen(true);
     router.push("/home", "root", "replace");
   };
 
@@ -107,7 +109,7 @@ const TableSelect: React.FC<TableSelectProps> = ({
             >
               {
                 <IonSelectOption value="open" key={0}>
-                  <IonLabel className="open-session">Open Meet</IonLabel>
+                  <IonLabel className="open-meetup">Open Meetup</IonLabel>
                 </IonSelectOption>
               }
               {groups.map((group, idx) => (
