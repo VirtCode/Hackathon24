@@ -26,7 +26,6 @@ import {
   RangeChangeEventDetail,
 } from "@ionic/core";
 import { RouteComponentProps } from "react-router";
-import Header from "../components/Header";
 import { getMensaByTable } from "../api/mensas";
 import { Group, Mensa, Session, Meetup } from "../api/group";
 import { createMeetup, createSession } from "../api/sessions";

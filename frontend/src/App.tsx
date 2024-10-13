@@ -19,9 +19,10 @@ import Groups from "./pages/Groups";
 import Settings from "./pages/Settings";
 import GroupDetail from "./pages/GroupDetail";
 import MensaDetail from "./pages/MensaDetail";
-import SessionPage from "./pages/Session"
-import { getAllGroupsOfUser, Group, Mensa, Session } from "./api/group";
+import SessionPage from "./pages/Session";
+import { getAllGroupsOfUser, Group, Mensa, Meetup } from "./api/group";
 import { getAllMensas } from "./api/mensas";
+import { LocationDescriptor, LocationDescriptorObject } from "history";
 import { getActiveSession, getMyActiveMeetup } from "./api/sessions";
 
 /* Core CSS required for Ionic components to work properly */
@@ -57,11 +58,6 @@ import { getCurrentUser, User } from "./api/user";
 import TableSelect from "./pages/Create";
 
 setupIonicReact();
-
-const CustomRedirect = ({ to }) => {
-  const params = useParams();
-  return <Redirect to={generatePath(to, params)} />;
-};
 
 const App: React.FC = () => {
   const [mensas, setMensas] = useState<Mensa[]>([]);
@@ -154,13 +150,17 @@ const App: React.FC = () => {
                 />
               )}
             />
-            <Route exact path="/qr/:id">
-              <CustomRedirect to="/create/:id" />
-            </Route>
             <Route
-                exact
-                path="/session/:id"
-                render={(props) => <SessionPage {...props} />}
+              exact
+              path="/qr/:id"
+              render={(props) => {
+                return <Redirect to={`/create/${props.match.params.id}`} />;
+              }}
+            ></Route>
+            <Route
+              exact
+              path="/session/:id"
+              render={(props) => <SessionPage {...props} />}
             />
             <Route exact path="/">
               <Redirect to="/home" />
