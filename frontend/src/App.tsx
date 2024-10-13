@@ -60,7 +60,12 @@ const App: React.FC = () => {
   const [mensas, setMensas] = useState<Mensa[]>([]);
   const [groups, setGroups] = useState<Group[]>([]);
   const [activeSessions, setActiveSessions] = useState<any[]>([]);
-  const [user, setUser] = useState<User>({ id: "", name: "", email: "", joined: new Date() });
+  const [user, setUser] = useState<User>({
+    id: "",
+    name: "",
+    email: "",
+    joined: "",
+  });
 
   const [isToastOpen, setIsToastOpen] = useState(false);
 
@@ -71,10 +76,12 @@ const App: React.FC = () => {
       const mensas: Mensa[] = await getAllMensas();
       setMensas(mensas);
       let sessions: any[] = [];
-      await Promise.all(groups.map(async (group) => {
-        const session = await getActiveSession(group.id);
-        if (session) sessions.push(session);
-      }));
+      await Promise.all(
+        groups.map(async (group) => {
+          const session = await getActiveSession(group.id);
+          if (session) sessions.push(session);
+        })
+      );
       setActiveSessions(() => sessions);
       const user = await getCurrentUser();
       if (user) setUser(user);
