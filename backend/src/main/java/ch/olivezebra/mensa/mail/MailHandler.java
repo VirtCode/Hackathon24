@@ -82,8 +82,12 @@ public class MailHandler {
         MimeMessage message = createMail(recipient, html, subject);
 
         executor.execute(() -> {
-            log.debug("sending instant mail to `{}`", recipient);
-            mail.send(message);
+            log.info("sending instant mail to `{}`", recipient);
+            try {
+                mail.send(message);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         });
     }
 

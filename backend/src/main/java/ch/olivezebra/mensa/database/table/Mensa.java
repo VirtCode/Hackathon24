@@ -46,6 +46,10 @@ public class Mensa {
     /* is the mensa currently open? (only a rough approx) */
     @JsonProperty
     public boolean isOpen() {
+        // this is always open
+        if (this.id.equals(UUID.fromString("6d930285-affe-47a3-af8f-2e04df87af38")))
+            return true;
+
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
 

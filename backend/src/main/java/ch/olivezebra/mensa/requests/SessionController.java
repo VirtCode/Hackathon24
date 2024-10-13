@@ -136,6 +136,20 @@ public class SessionController {
     }
 
     /**
+     * Edits the metadata of a session. WARNING, when the mensa is not null, it will be changed, but all tables WILL BE REMOVED!!!
+     * @param id id of the session
+     * @return edited session
+     */
+    @PostMapping("/session/{id}/end")
+    public Session endSession(@RequestAttribute User user, @PathVariable UUID id) {
+        Session session = sessions.requireSessionAccess(id, user);
+
+        session.setEnd(new Date());
+
+        return sessions.save(session);
+    }
+
+    /**
      * Adds tables to a session
      * @param id session to add to
      * @param tables tables to add
