@@ -61,22 +61,26 @@ export interface Meetup {
 }
 
 export async function createGroup(group: GroupCreate) {
-  await axios.post(`${API}/group`, group).then((response) => {
+  try {
+    const response = await axios.post(`${API}/group`, group);
     return {
       id: response.data.id,
       name: response.data.name,
       members: response.data.members,
       sessions: response.data.sessions,
     };
-  });
+  } catch (err) {
+    console.log("createGroup:", err);
+  }
 }
 
 export async function getAllGroupsOfUser() {
-  let res = await axios.get(`${API}/group/all`).catch((error) => {
-    console.error(error);
-  });
-  if (!res || res.status != 200) return null;
-  return res.data;
+  try {
+    let response = await axios.get(`${API}/group/all`);
+    return response.data;
+  } catch (err) {
+    console.log("getAllGroupsOfUser:", err);
+  }
 }
 
 export function getGroupById(
@@ -93,8 +97,12 @@ export function getGroupById(
     });
 }
 
-export function leaveGroup(id: string | undefined) {
-  axios.post(`${API}/group/${id}/leave`);
+export async function leaveGroup(id: string | undefined) {
+  try {
+    await axios.post(`${API}/group/${id}/leave`);
+  } catch (err) {
+    console.log("leaveGroup:", err);
+  }
 }
 
 export function userInGroup(group: Group, user: User): boolean {
@@ -109,9 +117,17 @@ export function userInGroup(group: Group, user: User): boolean {
 }
 
 export async function joinGroup(id: string) {
-  await axios.post(`${API}/group/${id}/join`);
+  try {
+    await axios.post(`${API}/group/${id}/join`);
+  } catch (err) {
+    console.log("joinGroup:", err);
+  }
 }
 
 export async function updateGroup(id: string, name: string) {
-  await axios.put(`${API}/group/${id}`, { name: name });
+  try {
+    await axios.put(`${API}/group/${id}`, { name: name });
+  } catch (err) {
+    console.log("updateGroup:", err);
+  }
 }

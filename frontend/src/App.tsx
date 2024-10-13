@@ -62,6 +62,8 @@ const App: React.FC = () => {
   const [activeSessions, setActiveSessions] = useState<any[]>([]);
   const [user, setUser] = useState<User>({ id: "", name: "", email: "", joined: "" });
 
+  const [isToastOpen, setIsToastOpen] = useState(false);
+
   useEffect(() => {
     const fetchData = async () => {
       const groups: Group[] = await getAllGroupsOfUser();
@@ -93,6 +95,8 @@ const App: React.FC = () => {
                 groups={groups}
                 activeSessions={activeSessions}
                 setActiveSessions={setActiveSessions}
+                isToastOpen={isToastOpen}
+                setIsToastOpen={setIsToastOpen}
               />
             </Route>
             <Route exact path="/map">
@@ -119,7 +123,14 @@ const App: React.FC = () => {
             <Route
               exact
               path="/create/:id"
-              render={(props) => <TableSelect groups={groups} {...props} />}
+              render={(props) => (
+                <TableSelect
+                  groups={groups}
+                  {...props}
+                  setIsToastOpen={setIsToastOpen}
+                  setActiveSessions={setActiveSessions}
+                />
+              )}
             />
             <Route exact path="/qr/:id">
               <Redirect to="/create/:id" />

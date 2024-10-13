@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, Dispatch, SetStateAction } from "react";
 import {
   IonPage,
   IonContent,
@@ -8,6 +8,7 @@ import {
   IonSelect,
   IonSelectOption,
   IonButton,
+  useIonRouter,
 } from "@ionic/react";
 import {
   IonDatetimeCustomEvent,
@@ -17,17 +18,41 @@ import {
 } from "@ionic/core";
 import { RouteComponentProps } from "react-router";
 import Header from "../components/Header";
-import { Group, Mensa } from "../api/group";
+import { getMensaByTable } from "../api/mensas";
+import { Group, Mensa, Session } from "../api/group";
+import { createSession } from "../api/sessions";
 
 interface TableSelectProps extends RouteComponentProps<{ id: string }> {
   groups: Group[];
+  setIsToastOpen: Dispatch<SetStateAction<boolean>>;
+  setActiveSessions: Dispatch<SetStateAction<Session[]>>;
 }
 
-const TableSelect: React.FC<TableSelectProps> = ({ match, groups }) => {
+const TableSelect: React.FC<TableSelectProps> = ({
+  match,
+  groups,
+  setIsToastOpen,
+  setActiveSessions,
+}) => {
+  const router = useIonRouter();
   const tableId = match.params.id;
 
   const [time, setTime] = useState<string>(new Date().toISOString());
   const [group, setGroup] = useState<string>("");
+
+  const confirm = async () => {
+    const mensa = await getMensaByTable(tableId);
+
+    let session = {
+      start: time,
+      duration: 30,
+      mensa: mensa.id,
+    };
+    let data = await createSession(group, session);
+    if (data) setIsToastOpen(true);
+    setActiveSessions((activeSessions) => [...activeSessions, data]);
+    router.push("/home", "root", "replace");
+  };
 
   return (
     <IonPage>

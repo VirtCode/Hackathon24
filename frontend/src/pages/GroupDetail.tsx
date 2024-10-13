@@ -138,7 +138,7 @@ const GroupDetail: React.FC<GroupDetailProps> = ({ match, user }) => {
             fill="solid"
             expand="block"
             onClick={async () => {
-              leaveGroup(id);
+              await leaveGroup(id);
               router.push("/groups", "forward");
             }}
           >
@@ -191,8 +191,6 @@ const GroupDetail: React.FC<GroupDetailProps> = ({ match, user }) => {
             },
           ]}
         ></IonAlert>
-
-        {/* <IonButton onClick={() => console.log(userInGroup(group, user), user, group)}>Default</IonButton> */}
       </IonContent>
     </IonPage>
   );

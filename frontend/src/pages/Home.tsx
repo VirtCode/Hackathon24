@@ -21,7 +21,6 @@ import { Group, Mensa, Session } from "../api/group";
 import Header from "../components/Header";
 import MensaCard from "../components/MensaCard";
 import HostAction from "../components/HostAction";
-import HostModal from "../components/HostModal";
 import ScannerModal from "../components/ScannerModal";
 
 interface HomeProps {
@@ -29,6 +28,8 @@ interface HomeProps {
   groups: Group[];
   activeSessions: Session[];
   setActiveSessions: Dispatch<SetStateAction<any[]>>;
+  isToastOpen: boolean;
+  setIsToastOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 const Home: React.FC<HomeProps> = ({
@@ -36,10 +37,10 @@ const Home: React.FC<HomeProps> = ({
   groups,
   activeSessions,
   setActiveSessions,
+  isToastOpen,
+  setIsToastOpen,
 }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isScannerOpen, setIsScannerOpen] = useState(false);
-  const [isToastOpen, setIsToastOpen] = useState(false);
 
   const renderSession = (session: Session, idx: number) => {
     return (
@@ -97,15 +98,6 @@ const Home: React.FC<HomeProps> = ({
           openScan={() => {
             setIsScannerOpen(true);
           }}
-        />
-        <HostModal
-          setActiveSessions={setActiveSessions}
-          isModalOpen={isModalOpen}
-          setIsModalOpen={setIsModalOpen}
-          mensas={mensas}
-          groups={groups}
-          isToastOpen={isToastOpen}
-          setIsToastOpen={setIsToastOpen}
         />
         <ScannerModal
           setIsScannerOpen={setIsScannerOpen}

@@ -1,18 +1,24 @@
 import axios from "axios";
-import { useState } from "react";
 import { API } from "./env";
 
 export interface User {
   id: string;
   name: string;
   email: string;
-  joined: string;
+  joined: Date;
 }
 
 export async function getCurrentUser() {
-  const response = await axios.get(`${API}/user/current`).catch((error) => {
-    console.error(error);
-  });
-  if (!response || response.status != 200) return null;
-  return response.data;
+  try {
+    const response = await axios.get(`${API}/user/current`);
+    if (response)
+      return {
+        id: response.data.id,
+        name: response.data.name,
+        email: response.data.email,
+        joined: response.data.joined,
+      };
+  } catch (err) {
+    console.log("getCurrentUser:", err);
+  }
 }
