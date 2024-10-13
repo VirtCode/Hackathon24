@@ -20,10 +20,11 @@ import {
   useIonToast,
   useIonViewWillEnter,
 } from "@ionic/react";
-import React, { useEffect } from "react";
+import React, { Dispatch, SetStateAction, useEffect } from "react";
 import { RouteComponentProps } from "react-router";
 import GroupMemberList from "../components/GroupMemberList";
 import {
+  getAllGroupsOfUser,
   getGroupById,
   Group,
   joinGroup,
@@ -41,24 +42,29 @@ interface GroupDetailProps
     id: string;
   }> {
   user: User;
+  setGroups: Dispatch<SetStateAction<Group[]>>;
 }
 
-const GroupDetail: React.FC<GroupDetailProps> = ({ match, user }) => {
+const GroupDetail: React.FC<GroupDetailProps> = ({
+  match,
+  user,
+  setGroups,
+}) => {
   const [group, setGroup] = React.useState<Group>({
     id: "",
     name: "",
     created: "",
-    members: []
+    members: [],
   });
-  const [session, setSession] = React.useState<Session | undefined>()
+  const [session, setSession] = React.useState<Session | undefined>();
   const id = match.params.id;
 
   const router = useIonRouter();
 
   useEffect(() => {
     getGroupById(id, setGroup);
-    getSessionOfGroup(id, setSession); 
-    console.log(session)   
+    getSessionOfGroup(id, setSession);
+    console.log(session);
     // console.log(group, user);
   }, [id]);
 
@@ -102,12 +108,19 @@ const GroupDetail: React.FC<GroupDetailProps> = ({ match, user }) => {
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
-        {session && (<IonCard>
-          <IonCardHeader>
-            <IonCardTitle>Active Session</IonCardTitle>
-            <IonCardSubtitle>{sessionStart ? ("0" + sessionStart.getHours()).slice(-2) + ":" + ("0" + sessionStart.getMinutes()).slice(-2): "no active Session"}</IonCardSubtitle>
-          </IonCardHeader>
-        </IonCard>
+        {session && (
+          <IonCard>
+            <IonCardHeader>
+              <IonCardTitle>Active Session</IonCardTitle>
+              <IonCardSubtitle>
+                {sessionStart
+                  ? ("0" + sessionStart.getHours()).slice(-2) +
+                    ":" +
+                    ("0" + sessionStart.getMinutes()).slice(-2)
+                  : "no active Session"}
+              </IonCardSubtitle>
+            </IonCardHeader>
+          </IonCard>
         )}
         <IonCard>
           <IonCardHeader>
@@ -148,7 +161,9 @@ const GroupDetail: React.FC<GroupDetailProps> = ({ match, user }) => {
             expand="block"
             onClick={async () => {
               await leaveGroup(id);
-              router.push("/groups", "forward");
+              const groups = await getAllGroupsOfUser();
+              setGroups(groups);
+              router.push("/groups");
             }}
           >
             Leave

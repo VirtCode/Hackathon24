@@ -40,7 +40,9 @@ const AddGroup: React.FC<AddGroupProps> = ({
                 onClick={async () => {
                   console.log(name);
                   await createGroup({ name: name });
-                  getAllGroupsOfUser();
+
+                  const groups = await getAllGroupsOfUser();
+                  setGroups(groups);
                   setIsOpen(false);
                 }}
               >

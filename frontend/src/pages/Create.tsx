@@ -11,6 +11,11 @@ import {
   useIonRouter,
   IonRange,
   IonLabel,
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonButtons,
+  IonBackButton,
 } from "@ionic/react";
 import {
   IonDatetimeCustomEvent,
@@ -68,7 +73,15 @@ const TableSelect: React.FC<TableSelectProps> = ({
 
   return (
     <IonPage>
-      <Header pageTitle="New Session"></Header>
+      <IonHeader>
+        <IonToolbar>
+          <IonTitle>New Session</IonTitle>
+          <IonButtons slot="start">
+            <IonBackButton></IonBackButton>
+          </IonButtons>
+        </IonToolbar>
+      </IonHeader>
+
       <IonContent class="ion-padding">
         <IonDatetime
           presentation="time"

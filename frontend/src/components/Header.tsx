@@ -1,6 +1,12 @@
-import React from 'react';
-import { IonHeader, IonToolbar, IonTitle } from '@ionic/react';
-import Avatar from './Avatar';
+import React from "react";
+import {
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonButtons,
+  IonBackButton,
+} from "@ionic/react";
+import Avatar from "./Avatar";
 
 interface HeaderProps {
     pageTitle: string,
