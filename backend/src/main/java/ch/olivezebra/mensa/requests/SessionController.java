@@ -9,16 +9,21 @@ import ch.olivezebra.mensa.database.table.MensaRepository;
 import ch.olivezebra.mensa.database.table.Table;
 import ch.olivezebra.mensa.database.user.User;
 import ch.olivezebra.mensa.helpers.FieldHelper;
+import ch.olivezebra.mensa.mail.MailHandler;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,6 +32,12 @@ public class SessionController {
     private final GroupRepository groups;
     private final SessionRepository sessions;
     private final MensaRepository mensas;
+    private final MailHandler mailHandler;
+
+    private final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+
+    @Value("${frontend.session}")
+    String url;
 
     /**
      * Get all sessions for a group
@@ -75,9 +86,13 @@ public class SessionController {
         calendar.add(Calendar.MINUTE, def.duration);
         Date end = calendar.getTime();
 
-        return sessions.save(new Session(def.start, end, m, g));
+        Session session = sessions.save(new Session(def.start, end, m, g));
+        sendCreatedSessionNotification(session);
+        return session;
     }
     @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
     public static class SessionDefinition {
         /* time the session starts, set this to current time if i starts immediately */
         private Date start;
@@ -85,6 +100,11 @@ public class SessionController {
         private Integer duration;
         /* id if the mensa it is in */
         private UUID mensa;
+    }
+
+    @GetMapping("/session/{id}")
+    public Session getSession(@RequestAttribute User user, @PathVariable UUID id) {
+        return sessions.requireSessionAccess(id, user);
     }
 
     /**
@@ -158,5 +178,54 @@ public class SessionController {
         instances.forEach(session.getTables()::remove);
 
         return sessions.save(session);
+    }
+
+    private String getTemplate(String name, Session session, User user) {
+        Map<String, String> map = new HashMap<>();
+        map.put("GROUP", session.getGroup().getName());
+        map.put("MENSA", session.getMensa().getName());
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yy HH:mm:ss");
+        map.put("START", format.format(session.getStart()));
+        map.put("FIRSTNAME", user.getName().split(" ")[0]);
+        map.put("HREF", url + session.getId());
+
+        return mailHandler.getTemplate(name, map);
+    }
+
+    private void sendCreatedSessionNotification(Session session) {
+        if (session.getStart().before(new Date())) {
+            sendStartedSessionNotification(session);
+            return;
+        }
+
+        for (User member : session.getGroup().getMembers()) {
+            String template = getTemplate("session_scheduled", session, member);
+            mailHandler.sendMail(member.getEmail(), template, "Eating Session Scheduled");
+        }
+
+        scheduleStartNotification(session);
+    }
+
+    private void scheduleStartNotification(Session session) {
+        long diff = session.getStart().getTime() - new Date().getTime();
+        if (diff < 0) return;
+
+        UUID id = session.getId();
+        executor.schedule(() -> {
+            Session s = sessions.requireSession(id);
+
+            if (s.getStart().before(new Date()))
+                sendStartedSessionNotification(session);
+            else
+                scheduleStartNotification(s);
+
+        }, diff + 1000, TimeUnit.MILLISECONDS);
+    }
+
+    private void sendStartedSessionNotification(Session session) {
+        for (User member : session.getGroup().getMembers()) {
+            String template = getTemplate("session_started", session, member);
+            mailHandler.sendMail(member.getEmail(), template, "Eating Session Started");
+        }
     }
 }

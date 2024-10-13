@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Group meeting started</title>
+    <meta charset="UTF-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Roboto:wght@100;300;400;500;700;900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <head>
+    <style>
+      .mail-table-container {
+        background-color: #ffffff;
+        color: #17181b;
+        width: 600px;
+        padding: 32px;
+      }
+
+      .mail-heading {
+        text-align: left;
+      }
+
+      .with-top-border {
+        border-top-width: 1px;
+        border-top-style: solid;
+        border-top-color: #8b8c8d;
+        margin-top: 16px;
+      }
+
+      .button-container {
+        padding-top: 64px;
+        padding-bottom: 64px;
+        text-align: center;
+      }
+
+      a,
+      a:active,
+      a:visited {
+        color: #616F25 !important;
+      }
+
+      .button {
+        text-decoration: none;
+        padding: 8px 22px;
+        background-color: #616F25;
+        border-radius: 5px;
+        color: #fffffd !important;
+        font-size: 14px;
+      }
+
+      .button-container > a {
+        color: #fffffd !important;
+      }
+
+      div,
+      span,
+      td,
+      a,
+      p {
+        font-family: 'Roboto', 'Lucida Sans', 'Lucida Sans Regular',
+          'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        font-weight: normal;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        font-family: 'Open Sans', 'Roboto', 'Lucida Sans', 'Lucida Sans Regular',
+          'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        font-weight: bold;
+      }
+
+      tr {
+        line-height: 30px;
+      }
+
+      thead {
+        font-weight: bold;
+      }
+
+      tfoot {
+        color: #22202080;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <table
+      width="100%"
+      border="0"
+      cellspacing="0"
+      cellpadding="0"
+      style="background-color: #fafbfb; padding: 10px"
+    >
+      <tr>
+        <td align="center">
+          <table class="mail-table-container" cellpadding="10px">
+            <thead>
+              <tr>
+                <th class="mail-heading">
+                  <h1>
+                    <b>%%GROUP%% is planning to meet up</b>
+                  </h1>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Hi %%FIRSTNAME%%</td>
+              </tr>
+              <tr>
+                <td>
+                  The group %%GROUP%% which you are a part of has planned to eat at %%MENSA%% on %%START%%.
+                  Let your mates know what you think of this!
+                </td>
+              </tr>
+              <tr>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="button-container">
+                    <a class="button" href="%%HREF%%"><b>View details on website</b></a>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td><p class="with-top-border"></p></td>
+              </tr>
+              <tr>
+                <td>
+                  <div>
+                    This is an automated email - please do <u><b>not</b></u> reply to it directly.
+                  </div>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
