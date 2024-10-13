@@ -1,27 +1,25 @@
 import {
-  IonBackButton,
-  IonButton,
+  IonBackButton, IonButton,
   IonButtons,
   IonCard,
   IonCardContent,
   IonCardHeader,
-  IonCardSubtitle,
   IonCardTitle,
   IonContent, IonFab, IonFabButton,
   IonHeader, IonIcon,
   IonPage,
   IonTitle,
   IonToolbar,
-  useIonViewWillEnter,
 } from "@ionic/react";
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { RouteComponentProps } from "react-router";
-import { Mensa } from "../api/group";
+import {Meetup, Mensa} from "../api/group";
 import { getMensaLayout } from "../api/mensas";
 import * as d3 from "d3";
 import { Selection } from "d3";
 import "./MensaDetail.css"
 import { refresh } from 'ionicons/icons';
+import {getActiveMeetups} from "../api/meetup";
 
 interface MensaDetailProps
   extends RouteComponentProps<{
@@ -35,28 +33,51 @@ const MensaDetail: React.FC<MensaDetailProps> = ({ match, mensas }) => {
   const ref = useRef<HTMLDivElement>(null);
   const [layout, setLayout] = useState<string>("");
   const [table, setTable] = useState<string>("");
+  const [meetups, setMeetups] = useState<Array<Meetup>>([]);
+  const [isDirty, setIsDirty] = useState<boolean>(false);
+  const mensa = mensas.find((m) => m.id == id);
 
   useEffect(() => {
+    getActiveMeetups().then(setMeetups).catch(err => console.error("Failed to fetch meetups: " + err))
+  }, []);
+
+  useEffect(() => {
+    if (!mensa) return;
     const fetchLayout = async () => {
       const layout = await getMensaLayout(id);
       setLayout(layout);
     };
     fetchLayout().then(() => console.log("Fetched layout from ", mensa?.name));
-  }, []);
+  }, [mensa]);
+
+  useEffect(() => {
+    console.log(meetups, layout)
+    if (meetups.length == 0 || !layout) return;
+    meetups.forEach(meetup => {
+      const rect = document.getElementById(meetup.table.id);
+      console.warn(rect)
+      // the meetup is not in this mensa
+      if (!rect) return;
+      rect.setAttribute("data-active", "true");
+    })
+  }, [meetups, layout]);
 
   useEffect(() => {
     if (!layout) return;
-    const selection: Selection<Element, any, any, any> = d3.select("svg");
-    zoom(selection);
+    setTimeout(() => {
+      const selection: Selection<Element, any, any, any> = d3.select("svg");
+      selection.call(zoom)
 
-    const svgElement = ref.current?.firstElementChild as HTMLElement;
-    if (!svgElement) return;
-    svgElement.addEventListener("click", handleSvgClick as any);
+      const svgElement = ref.current?.firstElementChild as HTMLElement;
+      if (!svgElement) return;
+      svgElement.addEventListener("click", handleSvgClick as any);
+    });
   }, [layout]);
 
   const resetZoomAndPan = () => {
     const selection: Selection<Element, any, any, any> = d3.select("svg");
-    zoom.transform(selection, d3.zoomIdentity);
+    selection.call(zoom.transform, d3.zoomIdentity);
+    setIsDirty(false)
   };
 
   const handleSvgClick = (event: React.MouseEvent<SVGElement>) => {
@@ -75,11 +96,8 @@ const MensaDetail: React.FC<MensaDetailProps> = ({ match, mensas }) => {
 
   const zoom = d3.zoom().on("zoom", (e) => {
     d3.select("svg g").attr("transform", e.transform);
+    setIsDirty(true);
   });
-
-  let mensa = mensas.find((m) => m.id == id);
-
-  console.log("selected table: " + table);
 
   if (!mensa) return;
 
@@ -97,18 +115,23 @@ const MensaDetail: React.FC<MensaDetailProps> = ({ match, mensas }) => {
         <IonCard>
           <IonCardHeader>
             <IonCardTitle>
-              Select your table
+              Tables
             </IonCardTitle>
           </IonCardHeader>
           <IonCardContent>
             <section className={"svg-container"} ref={ref} dangerouslySetInnerHTML={{ __html: layout }} />
-            <IonFab slot={"fixed"} horizontal={"end"} vertical={"bottom"}>
-              <IonFabButton size={"small"} onClick={resetZoomAndPan}>
-                <IonIcon icon={refresh} />
-              </IonFabButton>
-            </IonFab>
+            {isDirty && (
+                <IonFab slot={"fixed"} horizontal={"end"} vertical={"bottom"}>
+                  <IonFabButton size={"small"} onClick={resetZoomAndPan}>
+                    <IonIcon icon={refresh} />
+                  </IonFabButton>
+                </IonFab>
+            )}
           </IonCardContent>
         </IonCard>
+        <IonButton href={`/create/${table}`} style={{ width: "calc(100% - 20px)" }} disabled={!table}>
+          Continue
+        </IonButton>
       </IonContent>
     </IonPage>
   );

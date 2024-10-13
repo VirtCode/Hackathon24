@@ -49,6 +49,17 @@ export interface Table {
   mensa: string;
 }
 
+export interface Meetup {
+  id: string;
+  start: string;
+  end: string;
+  ended: boolean;
+  owner: User;
+  table: Table;
+  mensa: Mensa;
+  active: boolean
+}
+
 export async function createGroup(group: GroupCreate) {
   await axios.post(`${API}/group`, group).then((response) => {
     return {

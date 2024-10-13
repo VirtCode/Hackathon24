@@ -1,11 +1,18 @@
 rect[class*="table"] {
-    fill: #33AB2B;
+    fill: #58a556;
     transition: all 0.5s ease;
     cursor: pointer;
+    stroke-width: 4px;
+    stroke: transparent;
+}
+
+rect[data-active="true"] {
+    stroke: darkorange;
+    fill: darkorange;
 }
 
 rect[data-selected="true"] {
-    fill: darkgreen;
+    fill: darkcyan !important;
 }
 
 g {
