@@ -87,7 +87,8 @@ const Map: React.FC<MapProps> = ({ mensas }) => {
           <GoogleMap
             defaultCenter={{ lat: DEFAULT_LAT, lng: DEFAULT_LONG }}
             defaultZoom={16}
-            mapId={"default"}
+            mapId={"5a2a13c55010d867"}
+
           >
             {mensas.map((mensa, idx) => renderMensaMarker(mensa, idx))}
           </GoogleMap>
