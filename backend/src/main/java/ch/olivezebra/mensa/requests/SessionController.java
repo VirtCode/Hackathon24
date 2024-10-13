@@ -163,7 +163,7 @@ public class SessionController {
      * @param tables tables to remove
      * @return edited session
      */
-    @DeleteMapping("/session/{id}/tables")
+    @PostMapping("/session/{id}/tables")
     public Session deleteTables(@RequestAttribute User user, @PathVariable UUID id, @RequestBody List<UUID> tables) {
         Session session = sessions.requireSessionAccess(id, user);
 

@@ -65,20 +65,16 @@ const Settings: React.FC<SettingsProps> = ({ user }) => {
           <IonCardContent>
             <IonList>
               <IonItem>
-                <IonToggle>Receive Push Notifications</IonToggle>
+                <IonToggle disabled>Receive Push Notifications</IonToggle>
               </IonItem>
               <IonItem>
-                <IonToggle>Receive Emails</IonToggle>
+                <IonToggle disabled checked>Receive Emails</IonToggle>
               </IonItem>
               <IonItem>
-                <IonToggle>Receive Text Messages</IonToggle>
+                <IonToggle disabled>Receive Text Messages</IonToggle>
               </IonItem>
             </IonList>
           </IonCardContent>
-          <IonCardHeader>
-            <IonCardSubtitle>Test</IonCardSubtitle>
-          </IonCardHeader>
-          <IonCardContent></IonCardContent>
         </IonCard>
       </IonContent>
     </IonPage>
