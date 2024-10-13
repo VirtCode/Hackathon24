@@ -70,7 +70,6 @@ const TableSelect: React.FC<TableSelectProps> = ({
       router.push("/home", "root", "replace");
     } else {
       let data = await createSession(group, session);
-      data = await createSession(group, session);
       // add table
       data = await addSessionTables(data.id, [tableId]);
       setToastMessage("Created Session!");

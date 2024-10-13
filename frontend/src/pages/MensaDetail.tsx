@@ -19,7 +19,7 @@ import {
   IonListHeader,
   IonLabel,
 } from "@ionic/react";
-import React, {useEffect, useMemo, useRef, useState} from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { RouteComponentProps } from "react-router";
 import { Meetup, Mensa } from "../api/group";
 import { getMensaLayout } from "../api/mensas";
@@ -49,7 +49,7 @@ const MensaDetail: React.FC<MensaDetailProps> = ({ match, mensas }) => {
     getActiveMeetups()
       .then(setMeetups)
       .catch((err) => console.error("Failed to fetch meetups: " + err));
-  });
+  }, []);
 
   useEffect(() => {
     if (!mensa) return;
@@ -72,14 +72,20 @@ const MensaDetail: React.FC<MensaDetailProps> = ({ match, mensas }) => {
 
   useEffect(() => {
     if (!layout) return;
-    const selection: Selection<Element, any, any, any> = d3.select("ion-router-outlet > .ion-page:not(.ion-page-hidden) svg");
+    const selection: Selection<Element, any, any, any> = d3.select(
+      "ion-router-outlet > .ion-page:not(.ion-page-hidden) svg"
+    );
     selection.call(zoom);
-    const svgEl = document.querySelector("ion-router-outlet > .ion-page:not(.ion-page-hidden) svg");
-    if(svgEl) svgEl.addEventListener("click", handleSvgClick as any);
+    const svgEl = document.querySelector(
+      "ion-router-outlet > .ion-page:not(.ion-page-hidden) svg"
+    );
+    if (svgEl) svgEl.addEventListener("click", handleSvgClick as any);
   }, [layout]);
 
   const resetZoomAndPan = () => {
-    const selection: Selection<Element, any, any, any> = d3.select("ion-router-outlet > .ion-page:not(.ion-page-hidden) svg");
+    const selection: Selection<Element, any, any, any> = d3.select(
+      "ion-router-outlet > .ion-page:not(.ion-page-hidden) svg"
+    );
     selection.call(zoom.transform, d3.zoomIdentity);
     setIsDirty(false);
   };
@@ -99,7 +105,10 @@ const MensaDetail: React.FC<MensaDetailProps> = ({ match, mensas }) => {
   };
 
   const zoom = d3.zoom().on("zoom", (e) => {
-    d3.select("ion-router-outlet > .ion-page:not(.ion-page-hidden) svg g").attr("transform", e.transform);
+    d3.select("ion-router-outlet > .ion-page:not(.ion-page-hidden) svg g").attr(
+      "transform",
+      e.transform
+    );
     setIsDirty(true);
   });
 
