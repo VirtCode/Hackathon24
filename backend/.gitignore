@@ -39,3 +39,4 @@ out/
 application.properties
 
 src/**/test
+images
