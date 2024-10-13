@@ -171,7 +171,14 @@ const App: React.FC = () => {
             <Route
               exact
               path="/session/:id"
-              render={(props) => <SessionPage {...props} />}
+              render={(props) => (
+                <SessionPage
+                  {...props}
+                  setToastMessage={setToastMessage}
+                  setIsToastOpen={setIsToastOpen}
+                  setActiveSessions={setActiveSessions}
+                />
+              )}
             />
             <Route exact path="/">
               <Redirect to="/home" />
