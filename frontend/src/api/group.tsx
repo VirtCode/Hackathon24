@@ -25,6 +25,7 @@ export interface Session {
   active: boolean;
   pending: boolean;
   start: string;
+  end: string;
   duration: number;
   mensa: Mensa;
   group?: Group;
@@ -57,7 +58,7 @@ export interface Meetup {
   owner: User;
   table: Table;
   mensa: Mensa;
-  active: boolean
+  active: boolean;
 }
 
 export async function createGroup(group: GroupCreate) {

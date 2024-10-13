@@ -38,11 +38,12 @@ const Home: React.FC<HomeProps> = ({
   activeSessions,
   setActiveSessions,
   isToastOpen,
-  setIsToastOpen,
 }) => {
   const [isScannerOpen, setIsScannerOpen] = useState(false);
 
   const renderSession = (session: Session, idx: number) => {
+    let start = new Date(session.start);
+    let end = new Date(session.end);
     return (
       <IonItem
         key={idx}
@@ -50,7 +51,8 @@ const Home: React.FC<HomeProps> = ({
         color="success"
         className="pending-session"
       >
-        {session.pending ? "Pending" : "Active"} - {session.group?.name}
+        {session.mensa.name} from {start.getHours()}:{start.getMinutes()} until{" "}
+        {end.getHours()}:{end.getMinutes()} - {session.group?.name}
       </IonItem>
     );
   };
@@ -71,7 +73,8 @@ const Home: React.FC<HomeProps> = ({
       <IonContent fullscreen>
         <IonGrid className="home-grid">
           {activeSessions.length > 0 && (
-            <IonList>
+            <IonList title="Active Sessions" lines="none">
+              <h2>Active Sessions</h2>
               {activeSessions.map((session, idx) =>
                 renderSession(session, idx)
               )}

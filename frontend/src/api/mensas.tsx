@@ -27,9 +27,7 @@ export async function getMensaLayout(mensaId: string) {
 
 export async function getMensaByTable(tableId: string) {
   try {
-    const response = await axios
-      .get(`/mensa/table/${tableId}`)
-      .catch((err) => console.error(err));
+    const response = await axios.get(`${API}/mensa/table/${tableId}`);
 
     if (response) return response.data;
   } catch (err) {

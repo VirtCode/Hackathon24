@@ -43,14 +43,18 @@ const TableSelect: React.FC<TableSelectProps> = ({
   const confirm = async () => {
     const mensa = await getMensaByTable(tableId);
 
+    console.log("mensa", mensa);
+
     let session = {
       start: time,
       duration: 30,
       mensa: mensa.id,
     };
     let data = await createSession(group, session);
-    if (data) setIsToastOpen(true);
-    setActiveSessions((activeSessions) => [...activeSessions, data]);
+    if (data) {
+      setIsToastOpen(true);
+      setActiveSessions((activeSessions) => [...activeSessions, data]);
+    }
     router.push("/home", "root", "replace");
   };
 

@@ -5,7 +5,7 @@ export interface User {
   id: string;
   name: string;
   email: string;
-  joined: Date;
+  joined: string;
 }
 
 export async function getCurrentUser() {
@@ -17,7 +17,7 @@ export async function getCurrentUser() {
         name: response.data.name,
         email: response.data.email,
         joined: response.data.joined,
-      };
+      } as User;
   } catch (err) {
     console.log("getCurrentUser:", err);
   }
