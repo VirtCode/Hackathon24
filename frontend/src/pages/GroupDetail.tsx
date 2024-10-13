@@ -28,11 +28,13 @@ import {
   Group,
   joinGroup,
   leaveGroup,
+  Session,
   updateGroup,
   userInGroup,
 } from "../api/group";
 import { clipboard, createOutline } from "ionicons/icons";
 import { User } from "../api/user";
+import { getSessionOfGroup } from "../api/sessions";
 
 interface GroupDetailProps
   extends RouteComponentProps<{
@@ -48,14 +50,20 @@ const GroupDetail: React.FC<GroupDetailProps> = ({ match, user }) => {
     created: "",
     members: []
   });
+  const [session, setSession] = React.useState<Session | undefined>()
   const id = match.params.id;
 
   const router = useIonRouter();
 
   useEffect(() => {
     getGroupById(id, setGroup);
+    getSessionOfGroup(id, setSession); 
+    console.log(session)   
     // console.log(group, user);
   }, [id]);
+
+  let sessionStart;
+  if (session?.start) sessionStart = new Date(session?.start);
 
   const getGroupLink = () => {
     return `https://12.viscon-hackathon.ch/group/${id}`;
@@ -94,12 +102,13 @@ const GroupDetail: React.FC<GroupDetailProps> = ({ match, user }) => {
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
-        <IonCard>
+        {session && (<IonCard>
           <IonCardHeader>
-            <IonCardTitle></IonCardTitle>
-            <IonCardSubtitle>12. October 2024 04.50 pm</IonCardSubtitle>
+            <IonCardTitle>Active Session</IonCardTitle>
+            <IonCardSubtitle>{sessionStart ? ("0" + sessionStart.getHours()).slice(-2) + ":" + ("0" + sessionStart.getMinutes()).slice(-2): "no active Session"}</IonCardSubtitle>
           </IonCardHeader>
         </IonCard>
+        )}
         <IonCard>
           <IonCardHeader>
             <IonCardTitle>Members</IonCardTitle>
