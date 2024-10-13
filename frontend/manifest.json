@@ -1,0 +1,30 @@
+{
+        "name": "Meet2Eat",
+    "short_name": "m2e",
+    "theme_color": "#616f25",
+    "background_color": "#2196f3",
+    "display": "standalone",
+    "orientation": "portrait",
+    "scope": "/",
+    "start_url": "/home",
+    "icons": [
+          {
+        "src": "./src/assets/canteen.png",
+        "sizes": "48x48"
+      },
+      {
+        "src": "./src/assets/canteen.png",
+        "sizes": "72x72 96x96",
+        "purpose": "maskable"
+      },
+      {
+        "src": "./src/assets/canteen.png",
+        "sizes": "128x128 256x256"
+      },
+      {
+        "src": "./src/assets/canteen.png",
+        "sizes": "512x512"
+      }
+    ]
+  }
+  
