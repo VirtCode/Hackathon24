@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Redirect, Route } from "react-router-dom";
 import {
   IonApp,
@@ -12,6 +12,8 @@ import {
 } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 import { home, map, people } from "ionicons/icons";
+
+import { AppContext } from "./State";
 import Home from "./pages/Home";
 import Map from "./pages/Map";
 import Groups from "./pages/Groups";

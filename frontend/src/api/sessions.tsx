@@ -25,6 +25,15 @@ export async function getActiveSession(groupId: string) {
   }
 }
 
+export async function createMeetup(tableId: string) {
+  try {
+    const response = await axios.post(`${API}/meetup`, { table: tableId });
+    if (response) return response.data;
+  } catch (err) {
+    console.log("createMeetup:", err);
+  }
+}
+
 export async function getSessionOfGroup(groupId: string, setSession: React.Dispatch<React.SetStateAction<Session | undefined>>) {
   try {
     const response = await axios.get(`${API}/group/${groupId}/session/active`);

@@ -9,18 +9,22 @@ import {
   IonSelectOption,
   IonButton,
   useIonRouter,
+  IonRange,
+  IonLabel,
 } from "@ionic/react";
 import {
   IonDatetimeCustomEvent,
   DatetimeChangeEventDetail,
   IonSelectCustomEvent,
   SelectChangeEventDetail,
+  IonRangeCustomEvent,
+  RangeChangeEventDetail,
 } from "@ionic/core";
 import { RouteComponentProps } from "react-router";
 import Header from "../components/Header";
 import { getMensaByTable } from "../api/mensas";
 import { Group, Mensa, Session } from "../api/group";
-import { createSession } from "../api/sessions";
+import { createMeetup, createSession } from "../api/sessions";
 
 interface TableSelectProps extends RouteComponentProps<{ id: string }> {
   groups: Group[];
@@ -39,18 +43,22 @@ const TableSelect: React.FC<TableSelectProps> = ({
 
   const [time, setTime] = useState<string>(new Date().toISOString());
   const [group, setGroup] = useState<string>("");
+  const [duration, setDuration] = useState(30);
 
   const confirm = async () => {
     const mensa = await getMensaByTable(tableId);
 
-    console.log("mensa", mensa);
-
     let session = {
       start: time,
-      duration: 30,
+      duration: duration,
       mensa: mensa.id,
     };
-    let data = await createSession(group, session);
+    let data;
+    if (group == "open") {
+      data = await createMeetup(tableId);
+    } else {
+      data = await createSession(group, session);
+    }
     if (data) {
       setIsToastOpen(true);
       setActiveSessions((activeSessions) => [...activeSessions, data]);
@@ -85,8 +93,8 @@ const TableSelect: React.FC<TableSelectProps> = ({
               }}
             >
               {
-                <IonSelectOption value="open" key={0} className="open-session">
-                  Open Meet
+                <IonSelectOption value="open" key={0}>
+                  <IonLabel className="open-session">Open Meet</IonLabel>
                 </IonSelectOption>
               }
               {groups.map((group, idx) => (
@@ -96,7 +104,25 @@ const TableSelect: React.FC<TableSelectProps> = ({
               ))}
             </IonSelect>
           </IonItem>
-          <IonItem></IonItem>
+          <IonItem>
+            <IonRange
+              labelPlacement="start"
+              label="Duration"
+              snaps={true}
+              ticks={true}
+              pin={true}
+              pinFormatter={(val) => `${val} min`}
+              max={60}
+              min={15}
+              step={5}
+              onIonChange={(
+                ev: IonRangeCustomEvent<RangeChangeEventDetail>
+              ) => {
+                let duration = ev.detail.value as number;
+                setDuration(duration);
+              }}
+            ></IonRange>
+          </IonItem>
         </IonList>
         <IonButton
           onClick={() => confirm()}
