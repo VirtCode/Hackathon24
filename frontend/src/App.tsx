@@ -60,7 +60,7 @@ const App: React.FC = () => {
   const [mensas, setMensas] = useState<Mensa[]>([]);
   const [groups, setGroups] = useState<Group[]>([]);
   const [activeSessions, setActiveSessions] = useState<any[]>([]);
-  const [user, setUser] = useState<User>({ id: "", name: "", email: "", joined: "" });
+  const [user, setUser] = useState<User>({ id: "", name: "", email: "", joined: new Date() });
 
   const [isToastOpen, setIsToastOpen] = useState(false);
 
@@ -71,13 +71,13 @@ const App: React.FC = () => {
       const mensas: Mensa[] = await getAllMensas();
       setMensas(mensas);
       let sessions: any[] = [];
-      groups.forEach(async (group) => {
+      await Promise.all(groups.map(async (group) => {
         const session = await getActiveSession(group.id);
         if (session) sessions.push(session);
-      });
+      }));
       setActiveSessions(() => sessions);
       const user = await getCurrentUser();
-      setUser(user);
+      if (user) setUser(user);
     };
     fetchData().then(() => {
       console.log("Fetched all data!");
