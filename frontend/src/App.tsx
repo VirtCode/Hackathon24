@@ -72,6 +72,7 @@ const App: React.FC = () => {
   });
 
   const [isToastOpen, setIsToastOpen] = useState(false);
+  const [toastMessage, setToastMessage] = useState<string>("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -112,6 +113,8 @@ const App: React.FC = () => {
                 setIsToastOpen={setIsToastOpen}
                 myMeetup={myMeetup}
                 setMyMeetup={setMyMeetup}
+                setToastMessage={setToastMessage}
+                toastMessage={toastMessage}
               />
             </Route>
             <Route exact path="/map">
@@ -147,6 +150,7 @@ const App: React.FC = () => {
                   setIsToastOpen={setIsToastOpen}
                   setActiveSessions={setActiveSessions}
                   setMyMeetup={setMyMeetup}
+                  setToastMessage={setToastMessage}
                 />
               )}
             />

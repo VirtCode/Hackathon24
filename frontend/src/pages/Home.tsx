@@ -9,6 +9,7 @@ import {
   IonList,
   IonToast,
   IonItem,
+  IonButton,
 } from "@ionic/react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -22,6 +23,7 @@ import Header from "../components/Header";
 import MensaCard from "../components/MensaCard";
 import HostAction from "../components/HostAction";
 import ScannerModal from "../components/ScannerModal";
+import { endMeetup } from "../api/meetup";
 
 interface HomeProps {
   mensas: Mensa[];
@@ -32,6 +34,8 @@ interface HomeProps {
   setIsToastOpen: Dispatch<SetStateAction<boolean>>;
   myMeetup: Meetup | undefined;
   setMyMeetup: Dispatch<SetStateAction<Meetup | undefined>>;
+  toastMessage: string;
+  setToastMessage: Dispatch<SetStateAction<string>>;
 }
 
 const Home: React.FC<HomeProps> = ({
@@ -40,7 +44,10 @@ const Home: React.FC<HomeProps> = ({
   activeSessions,
   setActiveSessions,
   isToastOpen,
+  setIsToastOpen,
   myMeetup,
+  toastMessage,
+  setToastMessage,
 }) => {
   const [isScannerOpen, setIsScannerOpen] = useState(false);
 
@@ -50,9 +57,19 @@ const Home: React.FC<HomeProps> = ({
     return (
       <IonList>
         <IonItem color="medium">
-          Meet me at {meetup.mensa.name} until{" "}
+          Meet me at {meetup.mensa?.name} until{" "}
           {("0" + end.getHours()).slice(-2)}:
           {("0" + end.getMinutes()).slice(-2)}
+          <IonButton
+            slot="end"
+            onClick={async () => {
+              await endMeetup(meetup.id);
+              setToastMessage("Successfully Ended Meetup!");
+              setIsToastOpen(true);
+            }}
+          >
+            End Meetup
+          </IonButton>
         </IonItem>
       </IonList>
     );
@@ -75,14 +92,13 @@ const Home: React.FC<HomeProps> = ({
         color="success"
         className="pending-session"
       >
-      <div className="session-div">
-        <b>{session.group?.name}</b>
-        <div>
-         at {session.mensa.name} until{" "}
-        {("0" + end.getHours()).slice(-2)}:{("0" + end.getMinutes()).slice(-2)}{" "}
-        ({text} remaining)
-            </div>
-            </div>
+        <div className="session-div">
+          <b>{session.group?.name}</b>
+          <div>
+            at {session.mensa.name} until {("0" + end.getHours()).slice(-2)}:
+            {("0" + end.getMinutes()).slice(-2)} ({text} remaining)
+          </div>
+        </div>
       </IonItem>
     );
   };
@@ -140,7 +156,7 @@ const Home: React.FC<HomeProps> = ({
         <IonToast
           isOpen={isToastOpen}
           duration={3000}
-          message={"Created Session!"}
+          message={toastMessage}
           position="bottom"
           positionAnchor="tabs"
         />

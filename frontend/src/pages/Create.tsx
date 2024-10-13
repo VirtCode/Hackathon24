@@ -35,6 +35,7 @@ interface TableSelectProps extends RouteComponentProps<{ id: string }> {
   setIsToastOpen: Dispatch<SetStateAction<boolean>>;
   setActiveSessions: Dispatch<SetStateAction<Session[]>>;
   setMyMeetup: Dispatch<SetStateAction<Meetup | undefined>>;
+  setToastMessage: Dispatch<SetStateAction<string>>;
 }
 
 const TableSelect: React.FC<TableSelectProps> = ({
@@ -43,6 +44,7 @@ const TableSelect: React.FC<TableSelectProps> = ({
   setIsToastOpen,
   setActiveSessions,
   setMyMeetup,
+  setToastMessage,
 }) => {
   const router = useIonRouter();
   const tableId = match.params.id;
@@ -64,9 +66,11 @@ const TableSelect: React.FC<TableSelectProps> = ({
     if (group == "open") {
       let data = await createMeetup(tableId, duration);
       setMyMeetup(data);
+      setToastMessage("Opened Meetup!");
     } else {
       let data = await createSession(group, session);
       setActiveSessions((activeSessions) => [...activeSessions, data]);
+      setToastMessage("Created Session!");
     }
     setIsToastOpen(true);
     router.push("/home", "root", "replace");

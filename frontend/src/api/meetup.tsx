@@ -1,12 +1,19 @@
 import axios from "axios";
-import {API} from "./env";
-import {Meetup} from "./group";
+import { API } from "./env";
+import { Meetup } from "./group";
 
 export async function getActiveMeetups(): Promise<Array<Meetup>> {
-    console.warn(API)
-    const response = await axios
-        .get(`${API}/meetup/active`)
-        .catch(console.error);
-    if (!response || response.status != 200) return [];
+  const response = await axios.get(`${API}/meetup/active`).catch(console.error);
+  if (!response || response.status != 200) return [];
+  return response.data;
+}
+
+export async function endMeetup(meetupId: string) {
+  try {
+    const response = await axios.post(`${API}/meetup/${meetupId}/end`);
+    if (!response.data || response.status != 200) return [];
     return response.data;
+  } catch (err) {
+    return [];
+  }
 }

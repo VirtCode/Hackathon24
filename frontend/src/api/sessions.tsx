@@ -48,13 +48,11 @@ export async function createMeetup(tableId: string, duration: number) {
 export async function getMyActiveMeetup() {
   try {
     const response = await axios.get(`${API}/meetup/own`);
-    if (response)
-      response.data.forEach((meetup: Meetup) => {
-        if (meetup.active) return meetup;
-      });
-    return undefined;
+    if (!response || response.status != 200) return undefined;
+    return response.data.find((meetup: Meetup) => meetup.active);
   } catch (err) {
     console.error(err);
+    return undefined;
   }
 }
 
@@ -70,18 +68,30 @@ export async function getSessionOfGroup(
   }
 }
 
-export async function addSessionTables(sessionId: string, tables: Array<string>): Promise<Session | undefined> {
+export async function addSessionTables(
+  sessionId: string,
+  tables: Array<string>
+): Promise<Session | undefined> {
   try {
-    const response = await axios.put(`${API}/session/${sessionId}/tables`, tables);
+    const response = await axios.put(
+      `${API}/session/${sessionId}/tables`,
+      tables
+    );
     if (response.data) return response.data;
   } catch (err) {
     console.log("addSessionTables:", err);
   }
 }
 
-export async function removeSessionTables(sessionId: string, tables: Array<string>): Promise<Session | undefined> {
+export async function removeSessionTables(
+  sessionId: string,
+  tables: Array<string>
+): Promise<Session | undefined> {
   try {
-    const response = await axios.post(`${API}/session/${sessionId}/tables`, tables);
+    const response = await axios.post(
+      `${API}/session/${sessionId}/tables`,
+      tables
+    );
     if (response.data) return response.data;
   } catch (err) {
     console.log("removeSessionTables:", err);
