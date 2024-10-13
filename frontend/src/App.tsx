@@ -19,6 +19,7 @@ import Groups from "./pages/Groups";
 import Settings from "./pages/Settings";
 import GroupDetail from "./pages/GroupDetail";
 import MensaDetail from "./pages/MensaDetail";
+import SessionPage from "./pages/Session"
 import { getAllGroupsOfUser, Group, Mensa, Session } from "./api/group";
 import { getAllMensas } from "./api/mensas";
 import { getActiveSession } from "./api/sessions";
@@ -145,6 +146,11 @@ const App: React.FC = () => {
             <Route exact path="/qr/:id">
               <Redirect to="/create/:id" />
             </Route>
+            <Route
+                exact
+                path="/session/:id"
+                render={(props) => <SessionPage {...props} />}
+            />
             <Route exact path="/">
               <Redirect to="/home" />
             </Route>

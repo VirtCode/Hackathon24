@@ -25,6 +25,14 @@ export async function getActiveSession(groupId: string) {
   }
 }
 
+export async function getSession(sessionId: string) {
+  try {
+    const response = await axios.get(`${API}/session/${sessionId}`);
+    if (response) return response.data;
+  } catch (err) {
+    console.log("getSession:", err);
+  }
+}
 export async function createMeetup(tableId: string) {
   try {
     const response = await axios.post(`${API}/meetup`, { table: tableId });
@@ -37,9 +45,26 @@ export async function createMeetup(tableId: string) {
 export async function getSessionOfGroup(groupId: string, setSession: React.Dispatch<React.SetStateAction<Session | undefined>>) {
   try {
     const response = await axios.get(`${API}/group/${groupId}/session/active`);
-    console.log("getSessionOfGroup:", response);
     if (response) setSession(response.data);
   } catch (err) {
     console.log("getSessionOfGroup:", err);
+  }
+}
+
+export async function addSessionTables(sessionId: string, tables: Array<string>): Promise<Session | undefined> {
+  try {
+    const response = await axios.put(`${API}/session/${sessionId}/tables`, tables);
+    if (response.data) return response.data;
+  } catch (err) {
+    console.log("addSessionTables:", err);
+  }
+}
+
+export async function removeSessionTables(sessionId: string, tables: Array<string>): Promise<Session | undefined> {
+  try {
+    const response = await axios.post(`${API}/session/${sessionId}/tables`, tables);
+    if (response.data) return response.data;
+  } catch (err) {
+    console.log("removeSessionTables:", err);
   }
 }

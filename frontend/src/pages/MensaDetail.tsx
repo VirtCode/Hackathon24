@@ -57,11 +57,9 @@ const MensaDetail: React.FC<MensaDetailProps> = ({ match, mensas }) => {
   }, [mensa]);
 
   useEffect(() => {
-    console.log(meetups, layout);
     if (meetups.length == 0 || !layout) return;
     meetups.forEach((meetup) => {
       const rect = document.getElementById(meetup.table.id);
-      console.warn(rect);
       // the meetup is not in this mensa
       if (!rect) return;
       rect.setAttribute("data-active", "true");
