@@ -1,0 +1,11 @@
+.svg-container.readonly {
+    rect[class*="table"] {
+        cursor: move !important;
+    }
+}
+
+.badge-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
