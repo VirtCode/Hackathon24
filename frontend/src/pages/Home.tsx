@@ -59,9 +59,14 @@ const Home: React.FC<HomeProps> = ({
         color="success"
         className="pending-session"
       >
-        <b>{session.group?.name}</b> &nbsp;at {session.mensa.name} until {" "}
+      <div className="session-div">
+        <b>{session.group?.name}</b>
+        <div>
+         at {session.mensa.name} until {" "}
         {("0" + end.getHours()).slice(-2)}:{("0" + end.getMinutes()).slice(-2)}
             {" "} ({text} remaining)
+            </div>
+            </div>
       </IonItem>
     );
   };
