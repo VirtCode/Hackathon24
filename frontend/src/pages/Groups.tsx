@@ -11,16 +11,19 @@ import Header from "../components/Header";
 import GroupList from "../components/GroupList";
 import { add } from "ionicons/icons";
 import AddGroup from "../components/AddGroup";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { getAllGroupsOfUser } from "../api/group";
 import { Group } from "../api/group";
 
 interface GroupsProps {
   groups: Group[];
-  setGroups: React.Dispatch<React.SetStateAction<Group[]>>;
+  setGroups: Dispatch<SetStateAction<Group[]>>;
 }
 
-const Groups: React.FC<GroupsProps> = ({ groups, setGroups }) => {
+const Groups: React.FC<GroupsProps> = ({
+  groups,
+  setGroups,
+}) => {
   const [showAddGroupModal, setShowAddGroupModal] = useState(false);
 
   return (

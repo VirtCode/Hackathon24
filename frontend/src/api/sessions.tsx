@@ -25,6 +25,16 @@ export async function getActiveSession(groupId: string) {
   }
 }
 
+export async function endSession(sessionId: string) {
+  try {
+    const response = await axios.post(`${API}/session/${sessionId}/end`);
+    if (!response || response.status != 200)
+      console.log("Failed to end session ", sessionId);
+  } catch (err) {
+    console.log("Failed to end session ", sessionId);
+  }
+}
+
 export async function getSession(sessionId: string) {
   try {
     const response = await axios.get(`${API}/session/${sessionId}`);

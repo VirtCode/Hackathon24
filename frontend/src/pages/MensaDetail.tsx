@@ -14,6 +14,10 @@ import {
   IonPage,
   IonTitle,
   IonToolbar,
+  IonList,
+  IonItem,
+  IonListHeader,
+  IonLabel,
 } from "@ionic/react";
 import React, {useEffect, useMemo, useRef, useState} from "react";
 import { RouteComponentProps } from "react-router";
@@ -45,7 +49,7 @@ const MensaDetail: React.FC<MensaDetailProps> = ({ match, mensas }) => {
     getActiveMeetups()
       .then(setMeetups)
       .catch((err) => console.error("Failed to fetch meetups: " + err));
-  }, []);
+  });
 
   useEffect(() => {
     if (!mensa) return;
@@ -136,8 +140,18 @@ const MensaDetail: React.FC<MensaDetailProps> = ({ match, mensas }) => {
           style={{ width: "calc(100% - 20px)" }}
           disabled={!table}
         >
-          Continue
+          Create Session
         </IonButton>
+        <IonList>
+          <IonListHeader>
+            <IonLabel>Active Meetups</IonLabel>
+          </IonListHeader>
+          {meetups.map((meetup) => (
+            <IonItem>
+              {meetup.owner.name} at {meetup.table.x} {meetup.table.y}
+            </IonItem>
+          ))}
+        </IonList>
       </IonContent>
     </IonPage>
   );

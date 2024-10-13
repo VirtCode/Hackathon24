@@ -35,7 +35,7 @@ import {
 } from "../api/group";
 import { clipboard, createOutline } from "ionicons/icons";
 import { User } from "../api/user";
-import { getSessionOfGroup } from "../api/sessions";
+import { endSession, getSessionOfGroup } from "../api/sessions";
 
 interface GroupDetailProps
   extends RouteComponentProps<{
@@ -43,12 +43,18 @@ interface GroupDetailProps
   }> {
   user: User;
   setGroups: Dispatch<SetStateAction<Group[]>>;
+  setIsToastOpen: Dispatch<SetStateAction<boolean>>;
+  setToastMessage: Dispatch<SetStateAction<string>>;
+  setActiveSessions: Dispatch<SetStateAction<Session[]>>;
 }
 
 const GroupDetail: React.FC<GroupDetailProps> = ({
   match,
   user,
   setGroups,
+  setIsToastOpen,
+  setToastMessage,
+  setActiveSessions,
 }) => {
   const [group, setGroup] = React.useState<Group>({
     id: "",
@@ -73,17 +79,6 @@ const GroupDetail: React.FC<GroupDetailProps> = ({
 
   const getGroupLink = () => {
     return `https://12.viscon-hackathon.ch/group/${id}`;
-  };
-
-  const [present] = useIonToast();
-
-  const presentToast = (position: "top" | "middle" | "bottom") => {
-    present({
-      message: "Not changed -> Name is empty",
-      duration: 1500,
-      position: position,
-      positionAnchor: "tabs",
-    });
   };
 
   return (
@@ -119,6 +114,20 @@ const GroupDetail: React.FC<GroupDetailProps> = ({
                     ("0" + sessionStart.getMinutes()).slice(-2)
                   : "no active Session"}
               </IonCardSubtitle>
+              <IonButtons>
+                <IonButton
+                  onClick={async () => {
+                    await endSession(session.id as string);
+                    setActiveSessions((sessions) =>
+                      sessions.filter((sess) => sess.id != id)
+                    );
+                    setToastMessage("Successfully Ended Session!");
+                    setIsToastOpen(true);
+                  }}
+                >
+                  End Session
+                </IonButton>
+              </IonButtons>
             </IonCardHeader>
           </IonCard>
         )}
@@ -201,7 +210,8 @@ const GroupDetail: React.FC<GroupDetailProps> = ({
                   ) as HTMLInputElement;
                   nameInput.value = "";
                 } else {
-                  presentToast("bottom");
+                  setToastMessage("Empty Name");
+                  setIsToastOpen(true);
                 }
               },
             },

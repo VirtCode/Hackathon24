@@ -131,7 +131,14 @@ const App: React.FC = () => {
             <Route
               path="/group/:id"
               render={(props) => (
-                <GroupDetail user={user} {...props} setGroups={setGroups} />
+                <GroupDetail
+                  user={user}
+                  {...props}
+                  setGroups={setGroups}
+                  setIsToastOpen={setIsToastOpen}
+                  setToastMessage={setToastMessage}
+                  setActiveSessions={setActiveSessions}
+                />
               )}
               exact
             />

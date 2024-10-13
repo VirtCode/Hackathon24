@@ -46,6 +46,7 @@ const Home: React.FC<HomeProps> = ({
   isToastOpen,
   setIsToastOpen,
   myMeetup,
+  setMyMeetup,
   toastMessage,
   setToastMessage,
 }) => {
@@ -55,8 +56,8 @@ const Home: React.FC<HomeProps> = ({
     let end = new Date(meetup.end);
 
     return (
-      <IonList>
-        <IonItem color="medium">
+      <IonList lines="none">
+        <IonItem color="tertiary">
           Meet me at {meetup.mensa?.name} until{" "}
           {("0" + end.getHours()).slice(-2)}:
           {("0" + end.getMinutes()).slice(-2)}
@@ -64,9 +65,12 @@ const Home: React.FC<HomeProps> = ({
             slot="end"
             onClick={async () => {
               await endMeetup(meetup.id);
+              setMyMeetup(undefined);
               setToastMessage("Successfully Ended Meetup!");
               setIsToastOpen(true);
             }}
+            color="danger"
+            className="ion-button"
           >
             End Meetup
           </IonButton>
