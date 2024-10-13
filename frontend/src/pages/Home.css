@@ -10,3 +10,9 @@
     border-radius: 15px;
     margin-top: 5px;
 }
+
+.session-div {
+    display: flex;
+    flex-direction: column;
+    padding: 10px 0px;
+}
