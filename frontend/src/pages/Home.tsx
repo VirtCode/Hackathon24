@@ -44,15 +44,24 @@ const Home: React.FC<HomeProps> = ({
   const renderSession = (session: Session, idx: number) => {
     let start = new Date(session.start);
     let end = new Date(session.end);
+
+    let diff = end.getTime() - new Date().getTime();
+    let hours = Math.floor(diff / (1000 * 60 * 60));
+    let minutes = Math.floor((diff - hours * (1000 * 60 * 60)) / (1000 * 60));
+
+    let text = minutes + "min"
+    if (hours > 0) text = hours + "h " + text;
+
     return (
       <IonItem
         key={idx}
-        routerLink={`/group/${session.group?.id}`}
+        routerLink={`/session/${session.id}`}
         color="success"
         className="pending-session"
       >
-        {session.mensa.name} from {start.getHours()}:{start.getMinutes()} until{" "}
-        {end.getHours()}:{end.getMinutes()} - {session.group?.name}
+        <b>{session.group?.name}</b> &nbsp;at {session.mensa.name} until {" "}
+        {("0" + end.getHours()).slice(-2)}:{("0" + end.getMinutes()).slice(-2)}
+            {" "} ({text} remaining)
       </IonItem>
     );
   };
@@ -69,12 +78,12 @@ const Home: React.FC<HomeProps> = ({
 
   return (
     <IonPage>
-      <Header pageTitle="Mensarr" />
+      <Header pageTitle="Title" main={true} />
       <IonContent fullscreen>
         <IonGrid className="home-grid">
           {activeSessions.length > 0 && (
-            <IonList title="Active Sessions" lines="none">
-              <h2>Active Sessions</h2>
+            <IonList title="Currently having food" lines="none">
+              <h2>Currently having food</h2>
               {activeSessions.map((session, idx) =>
                 renderSession(session, idx)
               )}

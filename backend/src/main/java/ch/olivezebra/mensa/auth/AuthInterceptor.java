@@ -14,6 +14,10 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 @Slf4j
 public class AuthInterceptor implements HandlerInterceptor {
+    public static final String TEST_USERNAME = "test";
+    public static final String TEST_EMAIL = "test@student.ethz.ch";
+    public static final String TEST_NAME = "Testing User";
+
     @Value("${oauth.headers.username:X-authentik-username}")
     String usernameHeader;
 
@@ -47,9 +51,9 @@ public class AuthInterceptor implements HandlerInterceptor {
 
         if (enable && username == null) {
             log.info("overriding auth user");
-            username = "test";
-            email = "test@student.ethz.ch";
-            name = "Testing User";
+            username = TEST_USERNAME;
+            email = TEST_EMAIL;
+            name = TEST_NAME;
         }
 
         if (username == null || email == null || name == null || username.isEmpty() || email.isEmpty() || name.isEmpty()) {

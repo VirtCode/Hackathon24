@@ -1,5 +1,6 @@
 package ch.olivezebra.mensa.mail;
 
+import ch.olivezebra.mensa.auth.AuthInterceptor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -73,6 +74,11 @@ public class MailHandler {
      * @param recipient  recipient to receive the mail
      */
     public void sendMail(String recipient, String html, String subject) {
+        if (recipient.equals(AuthInterceptor.TEST_EMAIL)) {
+            log.warn("not sending mail to test user");
+            return;
+        }
+
         MimeMessage message = createMail(recipient, html, subject);
 
         executor.execute(() -> {
