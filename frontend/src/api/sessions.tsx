@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 import { API } from "./env";
 import { Session, Meetup } from "./group";
@@ -12,6 +12,9 @@ export async function createSession(groupId: string, sessionInfo: any) {
 
     if (response) return response.data;
   } catch (err) {
+    if (err instanceof AxiosError) {
+      alert(err.response?.data?.message);
+    }
     console.log("createSession:", err);
   }
 }
