@@ -60,7 +60,7 @@ const App: React.FC = () => {
   const [mensas, setMensas] = useState<Mensa[]>([]);
   const [groups, setGroups] = useState<Group[]>([]);
   const [activeSessions, setActiveSessions] = useState<any[]>([]);
-  const [user, setUser] = useState<User>({ id: "", name: "", email: "" });
+  const [user, setUser] = useState<User>({ id: "", name: "", email: "", joined: "" });
 
   useEffect(() => {
     const fetchData = async () => {
